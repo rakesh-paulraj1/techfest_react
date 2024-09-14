@@ -163,35 +163,32 @@ export const ProductCard = ({
     </motion.div>
   );
 };
+
 export const products = [
-   
-    {
-      title: "Event 1",
-      link: "https://ui.aceternity.com",
-      thumbnail:
-        "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-    },
-    {
-      title: "Event 2",
-      link: "https://tailwindmasterkit.com",
-      thumbnail:
-        "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-    },
-    {
-      title: "Event 3",
-      link: "https://smartbridgetech.com",
-      thumbnail:
-        "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-    },
-    {
-      title: "Event 4",
-      link: "https://renderwork.studio",
-      thumbnail:
-        "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-    },
-   
-   
-  ];
+  {
+    title: "Event 1",
+    link: "/event",
+    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+  {
+    title: "Event 2",
+    link: "/event",
+    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+  {
+    title: "Event 3",
+    link: "/event", // Local route for the event page
+    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+  {
+    title: "Event 4",
+    link: "/event",
+    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+  },
+];
+
+
+
 
   export const Highlight = ({
     children,
