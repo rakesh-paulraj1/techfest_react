@@ -8,22 +8,15 @@ import {
   MotionValue,stagger, useAnimate
 } from "framer-motion";
 import { useEffect } from "react";
-
+import { Card,
+ } from "./apple-cards-carousel";
 import { Link } from 'react-router-dom';
 import { cn } from "../lib/utils";
-
-export const HeroParallax = ({
-  products,
-}: {
-  products: {
-    title: string;
-    link: string;
-    thumbnail: string;
-  }[];
-}) => {
-  const firstRow = products.slice(0, 5);
-  const secondRow = products.slice(5, 10);
-  const thirdRow = products.slice(10, 15);
+import { Carousel } from "./apple-cards-carousel";
+import { data } from "../pages/Dashboard";
+export const HeroParallax = () => {
+  
+ 
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -32,14 +25,11 @@ export const HeroParallax = ({
 
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
 
-  const translateX = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig
-  );
-  const translateXReverse = useSpring(
-    useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig
-  );
+  
+  const cards = data.map((card, index) => (
+    <Card key={card.src} card={card} index={index} />
+  ));
+ 
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
     springConfig
@@ -71,32 +61,11 @@ export const HeroParallax = ({
         }}
         className=""
       >
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
-          {firstRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
-          ))}
-        </motion.div>
+      
         <motion.div className="flex flex-row  mb-20 space-x-20 ">
-          {secondRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateXReverse}
-              key={product.title}
-            />
-          ))}
-        </motion.div>
-        <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
-          {thirdRow.map((product) => (
-            <ProductCard
-              product={product}
-              translate={translateX}
-              key={product.title}
-            />
-          ))}
+          {
+                <Carousel items={cards} />
+                }
         </motion.div>
       </motion.div>
     </div>
@@ -164,28 +133,7 @@ export const ProductCard = ({
   );
 };
 
-export const products = [
-  {
-    title: "Event 1",
-    link: "/event",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-  },
-  {
-    title: "Event 2",
-    link: "/event",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-  },
-  {
-    title: "Event 3",
-    link: "/event", // Local route for the event page
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-  },
-  {
-    title: "Event 4",
-    link: "/event",
-    thumbnail: "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
-  },
-];
+
 
 
 

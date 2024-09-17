@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [isExistingUser, setIsExistingUser] = useState(true); // Toggle between login and registration forms
+  const [isExistingUser, setIsExistingUser] = useState(false); // Toggle between login and registration forms
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
-      {/* Floating mail icons */}
+    
       <div className="absolute inset-0 z-0 flex flex-wrap justify-center items-center pointer-events-none">
         {[...Array(5)].map((_, index) => (
           <svg
