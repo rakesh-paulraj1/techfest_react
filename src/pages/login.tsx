@@ -26,7 +26,7 @@ const Login = () => {
 
       if (userRole === 'admin') {
         console.log('Redirecting to admin dashboard...');
-        navigate('/admin-dashboard'); // Redirect to admin dashboard
+        navigate('/admindashboard'); // Redirect to admin dashboard
       } else {
         console.log('Logging in as regular user...');
         navigate('/dashboard'); // Redirect to regular user dashboard
@@ -44,7 +44,7 @@ const Login = () => {
   // Dummy function to simulate getting user role based on credentials
   const getUserRole = (email: string, password: string) => {
     // Example: You could replace this with an actual API call
-    if (email === 'admin@example.com' && password === 'adminpass') {
+    if (email === 'admin@gmail.com' && password === 'adminpass') {
       return 'admin';
     }
     return 'user';
