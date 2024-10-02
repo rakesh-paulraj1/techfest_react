@@ -9,13 +9,8 @@ function App() {
       {/* Wrap the application with BrowserRouter to enable routing */}
       <BrowserRouter>
         <Routes>
-          {/* Define the route for the Dashboard */}
           <Route path="/" element={<Dashboard />} />
-
-          {/* Define the route for the Login page */}
           <Route path="/login" element={<Login />} />
-
-          {/* Define the route for the Event page */}
           <Route path="/event" element={<Event />} />
         </Routes>
       </BrowserRouter>

@@ -18,21 +18,51 @@ const Login = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic for form submission (sign up or login)
+    
+    // Logic for form submission (login or sign-up)
     if (isExistingUser) {
-      console.log('Logging in:', formData.email, formData.password);
+      // Simulate checking credentials and fetching user role
+      const userRole = getUserRole(formData.email, formData.password); // Example function
+
+      if (userRole === 'admin') {
+        console.log('Redirecting to admin dashboard...');
+        navigate('/admin-dashboard'); // Redirect to admin dashboard
+      } else {
+        console.log('Logging in as regular user...');
+        navigate('/dashboard'); // Redirect to regular user dashboard
+      }
     } else {
       if (formData.password === formData.confirmPassword) {
         console.log('Registering:', formData);
+        // Handle registration logic
       } else {
         console.error('Passwords do not match');
       }
     }
   };
 
+  // Dummy function to simulate getting user role based on credentials
+  const getUserRole = (email: string, password: string) => {
+    // Example: You could replace this with an actual API call
+    if (email === 'admin@example.com' && password === 'adminpass') {
+      return 'admin';
+    }
+    return 'user';
+  };
+
+  const handleToggleExistingUser = () => {
+    setIsExistingUser(true);
+    
+    // Optional: Assuming the formData has been filled in with email and password at this point
+    const userRole = getUserRole(formData.email, formData.password);
+    
+    if (userRole === 'admin') {
+      navigate('/admindashboard');
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
-    
       <div className="absolute inset-0 z-0 flex flex-wrap justify-center items-center pointer-events-none">
         {[...Array(5)].map((_, index) => (
           <svg
@@ -141,7 +171,7 @@ const Login = () => {
             <span>
               Already have an account?{' '}
               <button
-                onClick={() => setIsExistingUser(true)}
+                onClick={handleToggleExistingUser}
                 className="font-medium text-indigo-300 hover:text-indigo-500"
               >
                 Login

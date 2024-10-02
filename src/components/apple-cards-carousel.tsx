@@ -196,6 +196,7 @@ export const Card = ({
 
   return (
     <>
+  
       <AnimatePresence>
         {open && (
           <div className="fixed inset-0 h-screen z-50 overflow-auto">
