@@ -40,7 +40,6 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const sampleAboutEvent = "Join us for an exciting event filled with insightful talks, networking opportunities, and hands-on workshops to enhance your skills and knowledge in the field! Here are some activities to expect:\n- Keynote speeches from industry leaders\n- Networking sessions with professionals\n- Workshops on trending topics\n- Panel discussions\n- Fun activities and prizes!";
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -108,28 +107,29 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
               "max-w-7xl mx-auto"
             )}
           >
-            {items.map((item, index) => (
-              <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    duration: 0.5,
-                    delay: 0.2 * index,
-                    ease: "easeOut",
-                    once: true,
-                  },
-                }}
-                key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
-              >
-                {item}
-              </motion.div>
-            ))}
+           {items.map((item, index) => (
+  <motion.div
+    key={"card" + index}
+    initial={{
+      opacity: 0,
+      y: 20,
+    }}
+    animate={{
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.2 * index,
+        ease: "easeOut",
+        once: true,
+      },
+    }}
+    className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+  >
+    {item}
+  </motion.div>
+))}
+
           </div>
         </div>
 
@@ -148,16 +148,6 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           >
             <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
           </button>
-        </div>
-
-        {/* About Event Message Box Below Arrow Buttons */}
-        <div className="mt-4 max-w-full mx-auto px-9">
-          <h2 className="text-xl font-semibold text-black dark:text-white">About Event</h2>
-          <div className="w-full mt-2 p-8 border border-gray-300 rounded-lg dark:border-gray-600 bg-opacity-30 bg-gray-20">
-            <p className="text-black dark:text-white">
-              {sampleAboutEvent}
-            </p>
-          </div>
         </div>
       </div>
     </CarouselContext.Provider>
