@@ -4,48 +4,59 @@ import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
 import { Carousel, Card } from "../components/apple-cards-carousel";
-
+import { FocusCards } from "../components/focus-cards";
+import { MaskContainer } from "../components/svg-mask-effect";
 const Dashboard = () => {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
-
+  const tcards = [
+    {
+      title: "Forest Adventure",
+      src: "https://images.unsplash.com/photo-1518710843675-2540dd79065c?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Valley of life",
+      src: "https://images.unsplash.com/photo-1600271772470-bd22a42787b3?q=80&w=3072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Sala behta hi jayega",
+      src: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=3070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Camping is for pros",
+      src: "https://images.unsplash.com/photo-1486915309851-b0cc1f8a0084?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "The road not taken",
+      src: "https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "The First Rule",
+      src: "https://assets.aceternity.com/the-first-rule.png",
+    },
+  ];
+ 
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroParallax />
+      <MaskContainer
+        revealText={
+          <p className="max-w-4xl mx-auto text-slate-800 text-center  text-4xl font-bold">
+            The first rule of MRR Club is you do not talk about MRR Club. The
+            second rule of MRR Club is you DO NOT talk about MRR Club.
+          </p>
+        }
+        className="h-[40rem] border rounded-md"
+      >
+        The first rule of <span className="text-red-500">MRR Club</span> is you
+        do not talk about MRR Club. The second rule of MRR Club is you DO NOT
+        talk about <span className="text-red-500">MRR Club</span>.
+      </MaskContainer>
+      <FocusCards cards={tcards} />;
       
-      {/* Image Boxes Section */}
-      <div className="max-w-2xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-          <img
-            src="https://via.placeholder.com/300" // Replace with your image URL
-            alt="Image 1"
-            className="rounded-lg w-full h-auto"
-          />
-        </div>
-        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-          <img
-            src="https://via.placeholder.com/300" // Replace with your image URL
-            alt="Image 2"
-            className="rounded-lg w-full h-auto"
-          />
-        </div>
-        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-          <img
-            src="https://via.placeholder.com/300" // Replace with your image URL
-            alt="Image 3"
-            className="rounded-lg w-full h-auto"
-          />
-        </div>
-        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-          <img
-            src="https://via.placeholder.com/300" // Replace with your image URL
-            alt="Image 4"
-            className="rounded-lg w-full h-auto"
-          />
-        </div>
-      </div>
+      
 
       {/* Modern Contact Us Section */}
       <div className="bg-gray-900 text-white py-8 mt-10 rounded-lg shadow-lg">
