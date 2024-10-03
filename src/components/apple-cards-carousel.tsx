@@ -29,11 +29,12 @@ export const CarouselContext = createContext<{
   currentIndex: 0,
 });
 
-export const Carousel = ({ items, initialScroll = 0, eventNames }: CarouselProps) => {
+export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const sampleAboutEvent = "Join us for an exciting event filled with insightful talks, networking opportunities, and hands-on workshops to enhance your skills and knowledge in the field! Here are some activities to expect:\n- Keynote speeches from industry leaders\n- Networking sessions with professionals\n- Workshops on trending topics\n- Panel discussions\n- Fun activities and prizes!";
   const sampleAboutEvent = "Join us for an exciting event filled with insightful talks, networking opportunities, and hands-on workshops to enhance your skills and knowledge in the field! Here are some activities to expect:\n- Keynote speeches from industry leaders\n- Networking sessions with professionals\n- Workshops on trending topics\n- Panel discussions\n- Fun activities and prizes!";
 
   useEffect(() => {
@@ -93,12 +94,14 @@ export const Carousel = ({ items, initialScroll = 0, eventNames }: CarouselProps
           <div
             className={cn(
               "absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"
+              "absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"
             )}
           ></div>
 
           <div
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
+              "max-w-7xl mx-auto"
               "max-w-7xl mx-auto"
             )}
           >
@@ -120,12 +123,14 @@ export const Carousel = ({ items, initialScroll = 0, eventNames }: CarouselProps
                 }}
                 key={"card" + index}
                 className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
               >
                 {item}
               </motion.div>
             ))}
           </div>
         </div>
+
 
         <div className="flex justify-end gap-2 mr-10">
           <button
@@ -145,10 +150,10 @@ export const Carousel = ({ items, initialScroll = 0, eventNames }: CarouselProps
         </div>
 
         {/* About Event Message Box Below Arrow Buttons */}
-        <div className="mt-4 max-w-full mx-auto px-9 text-center">
-          <h2 className="text-2xl font-semibold text-black dark:text-white">About Event</h2>
+        <div className="mt-4 max-w-full mx-auto px-9">
+          <h2 className="text-xl font-semibold text-black dark:text-white">About Event</h2>
           <div className="w-full mt-2 p-8 border border-gray-300 rounded-lg dark:border-gray-600 bg-opacity-30 bg-gray-20">
-            <p className="text-lg text-black dark:text-white">
+            <p className="text-black dark:text-white">
               {sampleAboutEvent}
             </p>
           </div>
@@ -217,6 +222,7 @@ export const Card = ({
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
               className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
+              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
             >
               <button
                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
@@ -250,18 +256,17 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-[25rem] overflow-hidden relative shadow-md transition-all duration-200 hover:scale-[1.02] cursor-pointer"
+        className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"
       >
-        <img
-          className="h-full w-full object-cover transition-opacity"
-          src={card.src}
-          alt={card.title}
-        />
-        <div className="relative z-40 flex flex-col justify-end h-full p-4">
-          <p className="text-sm font-medium text-black dark:text-white">
-            {card.category}
-          </p>
+        <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
+        <div className="relative h-full">
+          <img
+            src={card.src}
+            alt={card.title}
+            className="object-cover w-full h-full rounded-3xl"
+          />
         </div>
+        <p className="absolute bottom-5 left-5 text-white z-40">{card.title}</p>
       </motion.button>
     </>
   );

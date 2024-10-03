@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
+import { Carousel, Card } from "../components/apple-cards-carousel";
 
 import { Carousel, Card } from "../components/apple-cards-carousel";
 
@@ -10,89 +11,49 @@ const Dashboard = () => {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
-  
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroParallax />
       
-   {/* Image Boxes Section */}
-<div className="max-w-7xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 px-10">
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src="https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg"
-      alt="Image 1"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src="https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg"
-      alt="Image 2"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 3"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 4"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 5"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 6"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 7"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 8"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-  <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-    <img
-      src=""
-      alt="Image 9"
-      className="rounded-lg w-full h-[300px] object-fill"
-    />
-  </div>
-</div>
-
-
-
-
+      {/* Image Boxes Section */}
+      <div className="max-w-2xl mx-auto mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
+          <img
+            src="https://via.placeholder.com/300" // Replace with your image URL
+            alt="Image 1"
+            className="rounded-lg w-full h-auto"
+          />
+        </div>
+        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
+          <img
+            src="https://via.placeholder.com/300" // Replace with your image URL
+            alt="Image 2"
+            className="rounded-lg w-full h-auto"
+          />
+        </div>
+        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
+          <img
+            src="https://via.placeholder.com/300" // Replace with your image URL
+            alt="Image 3"
+            className="rounded-lg w-full h-auto"
+          />
+        </div>
+        <div className="bg-gray-800 rounded-lg shadow-lg p-4">
+          <img
+            src="https://via.placeholder.com/300" // Replace with your image URL
+            alt="Image 4"
+            className="rounded-lg w-full h-auto"
+          />
+        </div>
+      </div>
 
       {/* Modern Contact Us Section */}
       <div className="bg-gray-900 text-white py-8 mt-10 rounded-lg shadow-lg">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
           <p className="text-gray-400 mb-4">We'd love to hear from you!</p>
-          <div className="bg-gray-8000 p-6 rounded-lg shadow-md">
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
             <p className="mb-2">Email: <a href="mailto:contact@example.com" className="text-blue-400 hover:underline">contact@example.com</a></p>
             <p className="mb-2">Phone: <a href="tel:+1234567890" className="text-blue-400 hover:underline">+1 (234) 567-890</a></p>
           </div>
@@ -150,7 +111,7 @@ export const DummyContent = ({ title, price, description, imgSrc }) => {
     <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-10 rounded-3xl mb-4 flex">
       <img
         src={imgSrc}
-        alt={`${title} image`}
+        alt={`${title} image`} // Corrected this line
         height="150"
         width="150"
         className="w-1/3 h-auto object-contain mr-10"
