@@ -5,11 +5,12 @@ import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
 import { Carousel, Card } from "../components/apple-cards-carousel";
 
+import { Carousel, Card } from "../components/apple-cards-carousel";
+
 const Dashboard = () => {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
-
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
@@ -193,22 +194,50 @@ export const data = [
       <DummyContent
         title="Networking Puzzle Quest"
         price="$10"
-        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and strategic thinking."
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
         imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
       />
     ),
   },
   {
     category: "SRMIST",
-    title: "Poster Presentation",
-    price: "$5",
-    src: "https://th.bing.com/th/id/R.71dc08f1b732fd77f477e1ed07568cd7?rik=CUhZT5%2fiMlf4vw&pid=ImgRaw&r=0",
+    title: "Networking Puzzle Quest",
+    price: "$10",
+    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
     content: (
       <DummyContent
-        title="Poster Presentation"
-        price="$5"
-        description="Prepare a poster showcasing your innovative ideas and research findings. Present your work to a panel of judges and gain valuable feedback!"
-        imgSrc="https://th.bing.com/th/id/R.71dc08f1b732fd77f477e1ed07568cd7?rik=CUhZT5%2fiMlf4vw&pid=ImgRaw&r=0"
+        title="Networking Puzzle Quest"
+        price="$10"
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
+        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Networking Puzzle Quest",
+    price: "$10",
+    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
+    content: (
+      <DummyContent
+        title="Networking Puzzle Quest"
+        price="$10"
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
+        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Ideathon",
+    price: "$30",
+    src: "https://i.pinimg.com/originals/25/56/21/2556210e95b6e5d8debf48ce58678b07.jpg",
+    content: (
+      <DummyContent
+        title="Ideathon"
+        price="$30"
+        description="Innovative thinkers compete to present the best ideas and solutions."
+        imgSrc="https://i.pinimg.com/originals/25/56/21/2556210e95b6e5d8debf48ce58678b07.jpg"
       />
     ),
   },
