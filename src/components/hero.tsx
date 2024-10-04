@@ -13,9 +13,41 @@ import { Card,
 import { Link } from 'react-router-dom';
 import { cn } from "../lib/utils";
 import { Carousel } from "./apple-cards-carousel";
-import { data } from "../pages/Dashboard";
+import { useState } from "react";
+import { DummyContent } from "../pages/Dashboard";
+import axios from "axios";
 export const HeroParallax = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getallevents');
+        const events = response.data.eventswithimageurls;
   
+      
+        const formattedData = events.map(event => ({
+          category: "SRMIST",
+          title: event.event_name,
+          price: `${event.event_price}`, 
+          src: event.event_image,
+          content: (
+            <DummyContent
+              title={event.event_name}
+              price={`${event.event_price}`}
+              description={event.event_description}
+              imgSrc={event.event_image}
+            />
+          )
+        }));
+  
+        setData(formattedData);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+  
+    fetchEvents();
+  }, []);
  
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({

@@ -4,10 +4,41 @@ import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
 import { Carousel, Card } from "../components/apple-cards-carousel";
-
-import { Carousel, Card } from "../components/apple-cards-carousel";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Dashboard = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getallevents');
+        const events = response.data.eventswithimageurls;
+  
+      
+        const formattedData = events.map(event => ({
+          category: "SRMIST",
+          title: event.event_name,
+          price: `${event.event_price}`, 
+          src: event.event_image,
+          content: (
+            <DummyContent
+              title={event.event_name}
+              price={`${event.event_price}`}
+              description={event.event_description}
+              imgSrc={event.event_image}
+            />
+          )
+        }));
+  
+        setData(formattedData);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+  
+    fetchEvents();
+  }, []);
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
@@ -124,6 +155,7 @@ export const DummyContent = ({ title, price, description, imgSrc }) => {
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl overflow-auto">
           {description}
         </p>
+
         <button
           className="mt-4 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
           onClick={handleRegisterClick}
@@ -155,7 +187,7 @@ const Modal = ({ isOpen, onClose }) => {
     )
   );
 };
-
+/*
 export const data = [
   {
     category: "SRMIST",
@@ -242,5 +274,5 @@ export const data = [
     ),
   },
 ];
-
+*/
 export default Dashboard;

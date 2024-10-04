@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Router, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
 import {
   IconArrowLeft,
   IconPlus,
@@ -93,16 +95,22 @@ const StudentList = () => {
       icon: (
         <IconTrash className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
-      onClick: () => handleViewChange('removeEvents'), // Switch to remove events view
+      onClick: () => handleViewChange('removeEvents'), 
     },
     {
       label: "Logout",
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
+      link:"/login",
       onClick: () => {
-        // Perform any necessary logout actions here (like clearing user session)
-        navigate('/login'); // Navigate to login page
+        axios.post(`${BACKEND_URL}/adminlogout`, {}, {
+          withCredentials: true
+        }).then(() => {
+          window.location.href = '/login';
+        }).catch((error) => {
+          console.error('Logout failed:', error);
+        });
       },
     },
   ];

@@ -1,85 +1,15 @@
-import { useState, useEffect } from 'react';
-import { AvatarIcon } from '@radix-ui/react-icons';
-import { CameraIcon } from 'lucide-react';
-import { Accept, useDropzone } from 'react-dropzone';
+import { useState } from 'react';
 
-// Type definition for FileUpload props
-type TFileUploadProps = {
-  onChange: (value: File[]) => void;
-  value: File[];
-};
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
+import { FileUpload } from "../../components/file-upload";
 
-// FileUpload component for handling image input
-const FileUpload = ({ onChange, value }: TFileUploadProps) => {
-  const MAX_SIZE = 1 * 1024 * 1024; // 1 MB
-  const acceptedFormats = ['image/jpeg', 'image/png', 'image/gif']; // Supported formats
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: acceptedFormats.reduce((acc, format) => {
-      acc[format] = []; // Adding empty array for each format
-      return acc;
-    }, {} as Accept),
-    onDrop: (acceptedFiles: File[], rejectedFiles: File[]) => {
-      console.log('files acceptedFiles=>', acceptedFiles);
-      console.log('files rejectedFiles=>', rejectedFiles);
-      
-      // Filter accepted files by size
-      const validFiles = acceptedFiles.filter(file => file.size <= MAX_SIZE);
-      if (validFiles.length) {
-        onUpdateFile(validFiles);
-      } else {
-        alert('File size exceeds 1 MB or unsupported format. Please try again.');
-      }
-    },
-  });
 
-  const onUpdateFile = (newFiles: File[]) => {
-    onChange(newFiles);
-  };
 
-  return (
-    <div className="flex items-center justify-center">
-      <div className="relative h-36 w-36 overflow-hidden rounded-full bg-gray-200 shadow-2xl">
-        <div {...getRootProps({ className: 'dropzone cursor-pointer' })}>
-          <input {...getInputProps()} />
-          {value && !!value.length ? (
-            <ImagePreview file={value[0]} />
-          ) : (
-            <AvatarIcon className="h-36 w-36 text-gray-100" />
-          )}
 
-          <p className="absolute -bottom-5 left-1/2 flex w-full -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center bg-gray-300 bg-opacity-50 py-1 text-xs font-normal text-muted-foreground">
-            <CameraIcon className="h-4 w-4 text-muted-foreground" />
-            Add Image 
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-// Component to preview the uploaded image
-const ImagePreview = ({ file }: { file: File }) => {
-  const [objectUrl, setObjectUrl] = useState<string | null>(null);
 
-  useEffect(() => {
-    const url = URL.createObjectURL(file);
-    setObjectUrl(url);
-
-    // Clean up the object URL when the component unmounts
-    return () => {
-      URL.revokeObjectURL(url);
-    };
-  }, [file]);
-
-  return objectUrl ? (
-    <img
-      src={objectUrl}
-      alt="Preview"
-      className="absolute h-full w-full rounded-full object-cover"
-    />
-  ) : null;
-};
 
 // Header component with title
 const Header = ({ title }: { title: string }) => (
@@ -102,20 +32,43 @@ export default function FormWithImageUpload() {
   const [price, setPrice] = useState('');
   const [files, setFiles] = useState<File[]>([]);
 
-  const handleFileChange = (newFiles: File[]) => {
-    setFiles(newFiles);
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    console.log(files);
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log({
       title,
       description,
       price,
-      files,
+      files
     });
-    // Further submit handling logic can be added here
+    try {
+      const formData = new FormData();
+      formData.append('event_name', title);
+      formData.append('event_description', description);
+      formData.append('event_price', price);
+      formData.append('file',files[0]);
+
+      const response = await axios.post(`${BACKEND_URL}/admin/createevents`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data', // Set the correct content type for file uploads
+        },
+      });
+      console.log("created events successfully", response);
+      alert("Event created successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        alert("Error creating event: " + error.message);
+      } else {
+        alert("An unexpected error occurred");
+      }
+    }
   };
+
 
   return (
     <div className="flex justify-center p-8">
@@ -162,7 +115,7 @@ export default function FormWithImageUpload() {
 
           {/* Image Upload Section */}
           <div>
-            <FileUpload onChange={handleFileChange} value={files} />
+            <FileUpload onChange={handleFileUpload}  />
           </div>
 
           {/* Submit Button */}
