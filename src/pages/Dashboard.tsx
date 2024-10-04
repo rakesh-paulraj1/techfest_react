@@ -4,11 +4,19 @@ import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
 import { Carousel, Card } from "../components/apple-cards-carousel";
+<<<<<<< HEAD
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
 const Dashboard = () => {
  /* const [data, setData] = useState([]);
+=======
+import { useEffect } from "react";
+import axios from "axios";
+
+const Dashboard = () => {
+  const [data, setData] = useState([]);
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -38,6 +46,7 @@ const Dashboard = () => {
     };
   
     fetchEvents();
+<<<<<<< HEAD
   }, []);*/
   const tcards = [
   
@@ -56,10 +65,12 @@ const Dashboard = () => {
     
   
 
+=======
+  }, []);
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
-
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
@@ -146,6 +157,7 @@ export const DummyContent = ({ title, price, description, imgSrc }) => {
         <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl overflow-auto">
           {description}
         </p>
+
         <button
           className="mt-4 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
           onClick={handleRegisterClick}
@@ -177,7 +189,7 @@ const Modal = ({ isOpen, onClose }) => {
     )
   );
 };
-
+/*
 export const data = [
   {
     category: "SRMIST",
@@ -209,6 +221,7 @@ export const data = [
   },
   {
     category: "SRMIST",
+<<<<<<< HEAD
     title: "Tech Spectrum",
     price: "$25",
     src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg",
@@ -218,10 +231,64 @@ export const data = [
         price="$25"
         description="Tech Spectrum is a technology festival that brings together tech enthusiasts from different backgrounds to showcase their innovative projects, learn from industry leaders, and network with like-minded individuals."
         imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg"
+=======
+    title: "Networking Puzzle Quest",
+    price: "$10",
+    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
+    content: (
+      <DummyContent
+        title="Networking Puzzle Quest"
+        price="$10"
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
+        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Networking Puzzle Quest",
+    price: "$10",
+    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
+    content: (
+      <DummyContent
+        title="Networking Puzzle Quest"
+        price="$10"
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
+        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Networking Puzzle Quest",
+    price: "$10",
+    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
+    content: (
+      <DummyContent
+        title="Networking Puzzle Quest"
+        price="$10"
+        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and speed. Perfect for students and networking enthusiasts!"
+        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Ideathon",
+    price: "$30",
+    src: "https://i.pinimg.com/originals/25/56/21/2556210e95b6e5d8debf48ce58678b07.jpg",
+    content: (
+      <DummyContent
+        title="Ideathon"
+        price="$30"
+        description="Innovative thinkers compete to present the best ideas and solutions."
+        imgSrc="https://i.pinimg.com/originals/25/56/21/2556210e95b6e5d8debf48ce58678b07.jpg"
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
       />
     ),
   },
 ];
+<<<<<<< HEAD
 
 
 function Footer() {
@@ -263,3 +330,7 @@ function Footer() {
 }
 
 export default Dashboard;
+=======
+*/
+export default Dashboard;
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b

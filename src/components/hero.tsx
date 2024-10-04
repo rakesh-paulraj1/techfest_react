@@ -13,12 +13,21 @@ import { Card,
 import { Link } from 'react-router-dom';
 import { cn } from "../lib/utils";
 import { Carousel } from "./apple-cards-carousel";
+<<<<<<< HEAD
 import { DummyContent } from "../pages/Dashboard";
 import { data } from "../pages/Dashboard";
 import axios from "axios";
 export const HeroParallax = () => {
   //const [data, setData] = useState([]);
   /*useEffect(() => {
+=======
+import { useState } from "react";
+import { DummyContent } from "../pages/Dashboard";
+import axios from "axios";
+export const HeroParallax = () => {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:3000/getallevents');
@@ -47,7 +56,12 @@ export const HeroParallax = () => {
     };
   
     fetchEvents();
+<<<<<<< HEAD
   }, []);*/
+=======
+  }, []);
+ 
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
   const ref = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,

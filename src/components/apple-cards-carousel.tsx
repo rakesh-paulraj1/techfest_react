@@ -1,11 +1,4 @@
-"use client";
-import React, {
-  useEffect,
-  useRef,
-  useState,
-  createContext,
-  useContext,
-} from "react";
+import React, { useEffect, useRef, useState, createContext, useContext } from "react";
 import {
   IconArrowNarrowLeft,
   IconArrowNarrowRight,
@@ -19,6 +12,7 @@ import { TextGenerateEffect } from "../components/text-generate-effect"; // Impo
 interface CarouselProps {
   items: JSX.Element[];
   initialScroll?: number;
+  eventNames: string[]; // Change prop to array for event names
 }
 
 type Card = {
@@ -111,6 +105,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
               "max-w-7xl mx-auto"
+              
             )}
           >
             {items.map((item, index) => (
@@ -131,12 +126,14 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   },
                 }}
                 className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+               
               >
                 {item}
               </motion.div>
             ))}
           </div>
         </div>
+
 
         <div className="flex justify-end gap-2 mr-10">
           <button
@@ -261,6 +258,12 @@ export const Card = ({
           </div>
         )}
       </AnimatePresence>
+
+   
+      <div className="mb-2 text-center">
+        <h2 className="text-xl font-semibold text-black dark:text-white">{card.title}</h2>
+      </div>
+
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}

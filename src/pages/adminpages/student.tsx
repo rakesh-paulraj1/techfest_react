@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Router, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
 import {
   IconArrowLeft,
   IconPlus,
   IconUsers,
   IconTrash,
 } from "@tabler/icons-react";
+import Cookies from 'js-cookie';
 import { Sidebar, SidebarBody, SidebarLink } from '../../components/Sidebar';
 import AddEvents from './AddEvents'; // Import your AddEvents component
 import RemoveEvents from './RemoveEvents'; // Import your RemoveEvents component
+<<<<<<< HEAD
 import Login from './pages/login'; // Import the Login component
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
+=======
+ // Import the Login component
+
+>>>>>>> 391b4f56ff90d02860e5ce4b9a0f3025ab54025b
 const StudentList = () => {
-  const navigate = useNavigate();
+  
+  
 
-  const handleLogout = () => {
-    // Clear any user authentication details (if applicable)
-    localStorage.removeItem('token'); // Example: removing a token
-    console.log("Logged out!");
-
-    // Redirect to the login page
-    navigate('/login');
-  };
+ 
 
   // State to manage student data
   const [students, setStudents] = useState([
@@ -94,13 +96,14 @@ const StudentList = () => {
       icon: (
         <IconTrash className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
-      onClick: () => handleViewChange('removeEvents'), // Switch to remove events view
+      onClick: () => handleViewChange('removeEvents'), 
     },
     {
       label: "Logout",
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
+      link:"/login",
       onClick: () => {
         axios.post(`${BACKEND_URL}/adminlogout`, {}, {
           withCredentials: true
@@ -122,7 +125,6 @@ const StudentList = () => {
         "h-screen"
       )}
     >
-      {/* Sidebar */}
       <Sidebar animate={false}>
         <SidebarBody className="flex flex-col justify-between gap-10 h-full">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
