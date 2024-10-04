@@ -9,31 +9,21 @@ import { FocusCards } from "../components/focus-cards";
 
 const Dashboard = () => {
   const tcards = [
-    {
-      title: "Forest Adventure",
-      src: "https://images.unsplash.com/photo-1518710843675-2540dd79065c?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Valley of life",
-      src: "https://images.unsplash.com/photo-1600271772470-bd22a42787b3?q=80&w=3072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Sala behta hi jayega",
-      src: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=3070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "Camping is for pros",
-      src: "https://images.unsplash.com/photo-1486915309851-b0cc1f8a0084?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "The road not taken",
-      src: "https://images.unsplash.com/photo-1507041957456-9c397ce39c97?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "The First Rule",
-      src: "https://assets.aceternity.com/the-first-rule.png",
-    },
+  
+    { title: "Card 1", src: "https://cdn.pixabay.com/photo/2023/04/03/12/59/crowd-7896788_1280.jpg" },
+    { title: "Card 2", src: "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg" },
+    { title: "Card 3", src: "https://cdn.pixabay.com/photo/2015/02/21/19/54/event-644537_1280.jpg" },
+    { title: "Card 4", src: "https://media.istockphoto.com/id/483495210/photo/concert-crowd.jpg?s=1024x1024&w=is&k=20&c=bNDdnSObNmaR1cnJL4sn7vOsEMj1qzazpvuQdjagEZA=" },
+    { title: "Card 5", src: "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg" },
+    { title: "Card 6", src: "https://cdn.pixabay.com/photo/2017/08/06/23/50/people-2597679_1280.jpg" },
+    { title: "Card 7", src: "https://media.istockphoto.com/id/502088147/photo/nothing-beats-live-music.jpg?s=1024x1024&w=is&k=20&c=JXLh0ER_bEeb6miBbkeMkCs1DHNT7Bltiy5nS67z34g=" },
+    { title: "Card 8", src: "https://cdn.pixabay.com/photo/2022/06/02/15/01/music-7238254_1280.jpg" },
+    { title: "Card 9", src: "https://cdn.pixabay.com/photo/2020/01/15/17/38/fireworks-4768501_1280.jpg" },
+    { title: "Card 10", src: "https://cdn.pixabay.com/photo/2015/02/21/19/54/event-644537_1280.jpg" },
   ];
+  
+    
+  
 
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
@@ -43,7 +33,7 @@ const Dashboard = () => {
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroParallax />
-      <FocusCards cards={tcards} />
+      <FocusCards cards={tcards} className="mt-[-90px]" />
       <MaskContainer
         revealText={
           <p className="max-w-4xl mx-auto text-slate-800 text-center  text-4xl font-bold">
@@ -203,38 +193,39 @@ export const data = [
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-center dark:bg-neutral-600 lg:text-left">
-      <div className="container p-6 text-gray-300">
-        <div className="grid gap-4 lg:grid-cols-2">
-          <div className="mb-6 md:mb-0">
-            <h5 className="mb-2 font-medium uppercase">Footer text</h5>
-            <p className="mb-4">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
-              atque ea quis molestias. Fugiat pariatur maxime quis culpa
-              corporis vitae repudiandae aliquam voluptatem veniam, est atque
-              cumque eum delectus sint!
-            </p>
-          </div>
-          <div className="mb-6 md:mb-0">
-            <h5 className="mb-2 font-medium uppercase">Footer text</h5>
-            <p className="mb-4">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
-              atque ea quis molestias. Fugiat pariatur maxime quis culpa
-              corporis vitae repudiandae aliquam voluptatem veniam, est atque
-              cumque eum delectus sint!
-            </p>
-          </div>
+    <footer className="bg-black text-center dark:bg-neutral-8000 lg:text-left border border-gray-600">
+  <div className="container p-6 text-gray-300">
+    <div className="grid gap-4 lg:grid-cols-2">
+      <div className="mb-6 md:mb-0">
+        <h5 className="mb-2 font-medium uppercase">Footer text</h5>
+        <p className="mb-4">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
+            atque ea quis molestias. Fugiat pariatur maxime quis culpa
+            corporis vitae repudiandae aliquam voluptatem veniam, est atque
+            cumque eum delectus sint!
+          </p>
+        </div>
+        <div className="mb-6 md:mb-0">
+          <h5 className="mb-2 font-medium uppercase">Footer text</h5>
+          <p className="mb-4">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
+            atque ea quis molestias. Fugiat pariatur maxime quis culpa
+            corporis vitae repudiandae aliquam voluptatem veniam, est atque
+            cumque eum delectus sint!
+          </p>
         </div>
       </div>
-
-      {/* Copyright section */}
-      <div className="bg-gray-700 p-4 text-center text-neutral-200 dark:bg-neutral-700">
-        © 2023 Copyright:
-        <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">
-          TW Elements
-        </a>
-      </div>
-    </footer>
+    </div>
+  
+    {/* Copyright section */}
+    <div className="bg-gray-700 p-4 text-center text-neutral-200 dark:bg-neutral-700">
+      © 2023 Copyright:
+      <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">
+        TW Elements
+      </a>
+    </div>
+  </footer>
+  
   );
 }
 
