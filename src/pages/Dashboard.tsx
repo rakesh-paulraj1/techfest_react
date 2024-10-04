@@ -34,6 +34,7 @@ const Dashboard = () => {
       src: "https://assets.aceternity.com/the-first-rule.png",
     },
   ];
+
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
@@ -42,7 +43,7 @@ const Dashboard = () => {
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroParallax />
-      return <FocusCards cards={tcards} />;
+      <FocusCards cards={tcards} />
       <MaskContainer
         revealText={
           <p className="max-w-4xl mx-auto text-slate-800 text-center  text-4xl font-bold">
@@ -56,19 +57,8 @@ const Dashboard = () => {
         do not talk about MRR Club. The second rule of MRR Club is you DO NOT
         talk about <span className="text-red-500">MRR Club</span>.
       </MaskContainer>
-      
-     
-      {/* Modern Contact Us Section */}
-      <div className="bg-gray-900 text-white py-8 mt-10 rounded-lg shadow-lg">
-        <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-          <p className="text-gray-400 mb-4">We'd love to hear from you!</p>
-          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
-            <p className="mb-2">Email: <a href="mailto:contact@example.com" className="text-blue-400 hover:underline">contact@example.com</a></p>
-            <p className="mb-2">Phone: <a href="tel:+1234567890" className="text-blue-400 hover:underline">+1 (234) 567-890</a></p>
-          </div>
-        </div>
-      </div>
+
+      <Footer /> {/* Added Footer here */}
     </div>
   );
 };
@@ -190,39 +180,62 @@ export const data = [
       <DummyContent
         title="Reverse Engineering"
         price="$15"
-        description="Hardware will be given which should be dismantled, understood, and analyzed its Architecture. Reassemble it."
+        description="Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms."
         imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg"
       />
     ),
   },
   {
     category: "SRMIST",
-    title: "Networking Puzzle Quest",
-    price: "$10",
-    src: "https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg",
+    title: "Tech Spectrum",
+    price: "$25",
+    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg",
     content: (
       <DummyContent
-        title="Networking Puzzle Quest"
-        price="$10"
-        description="NetWiz Showdown: Network Design Challenge with Cisco Packet: Test your networking skills in the NetWiz Showdown, a competitive event where participants will face off to design, configure, and troubleshoot complex network scenarios using Cisco Packet Tracer. Compete against peers to solve real-world networking challenges under time constraints, showcasing your expertise and strategic thinking."
-        imgSrc="https://i.pinimg.com/originals/c1/8e/85/c18e85536e741ca1fb354233f7a6de59.jpg"
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Poster Presentation",
-    price: "$5",
-    src: "https://th.bing.com/th/id/R.71dc08f1b732fd77f477e1ed07568cd7?rik=CUhZT5%2fiMlf4vw&pid=ImgRaw&r=0",
-    content: (
-      <DummyContent
-        title="Poster Presentation"
-        price="$5"
-        description="Prepare a poster showcasing your innovative ideas and research findings. Present your work to a panel of judges and gain valuable feedback!"
-        imgSrc="https://th.bing.com/th/id/R.71dc08f1b732fd77f477e1ed07568cd7?rik=CUhZT5%2fiMlf4vw&pid=ImgRaw&r=0"
+        title="Tech Spectrum"
+        price="$25"
+        description="Tech Spectrum is a technology festival that brings together tech enthusiasts from different backgrounds to showcase their innovative projects, learn from industry leaders, and network with like-minded individuals."
+        imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg"
       />
     ),
   },
 ];
+
+function Footer() {
+  return (
+    <footer className="bg-gray-800 text-center dark:bg-neutral-600 lg:text-left">
+      <div className="container p-6 text-gray-300">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="mb-6 md:mb-0">
+            <h5 className="mb-2 font-medium uppercase">Footer text</h5>
+            <p className="mb-4">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
+              atque ea quis molestias. Fugiat pariatur maxime quis culpa
+              corporis vitae repudiandae aliquam voluptatem veniam, est atque
+              cumque eum delectus sint!
+            </p>
+          </div>
+          <div className="mb-6 md:mb-0">
+            <h5 className="mb-2 font-medium uppercase">Footer text</h5>
+            <p className="mb-4">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
+              atque ea quis molestias. Fugiat pariatur maxime quis culpa
+              corporis vitae repudiandae aliquam voluptatem veniam, est atque
+              cumque eum delectus sint!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright section */}
+      <div className="bg-gray-700 p-4 text-center text-neutral-200 dark:bg-neutral-700">
+        © 2023 Copyright:
+        <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">
+          TW Elements
+        </a>
+      </div>
+    </footer>
+  );
+}
 
 export default Dashboard;
