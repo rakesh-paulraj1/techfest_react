@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
@@ -6,8 +6,39 @@ import { HeroParallax } from "../components/hero";
 import { Carousel, Card } from "../components/apple-cards-carousel";
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
-
+import axios from "axios";
 const Dashboard = () => {
+ /* const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getallevents');
+        const events = response.data.eventswithimageurls;
+  
+      
+        const formattedData = events.map(event => ({
+          category: "SRMIST",
+          title: event.event_name,
+          price: `${event.event_price}`, 
+          src: event.event_image,
+          content: (
+            <DummyContent
+              title={event.event_name}
+              price={`${event.event_price}`}
+              description={event.event_description}
+              imgSrc={event.event_image}
+            />
+          )
+        }));
+  
+        setData(formattedData);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+  
+    fetchEvents();
+  }, []);*/
   const tcards = [
   
     { title: "Card 1", src: "https://cdn.pixabay.com/photo/2023/04/03/12/59/crowd-7896788_1280.jpg" },
@@ -191,6 +222,7 @@ export const data = [
   },
 ];
 
+
 function Footer() {
   return (
     <footer className="bg-black text-center dark:bg-neutral-8000 lg:text-left border border-gray-600">
@@ -216,8 +248,8 @@ function Footer() {
         </div>
       </div>
     </div>
-  
-    {/* Copyright section */}
+
+ 
     <div className="bg-gray-700 p-4 text-center text-neutral-200 dark:bg-neutral-700">
       © 2023 Copyright:
       <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">

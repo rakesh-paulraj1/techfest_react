@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios'; // Import axios
+import { BACKEND_URL } from '../config';
 const Login = () => {
-  const [isExistingUser, setIsExistingUser] = useState(false); // Toggle between login and registration forms
+  const [isExistingUser, setIsExistingUser] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -16,49 +17,54 @@ const Login = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Logic for form submission (login or sign-up)
+    console.log(formData.name,formData.password);
     if (isExistingUser) {
-      // Simulate checking credentials and fetching user role
-      const userRole = getUserRole(formData.email, formData.password); // Example function
+      try {
+        // Call backend API to log in the user
+        const response = await axios.post(`${BACKEND_URL}/adminlogin`, {
+          name:formData.name,
+          password: formData.password,
+        }, {
+          withCredentials: true, 
+        });
+        console.log(formData.name,formData.password);
 
-      if (userRole === 'admin') {
-        console.log('Redirecting to admin dashboard...');
-        navigate('/admindashboard'); // Redirect to admin dashboard
-      } else {
-        console.log('Logging in as regular user...');
-        navigate('/dashboard'); // Redirect to regular user dashboard
+        const userRole = 'admin';
+
+        if (userRole === 'admin') {
+          console.log('Redirecting to admin dashboard...');
+          navigate('/admindashboard');
+        } else {
+          console.log('Logging in as a regular user...');
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        console.error('Login failed:', error.response?.data || error.message);
       }
     } else {
       if (formData.password === formData.confirmPassword) {
-        console.log('Registering:', formData);
-        // Handle registration logic
+        try {
+          const response = await axios.post(`${BACKEND_URL}/signup`, {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+          });
+          
+          console.log('Registration successful:', response.data);
+          setIsExistingUser(true); // Switch to login form after successful registration
+        } catch (error) {
+          console.error('Registration failed:', error.response?.data || error.message);
+        }
       } else {
         console.error('Passwords do not match');
       }
     }
   };
 
-  // Dummy function to simulate getting user role based on credentials
-  const getUserRole = (email: string, password: string) => {
-    // Example: You could replace this with an actual API call
-    if (email === 'admin@gmail.com' && password === 'adminpass') {
-      return 'admin';
-    }
-    return 'user';
-  };
-
   const handleToggleExistingUser = () => {
     setIsExistingUser(true);
-    
-    // Optional: Assuming the formData has been filled in with email and password at this point
-    const userRole = getUserRole(formData.email, formData.password);
-    
-    if (userRole === 'admin') {
-      navigate('/admindashboard');
-    }
   };
 
   return (
@@ -86,7 +92,24 @@ const Login = () => {
         </h2>
         <form className="space-y-6" onSubmit={handleFormSubmit}>
           {!isExistingUser && (
-            <div>
+             <div>
+             <label htmlFor="email" className="sr-only">
+               Email address
+             </label>
+             <input
+               type="email"
+               name="email"
+               id="email"
+               value={formData.email}
+               onChange={handleInputChange}
+               placeholder="Email address"
+               className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+               required
+             />
+           </div>
+
+          )}
+                     <div>
               <label htmlFor="name" className="sr-only">
                 Name
               </label>
@@ -101,22 +124,6 @@ const Login = () => {
                 required
               />
             </div>
-          )}
-          <div>
-            <label htmlFor="email" className="sr-only">
-              Email address
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="Email address"
-              className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
           <div>
             <label htmlFor="password" className="sr-only">
               Password

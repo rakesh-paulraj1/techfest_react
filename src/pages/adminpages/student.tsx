@@ -11,7 +11,8 @@ import { Sidebar, SidebarBody, SidebarLink } from '../../components/Sidebar';
 import AddEvents from './AddEvents'; // Import your AddEvents component
 import RemoveEvents from './RemoveEvents'; // Import your RemoveEvents component
 import Login from './pages/login'; // Import the Login component
-
+import axios from 'axios';
+import { BACKEND_URL } from '../../config';
 const StudentList = () => {
   const navigate = useNavigate();
 
@@ -101,8 +102,13 @@ const StudentList = () => {
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
       onClick: () => {
-        // Perform any necessary logout actions here (like clearing user session)
-        navigate('/login'); // Navigate to login page
+        axios.post(`${BACKEND_URL}/adminlogout`, {}, {
+          withCredentials: true
+        }).then(() => {
+          window.location.href = '/login';
+        }).catch((error) => {
+          console.error('Logout failed:', error);
+        });
       },
     },
   ];
@@ -249,7 +255,6 @@ const StudentList = () => {
           </div>
         )}
 
-        {/* Remove User Confirmation Dialog */}
         {isConfirmOpen && (
           <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 backdrop-blur-md transition-opacity duration-300 ease-in-out">
             <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-transform duration-300 ease-in-out scale-95 opacity-100">
