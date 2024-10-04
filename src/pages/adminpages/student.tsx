@@ -9,22 +9,17 @@ import {
   IconUsers,
   IconTrash,
 } from "@tabler/icons-react";
+import Cookies from 'js-cookie';
 import { Sidebar, SidebarBody, SidebarLink } from '../../components/Sidebar';
 import AddEvents from './AddEvents'; // Import your AddEvents component
 import RemoveEvents from './RemoveEvents'; // Import your RemoveEvents component
-import Login from './pages/login'; // Import the Login component
+ // Import the Login component
 
 const StudentList = () => {
-  const navigate = useNavigate();
+  
+  
 
-  const handleLogout = () => {
-    // Clear any user authentication details (if applicable)
-    localStorage.removeItem('token'); // Example: removing a token
-    console.log("Logged out!");
-
-    // Redirect to the login page
-    navigate('/login');
-  };
+ 
 
   // State to manage student data
   const [students, setStudents] = useState([
@@ -124,7 +119,6 @@ const StudentList = () => {
         "h-screen"
       )}
     >
-      {/* Sidebar */}
       <Sidebar animate={false}>
         <SidebarBody className="flex flex-col justify-between gap-10 h-full">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">

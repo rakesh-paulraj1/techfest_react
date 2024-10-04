@@ -1,38 +1,50 @@
-// src/pages/adminpages/RemoveEvents.tsx
-
-import React, { useState } from 'react';
-
-// Sample data for events (replace this with actual event data)
-const initialEventList = [
-  {
-    id: 1,
-    title: 'Tech Talk',
-    description: 'A talk on the latest in technology.',
-    image: 'url_to_image_1.jpg', // Replace with the actual image URL
-  },
-  {
-    id: 2,
-    title: 'Workshop',
-    description: 'Hands-on workshop for coding.',
-    image: 'url_to_image_2.jpg', // Replace with the actual image URL
-  },
-  // Add more events as needed
-];
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
 const RemoveEvents = () => {
-  const [events, setEvents] = useState(initialEventList);
+  const [data, setData] = useState([]);
+  const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isConfirmationVisible, setConfirmationVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/getallevents');
+        const events = response.data.eventswithimageurls;
+
+        // Transform the fetched events to match your structure
+        const formattedData = events.map(event => ({
+          id: event.event_id,
+          title: event.event_name,
+          price: `${event.event_price}`,
+          image: event.event_image,
+          description: event.event_description || 'No description available', // Fallback for description
+        }));
+
+        // Set the fetched and formatted events into state
+        setData(formattedData);
+        setEvents(formattedData); // Update the events state after fetching
+      } catch (err) {
+        console.error("Error fetching events:", err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleCardClick = (event) => {
     setSelectedEvent(event);
     setConfirmationVisible(true);
   };
 
-  const handleRemove = () => {
-    // Remove the selected event from the events list
-    setEvents(events.filter(event => event.id !== selectedEvent.id));
+  const handleRemove = async () => {
+    setEvents(events.filter(event => event.id == selectedEvent?.id));
+    await axios.delete(`http://localhost:3000/admin/deleteevent/${selectedEvent.id}`,{
+      withCredentials: true,
+    });
     setConfirmationVisible(false);
+    
     setSelectedEvent(null);
   };
 
