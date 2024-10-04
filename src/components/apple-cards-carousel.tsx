@@ -14,6 +14,7 @@ import {
 import { cn } from "../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "./use-outside-click";
+import { TextGenerateEffect } from "../components/text-generate-effect"; // Import your TextGenerateEffect component
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -85,11 +86,16 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
     return window && window.innerWidth < 768;
   };
 
+  const words = `Oxygen gets you high. In a catastrophic emergency, we're taking giant, panicked breaths. Suddenly you become euphoric, docile. You accept your fate. It's all right here. Emergency water landing, six hundred miles an hour. Blank faces, calm as Hindu cows`;
+
   return (
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
     >
       <div className="relative w-full">
+        {/* Adding the TextGenerateEffectDemo above the cards with a negative margin */}
+        <TextGenerateEffect words={words} className="mt-[5px]" /> {/* Adjust the value as needed */}
+
         <div
           className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
@@ -107,29 +113,28 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
               "max-w-7xl mx-auto"
             )}
           >
-           {items.map((item, index) => (
-  <motion.div
-    key={"card" + index}
-    initial={{
-      opacity: 0,
-      y: 20,
-    }}
-    animate={{
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.2 * index,
-        ease: "easeOut",
-        once: true,
-      },
-    }}
-    className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
-  >
-    {item}
-  </motion.div>
-))}
-
+            {items.map((item, index) => (
+              <motion.div
+                key={"card" + index}
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    delay: 0.2 * index,
+                    ease: "easeOut",
+                    once: true,
+                  },
+                }}
+                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+              >
+                {item}
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -142,17 +147,36 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-50 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
             <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
           </button>
         </div>
+
+        {/* Adding the new container below the cards */}
+        <div
+          style={{ height: "700px" }}
+          className="mt-10 px-4 py-6 bg-gray-200 dark:bg-neutral-800 rounded-lg text-center"
+        >
+          <p className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Additional Content Below the Cards
+          </p>
+          <p className="text-gray-600 dark:text-gray-400">
+            This is the container below the cards. You can add any content here, such as buttons, links, or information.
+          </p>
+        </div>
       </div>
     </CarouselContext.Provider>
   );
 };
+
+// ... (rest of your Card component remains unchanged)
+
+
+// ... (rest of your Card component remains unchanged)
+
 
 export const Card = ({
   card,
