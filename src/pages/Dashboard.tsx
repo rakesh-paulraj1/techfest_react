@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef  } from "react";
 import { useNavigate } from "react-router-dom";
 import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
@@ -7,6 +7,7 @@ import { Carousel, Card } from "../components/apple-cards-carousel";
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Dashboard = () => {
  /* const [data, setData] = useState([]);
   useEffect(() => {
@@ -39,6 +40,8 @@ const Dashboard = () => {
   
     fetchEvents();
   }, []);*/
+  const homeRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
   const tcards = [
   
     { title: "Card 1", src: "src/assets/images/IMG_8006.jpg" },
@@ -61,9 +64,13 @@ const Dashboard = () => {
 
   return (
     <div className="bg-black min-h-screen">
-      <Navbar />
-      <HeroParallax />
-      <FocusCards cards={tcards} className="mt-[-90px]" />
+      <Navbar  homeRef={homeRef} aboutRef={aboutRef} />
+      <div ref={homeRef}>
+        <HeroParallax />
+      </div>
+        <div ref={aboutRef} className="mt-[-90px]">
+        <FocusCards cards={tcards} />
+      </div>
       
       
       <MaskContainer
@@ -86,27 +93,46 @@ const Dashboard = () => {
   );
 };
 
-function Navbar({ className }: { className?: string }) {
-  const [active, setActive] = useState<string | null>(null);
+function Navbar({
+  homeRef,
+  aboutRef,
+}: {
+  homeRef: React.RefObject<HTMLDivElement>;
+  eventsRef: React.RefObject<HTMLDivElement>;
+}) {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate("/login");
   };
 
+  // Function to scroll to a specific section
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const [active, setActive] = useState<string | null>(null);
   return (
-    <div
-      className={cn(
-        "fixed top-10 inset-x-0 max-w-2xl mx-auto z-50",
-        className
-      )}
-    >
+    <div className="fixed top-10 inset-x-0 max-w-2xl mx-auto z-50">
       <Menu setActive={setActive}>
-        <div>
-          <div className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"> Home</div>
+        <div
+          className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+          onClick={() => scrollToSection(homeRef)}
+        >
+          Home
         </div>
-        <div className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"> Events</div>
-        <div className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"> About</div>
+        <Link to="/events"
+          className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+         
+        >
+          Events
+        </Link>
+        <div className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+         onClick={() => scrollToSection(aboutRef)}>
+          About
+        </div>
         <button
           className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
           onClick={handleLoginClick}
@@ -246,7 +272,7 @@ function Footer() {
     <div className="bg-black p-4 text-center text-neutral-200 dark:bg-black">
       © 2024 Copyright:
       <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">
-        SRMIST
+        SRMIST Tiruchirappalli
       </a>
     </div>
     
