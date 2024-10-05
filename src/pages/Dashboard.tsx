@@ -7,6 +7,9 @@ import { Carousel, Card } from "../components/apple-cards-carousel";
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
+import { Typewriter } from "../components/code-effect";
+import { StyledWrapper } from "../components/styled-components";
+
 const Dashboard = () => {
  /* const [data, setData] = useState([]);
   useEffect(() => {
@@ -58,13 +61,112 @@ const Dashboard = () => {
   const cards = data.map((card, index) => (
     <Card key={card.src} card={card} index={index} layout={true} />
   ));
+  const textToDisplay = "  srmist@Unknown-2 ~ % TechSpectRuM will feature various technical competitions, workshops, hackathons, and exhibitions, providing participants with a platform to showcase their skills, collaborate on innovative ideas, and explore the latest trends in technology. The event will be a hub for innovation, learning, and networking, where attendees can immerse themselves in cutting-edge technology and engage with industry leaders. Companies are invited to sponsor the event and are also encouraged to introduce new event ideas, allowing for a collaborative and dynamic experience for all involved."; // Text you want to display
 
+
+  
   return (
     <div className="bg-black min-h-screen">
       <Navbar />
       <HeroParallax />
       <FocusCards cards={tcards} className="mt-[-90px]" />
+    
+    <div className="mt-0  mx-auto  bg-black w-[1410px] h-[400px] translate-y-45  rounded-md flex items-center justify-center">
       
+    <StyledWrapper>
+      <div className="card">
+        <div className="boxshadow" />
+        <div className="main">
+          <div className="top" />
+          <div className="left side" />
+          <div className="right side" />
+          <div className="title">Follow Us</div>
+          <div className="button-container">
+            <button className="button">
+              <svg
+                className="svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke="red"
+                fill="none"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+              </svg>
+            </button>
+            <button className="button">
+              <svg
+                className="svg twitter"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                width="24"
+                fill="red"
+                viewBox="0 0 512 512"
+              >
+                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+              </svg>
+            </button>
+            <button className="button">
+              <svg
+                className="svg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="red"
+                strokeWidth={2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path>
+                <path d="M9 18c-4.51 2-5-2-7-2" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </StyledWrapper>
+
+
+    <div className="terminal p-0  rounded-lg font-mono w-[900px] h-90 translate-x-12   ">
+      <div className="pb-2 terminal-header bg-zinc-800 text-white p-3 rounded-t-lg flex items-center ">
+        <div className="flex space-x-2 text-red-500">
+          <div className="w-3 h-3 rounded-full bg-red-500" />
+          <div className="w-3 h-3 rounded-full bg-yellow-500" />
+          <div className="w-3 h-3 rounded-full bg-green-500" />
+        </div>
+        <span className="ml-60 align-baseline">
+          SRMIST Tiruchirappalli Campus
+        </span>
+      </div>
+
+      <div
+        className="pl-2 pt-3 bg-gray-900 h-60 overflow-hidden" 
+        id="output"
+      >
+        <Typewriter text={textToDisplay} speed={100} />
+      </div>
+
+      <div
+        className="input flex pl-4 pb-14 bg-gray-900 rounded-b-lg items-center"
+        id="terminal-input-container"
+      >
+        {/* Input area (if needed in the future) */}
+      </div>
+    </div>
+
+
+   
+
+    </div>
+
       
       <MaskContainer
         
@@ -75,7 +177,7 @@ const Dashboard = () => {
           </p>
           
         }
-        className="h-[20rem] border rounded-md"
+        className="mt-10 h-[20rem] border rounded-md"
       >
         SRMIST Tiruchirappalli's Biggest<span className="text-red-500">Techfest</span> on October <span className="text-red-500">24th and 25th</span>, 2024.
         
