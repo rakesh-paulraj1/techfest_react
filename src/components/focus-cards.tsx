@@ -23,7 +23,8 @@ export const Card = React.memo(
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "rounded-lg relative bg-gray-200 dark:bg-gray-800 overflow-hidden h-60 md:h-96 transition-all duration-300 ease-out shadow-lg",
+        "rounded-lg relative bg-gray-200 dark:bg-gray-800 overflow-hidden h-60 md:h-96 transition-all duration-300 ease-out shadow-lg transform translate-y-6", 
+        // Cards slightly moved downward with translate-y
         hovered !== null && hovered !== index && "blur-sm scale-95"
       )}
     >
@@ -57,16 +58,23 @@ export function FocusCards({ cards, className }: FocusCardsProps) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-full mx-auto px-4 md:px-8 transform -translate-y-10", className)}>
-      {cards.map((card, index) => (
-        <Card
-          key={index} // Use a unique key based on the index
-          card={card}
-          index={index}
-          hovered={hovered}
-          setHovered={setHovered}
-        />
-      ))}
+    <div
+      className={cn(
+        "container mx-auto px-1 py-20 bg-black rounded-lg h-130 translate-y-57 " // Increased the height of the container
+      )}
+    >
+      {/* Increased container height */}
+      <div className={cn("grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-full", className)}>
+        {cards.map((card, index) => (
+          <Card
+            key={index} // Use a unique key based on the index
+            card={card}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
+          />
+        ))}
+      </div>
     </div>
   );
 }
