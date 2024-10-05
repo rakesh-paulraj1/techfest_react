@@ -41,16 +41,15 @@ const Dashboard = () => {
   }, []);*/
   const tcards = [
   
-    { title: "Card 1", src: "https://cdn.pixabay.com/photo/2023/04/03/12/59/crowd-7896788_1280.jpg" },
-    { title: "Card 2", src: "https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg" },
-    { title: "Card 3", src: "https://cdn.pixabay.com/photo/2015/02/21/19/54/event-644537_1280.jpg" },
-    { title: "Card 4", src: "https://media.istockphoto.com/id/483495210/photo/concert-crowd.jpg?s=1024x1024&w=is&k=20&c=bNDdnSObNmaR1cnJL4sn7vOsEMj1qzazpvuQdjagEZA=" },
-    { title: "Card 5", src: "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg" },
-    { title: "Card 6", src: "https://cdn.pixabay.com/photo/2017/08/06/23/50/people-2597679_1280.jpg" },
-    { title: "Card 7", src: "https://media.istockphoto.com/id/502088147/photo/nothing-beats-live-music.jpg?s=1024x1024&w=is&k=20&c=JXLh0ER_bEeb6miBbkeMkCs1DHNT7Bltiy5nS67z34g=" },
-    { title: "Card 8", src: "https://cdn.pixabay.com/photo/2022/06/02/15/01/music-7238254_1280.jpg" },
-    { title: "Card 9", src: "https://cdn.pixabay.com/photo/2020/01/15/17/38/fireworks-4768501_1280.jpg" },
-    { title: "Card 10", src: "https://cdn.pixabay.com/photo/2015/02/21/19/54/event-644537_1280.jpg" },
+    { title: "Card 1", src: "src/assets/images/IMG_8006.jpg" },
+    { title: "Card 2", src: "src/assets/images/IMG_8007.jpg" },
+    { title: "Card 3", src: "src/assets/images/IMG_8008.JPG" },
+    { title: "Card 4", src: "src/assets/images/IMG_8009.JPG" },
+    { title: "Card 5", src: "src/assets/images/IMG_8010.JPG" },
+    { title: "Card 6", src: "src/assets/images/IMG_8011.JPG" },
+    { title: "Card 7", src: "src/assets/images/IMG_8012.JPG" },
+    { title: "Card 8", src: "src/assets/images/IMG_8013.JPG" },
+    
   ];
   
     
@@ -65,18 +64,21 @@ const Dashboard = () => {
       <Navbar />
       <HeroParallax />
       <FocusCards cards={tcards} className="mt-[-90px]" />
+      
+      
       <MaskContainer
+        
         revealText={
-          <p className="max-w-4xl mx-auto text-slate-800 text-center  text-4xl font-bold">
-            The first rule of MRR Club is you do not talk about MRR Club. The
-            second rule of MRR Club is you DO NOT talk about MRR Club.
+          
+          <p className="max-w-4xl mx-auto text-slate-800 text-center  text-4xl font-bold ">
+           SRMIST Tiruchirappalli's Biggest Techfest on October 24th and 25th, 2024
           </p>
+          
         }
         className="h-[20rem] border rounded-md"
       >
-        The first rule of <span className="text-red-500">MRR Club</span> is you
-        do not talk about MRR Club. The second rule of MRR Club is you DO NOT
-        talk about <span className="text-red-500">MRR Club</span>.
+        SRMIST Tiruchirappalli's Biggest<span className="text-red-500">Techfest</span> on October <span className="text-red-500">24th and 25th</span>, 2024.
+        
       </MaskContainer>
 
       <Footer /> {/* Added Footer here */}
@@ -159,14 +161,25 @@ export const DummyContent = ({ title, price, description, imgSrc }) => {
 };
 
 const Modal = ({ isOpen, onClose }) => {
+  const handleBackdropClick = (event) => {
+    // Close the modal if the backdrop (the dark area) is clicked
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     isOpen && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-5 rounded-lg">
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50" // Changed items-center to items-start
+      >
+        <div
+          className="bg-white p-5 rounded-lg shadow-lg w-11/12 md:w-1/3 mt-80" // Added mt-20 for vertical spacing
+        >
           <h2 className="text-lg font-bold">Coming Soon</h2>
-          <p>This event will be available for registration soon!</p>
+          <p className="mt-2">This event will be available for registration soon!</p>
           <button
-            className="mt-4 bg-black text-white px-4 py-2 rounded"
+            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200"
             onClick={onClose}
           >
             Close
@@ -176,6 +189,8 @@ const Modal = ({ isOpen, onClose }) => {
     )
   );
 };
+
+
 
 export const data = [
   {
@@ -226,36 +241,15 @@ export const data = [
 function Footer() {
   return (
     <footer className="bg-black text-center dark:bg-neutral-8000 lg:text-left border border-gray-600">
-  <div className="container p-6 text-gray-300">
-    <div className="grid gap-4 lg:grid-cols-2">
-      <div className="mb-6 md:mb-0">
-        <h5 className="mb-2 font-medium uppercase">Footer text</h5>
-        <p className="mb-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
-            atque ea quis molestias. Fugiat pariatur maxime quis culpa
-            corporis vitae repudiandae aliquam voluptatem veniam, est atque
-            cumque eum delectus sint!
-          </p>
-        </div>
-        <div className="mb-6 md:mb-0">
-          <h5 className="mb-2 font-medium uppercase">Footer text</h5>
-          <p className="mb-4">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste
-            atque ea quis molestias. Fugiat pariatur maxime quis culpa
-            corporis vitae repudiandae aliquam voluptatem veniam, est atque
-            cumque eum delectus sint!
-          </p>
-        </div>
-      </div>
-    </div>
-
+  
  
-    <div className="bg-gray-700 p-4 text-center text-neutral-200 dark:bg-neutral-700">
-      © 2023 Copyright:
+    <div className="bg-black p-4 text-center text-neutral-200 dark:bg-black">
+      © 2024 Copyright:
       <a className="text-gray-300 dark:text-neutral-400" href="https://tw-elements.com/">
-        TW Elements
+        SRMIST
       </a>
     </div>
+    
   </footer>
   
   );

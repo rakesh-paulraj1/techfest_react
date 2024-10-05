@@ -14,6 +14,9 @@ import {
 import { cn } from "../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "./use-outside-click";
+import { TextGenerateEffect } from "./text-generate-effect"; // Import your TextGenerateEffect component
+import { BackgroundBeamsWithCollision } from "../components/background-beams-with-collision";
+
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -85,11 +88,19 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
     return window && window.innerWidth < 768;
   };
 
+  const words = `TechSpectRuM’24 is a two-day technology-focused event hosted by SRM Institute of
+Science and Technology, Tiruchirappalli, on October 24th and 25th, 2024. The event is
+designed to bring together over 10,000 tech enthusiasts, students, and professionals
+from across the country.`;
+
   return (
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
     >
       <div className="relative w-full">
+        {/* Adding the TextGenerateEffectDemo above the cards with a negative margin */}
+        <TextGenerateEffect words={words} className="mt-[5px] mx-12 mx-10" /> {/* Adjust the value as needed */}
+
         <div
           className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
@@ -107,29 +118,28 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
               "max-w-7xl mx-auto"
             )}
           >
-           {items.map((item, index) => (
-  <motion.div
-    key={"card" + index}
-    initial={{
-      opacity: 0,
-      y: 20,
-    }}
-    animate={{
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        delay: 0.2 * index,
-        ease: "easeOut",
-        once: true,
-      },
-    }}
-    className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
-  >
-    {item}
-  </motion.div>
-))}
-
+            {items.map((item, index) => (
+              <motion.div
+                key={"card" + index}
+                initial={{
+                  opacity: 0,
+                  y: 20,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    delay: 0.2 * index,
+                    ease: "easeOut",
+                    once: true,
+                  },
+                }}
+                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+              >
+                {item}
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -142,17 +152,101 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-50 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
           >
             <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
           </button>
         </div>
+
+        {/* Adding the new container below the cards */}
+        <div
+          style={{ height: "700px" }}
+          className="mt-10 px-4 py-6 bg-black dark:bg-black rounded-lg text-center"
+        >
+          <BackgroundBeamsWithCollision>
+      <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl  text-center text-black dark:text-white font-sans tracking-tight">
+      Explore the colors of creativity and tech at {" "}
+        <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
+          <div className="font-bold absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
+            <span className="">TechSpectRuM</span>
+          </div>
+          <div className="font-bold relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+            <span className="">TechSpectRuM</span>
+          </div>
+        </div>
+      </h2>
+    </BackgroundBeamsWithCollision>
+ {/* Adding the new small grey rectangle container below */}
+ <div className="mt-3 mx-auto  bg-black w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
+ <div className="bg-black py-23 sm:py-10 translate-y-0 ">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8 translate-y-0 ">
+      <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl  text-center text-black dark:text-white font-sans tracking-tight">
+      Our {" "}
+        <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
+          <div className="font-bold absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
+            <span className="">Sponsors</span>
+          </div>
+          <div className="font-bold relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+            <span className="">Sponsors</span>
+          </div>
+        </div>
+      </h2>
+        <div className="mx-auto mt-20 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+        
+
+          <img
+          
+            alt="Transistor"
+            src="https://seeklogo.com/images/T/Tropicana_Juice_Drinks-logo-9827FB6196-seeklogo.com.png"
+            width={158}
+            height={48}
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+          />
+          <img
+            alt="Reform"
+            src="https://seeklogo.com/images/S/samsung-logo-8A87EDFB33-seeklogo.com.png"
+            width={158}
+            height={48}
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+          />
+          <img
+            alt="Tuple"
+            src="https://seeklogo.com/images/K/kfc-logo-8E101365CC-seeklogo.com.png"
+            width={158}
+            height={48}
+            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+          />
+          <img
+            alt="SavvyCal"
+            src="https://seeklogo.com/images/T/tech-mahindra-logo-070473E0D4-seeklogo.com.png"
+            width={158}
+            height={48}
+            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+          />
+          <img
+            alt="Statamic"
+            src="https://seeklogo.com/images/K/ktm-logo-8A0B87E726-seeklogo.com.png"
+            width={158}
+            height={48}
+            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+          />
+        </div>
+      </div>
+    </div>
+          </div>
+        </div>
       </div>
     </CarouselContext.Provider>
   );
 };
+
+// ... (rest of your Card component remains unchanged)
+
+
+// ... (rest of your Card component remains unchanged)
+
 
 export const Card = ({
   card,
