@@ -2,132 +2,158 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import axios
 import { BACKEND_URL } from '../config';
-const Login = () => {
-  const [isExistingUser, setIsExistingUser] = useState(false);
+
+const StudentRegistration: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(false); // State to toggle between login and registration
   const [formData, setFormData] = useState({
-    name: '',
+    username: '', // Added username field
+    college: '',
+    regNo: '',
     email: '',
+    phone: '',
+    year: '',
+    gender: '',
     password: '',
-    confirmPassword: '',
   });
+
+  const [error, setError] = useState(''); // State for error message
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setError(''); // Clear error on input change
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData.name,formData.password);
-    if (isExistingUser) {
-      try {
-        // Call backend API to log in the user
-        const response = await axios.post(`${BACKEND_URL}/adminlogin`, {
-          name:formData.name,
-          password: formData.password,
-        }, {
-          withCredentials: true, 
-        });
-        console.log(formData.name,formData.password);
+    console.log(formData);
 
-        const userRole = 'admin';
+    try {
+      const endpoint = isLogin ? '/student-login' : '/student-registration';
+      const response = await axios.post(`${BACKEND_URL}${endpoint}`, formData);
 
-        if (userRole === 'admin') {
-          console.log('Redirecting to admin dashboard...');
-          navigate('/admindashboard');
-        } else {
-          console.log('Logging in as a regular user...');
-          navigate('/dashboard');
-        }
-      } catch (error) {
-        console.error('Login failed:', error.response?.data || error.message);
-      }
-    } else {
-      if (formData.password === formData.confirmPassword) {
-        try {
-          const response = await axios.post(`${BACKEND_URL}/signup`, {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-          });
-          
-          console.log('Registration successful:', response.data);
-          setIsExistingUser(true); // Switch to login form after successful registration
-        } catch (error) {
-          console.error('Registration failed:', error.response?.data || error.message);
-        }
-      } else {
-        console.error('Passwords do not match');
-      }
+      console.log('Operation successful:', response.data);
+      navigate('/dashboard'); // Redirect to dashboard after successful registration or login
+    } catch (error) {
+      console.error('Operation failed:', error.response?.data || error.message);
+      setError('Operation failed. Please try again.'); // Set error message
     }
-  };
-
-  const handleToggleExistingUser = () => {
-    setIsExistingUser(true);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
-      <div className="absolute inset-0 z-0 flex flex-wrap justify-center items-center pointer-events-none">
-        {[...Array(5)].map((_, index) => (
-          <svg
-            key={index}
-            className="floating-mail-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="48"
-            height="48"
-          >
-            <path
-              fill="currentColor"
-              d="M12 13l6-6H6l6 6zm0 2l-6-6v8l6 6 6-6v-8l-6 6z"
-            />
-          </svg>
-        ))}
-      </div>
       <div className="bg-gradient-to-br from-gray-900 to-black bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-lg p-8 shadow-lg space-y-6 w-full max-w-md z-10">
         <h2 className="text-center text-3xl font-extrabold text-white">
-          {isExistingUser ? 'Login' : 'Create Account'}
+          {isLogin ? 'Login' : 'Student Registration'}
         </h2>
+        {error && <div className="text-red-500 text-center">{error}</div>} {/* Display error message */}
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          {!isExistingUser && (
-             <div>
-             <label htmlFor="email" className="sr-only">
-               Email address
-             </label>
-             <input
-               type="email"
-               name="email"
-               id="email"
-               value={formData.email}
-               onChange={handleInputChange}
-               placeholder="Email address"
-               className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-               required
-             />
-           </div>
-
-          )}
-                     <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                placeholder="Full Name"
-                className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-                required
-              />
-            </div>
+          {/* Username field visible in both login and registration modes */}
           <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
+            <label htmlFor="username" className="sr-only">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              placeholder="Username"
+              className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+              required
+            />
+          </div>
+          {!isLogin && ( // Show registration fields when in registration mode
+            <>
+              <div>
+                <label htmlFor="college" className="sr-only">College</label>
+                <input
+                  type="text"
+                  name="college"
+                  id="college"
+                  value={formData.college}
+                  onChange={handleInputChange}
+                  placeholder="College"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="regNo" className="sr-only">Registration Number</label>
+                <input
+                  type="text"
+                  name="regNo"
+                  id="regNo"
+                  value={formData.regNo}
+                  onChange={handleInputChange}
+                  placeholder="Registration Number"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="sr-only">Email address</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email address"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="phone" className="sr-only">Phone Number</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Phone Number"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="year" className="sr-only">Year</label>
+                <select
+                  name="year"
+                  id="year"
+                  value={formData.year}
+                  onChange={handleInputChange}
+                  className="block w-full px-4 py-2 border border-black bg-transparent text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                >
+                  <option value="">Select Year</option>
+                  <option value="1st Year">1st Year</option>
+                  <option value="2nd Year">2nd Year</option>
+                  <option value="3rd Year">3rd Year</option>
+                  <option value="4th Year">4th Year</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="gender" className="sr-only">Gender</label>
+                <select
+                  name="gender"
+                  id="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                  className="block w-full px-4 py-2 border border-black bg-transparent text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </>
+          )}
+          <div>
+            <label htmlFor="password" className="sr-only">Password</label>
             <input
               type="password"
               name="password"
@@ -135,60 +161,32 @@ const Login = () => {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Password"
-              className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+              className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
               required
             />
           </div>
-          {!isExistingUser && (
-            <div>
-              <label htmlFor="confirmPassword" className="sr-only">
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                placeholder="Confirm Password"
-                className="block w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-                required
-              />
-            </div>
-          )}
           <button
             type="submit"
             className="w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            {isExistingUser ? 'Login' : 'Sign Up'}
+            {isLogin ? 'Login' : 'Register'}
           </button>
         </form>
-        <div className="text-sm text-center text-gray-400">
-          {isExistingUser ? (
-            <span>
-              New here?{' '}
-              <button
-                onClick={() => setIsExistingUser(false)}
-                className="font-medium text-indigo-300 hover:text-indigo-500"
-              >
-                Create an account
-              </button>
-            </span>
-          ) : (
-            <span>
-              Already have an account?{' '}
-              <button
-                onClick={handleToggleExistingUser}
-                className="font-medium text-indigo-300 hover:text-indigo-500"
-              >
-                Login
-              </button>
-            </span>
-          )}
+        <div className="text-center">
+          <p className="text-gray-400">
+            {isLogin ? 'Don’t have an account?' : 'Already have an account?'}
+            <button
+              type="button"
+              className="text-indigo-500 hover:underline"
+              onClick={() => setIsLogin(!isLogin)} // Toggle between login and registration
+            >
+              {isLogin ? 'Register' : 'Login'}
+            </button>
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default StudentRegistration;

@@ -252,11 +252,13 @@ function Navbar({
   );
 }
 
-export const DummyContent = ({ title, price, description, imgSrc }) => {
+export const DummyContent = ({ title, price, description, imgSrc, eventPath }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate(); // useNavigate hook to redirect
 
   const handleRegisterClick = () => {
     setIsModalOpen(true);
+    navigate(eventPath); // Navigate to the event path
   };
 
   const handleCloseModal = () => {
@@ -282,93 +284,206 @@ export const DummyContent = ({ title, price, description, imgSrc }) => {
         </p>
         <button
           className="mt-4 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleRegisterClick}
+          onClick={handleRegisterClick} // Call navigate on click
         >
           <span>Register</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
         </button>
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   );
 };
 
-const Modal = ({ isOpen, onClose }) => {
-  const handleBackdropClick = (event) => {
-    // Close the modal if the backdrop (the dark area) is clicked
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
-  return (
-    isOpen && (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50" // Changed items-center to items-start
-      >
-        <div
-          className="bg-white p-5 rounded-lg shadow-lg w-11/12 md:w-1/3 mt-80" // Added mt-20 for vertical spacing
-        >
-          <h2 className="text-lg font-bold">Coming Soon</h2>
-          <p className="mt-2">This event will be available for registration soon!</p>
-          <button
-            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    )
-  );
-};
-
-
-
+// Example of data with event paths
 export const data = [
   {
     category: "SRMIST",
     title: "Crypt-o-Track",
     price: "$20",
-    src: "https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg",
+    src: "",
     content: (
       <DummyContent
         title="Crypt-o-Track"
         price="$20"
         description="A crime investigation event on the AI (Artificial intelligence) platform with clues based on images, QR codes, coding, and algorithms. A case file will be provided with formats. The winner will depend on the report submitted."
-        imgSrc="https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg"
+        imgSrc=""
+        eventPath="/event1" // Specify the path for this event
       />
     ),
   },
   {
     category: "SRMIST",
-    title: "Reverse Engineering",
-    price: "$15",
-    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg",
+    title: "Event 2 Title",
+    price: "$30",
+    src: "",
     content: (
       <DummyContent
-        title="Reverse Engineering"
-        price="$15"
-        description="Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms."
-        imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg"
+        title="Event 2 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event2" // Specify the path for this event
+      />
+    ),
+  },
+
+  {
+    category: "SRMIST",
+    title: "Event 3 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 3 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event3" // Specify the path for this event
+      />
+    ),
+  },
+
+  {
+    category: "SRMIST",
+    title: "Event 4 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 4 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event4" // Specify the path for this event
+      />
+    ),
+  },
+
+  {
+    category: "SRMIST",
+    title: "Event 5 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 5 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event5" // Specify the path for this event
       />
     ),
   },
   {
     category: "SRMIST",
-    title: "Tech Spectrum",
-    price: "$25",
-    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg",
+    title: "Event 6 Title",
+    price: "$30",
+    src: "",
     content: (
       <DummyContent
-        title="Tech Spectrum"
-        price="$25"
-        description="Tech Spectrum is a technology festival that brings together tech enthusiasts from different backgrounds to showcase their innovative projects, learn from industry leaders, and network with like-minded individuals."
-        imgSrc="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg"
+        title="Event 6 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event6" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 7 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 7 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event7" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 8 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 8 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event8" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 9 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 9 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event9" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 10 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 10 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event10" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 11 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 11 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event11" // Specify the path for this event
+      />
+    ),
+  },
+  {
+    category: "SRMIST",
+    title: "Event 12 Title",
+    price: "$30",
+    src: "",
+    content: (
+      <DummyContent
+        title="Event 12 Title"
+        price="$30"
+        description="Description for Event 2."
+        imgSrc=""
+        eventPath="/event12" // Specify the path for this event
       />
     ),
   },
 ];
+
+// Ensure you have the routes set up in your App component or Router
+
+  
 
 
 function Footer() {
