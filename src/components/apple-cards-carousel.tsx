@@ -179,7 +179,7 @@ from across the country.`;
       </h2>
     </BackgroundBeamsWithCollision>
  {/* Adding the new small grey rectangle container below */}
- <div className="mt-3 mx-auto  bg-black w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
+ <div className=" mx-auto  bg-black w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
  <div className="bg-black py-23 sm:py-10 translate-y-0 ">
       <div className="mx-auto max-w-7xl px-5 lg:px-8 translate-y-0 ">
       <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl  text-center text-black dark:text-white font-sans tracking-tight">
@@ -193,7 +193,7 @@ from across the country.`;
           </div>
         </div>
       </h2>
-        <div className="mx-auto mt-20 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+        <div className="mx-auto mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-10 items-center justify-center">
         
 
           <img
@@ -247,7 +247,6 @@ from across the country.`;
 
 // ... (rest of your Card component remains unchanged)
 
-
 export const Card = ({
   card,
   index,
@@ -293,12 +292,12 @@ export const Card = ({
     <>
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 h-screen z-50 overflow-auto">
+          <div className="fixed inset-0 h-screen z-50 overflow-y-auto ">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="bg-black/80 backdrop-blur-lg h-full w-full fixed inset-0"
+              className="bg-black/80 backdrop-blur-lg h-full w-full fixed inset-0  overflow-y-auto max-h-[600px]"
             />
             <motion.div
               initial={{ opacity: 0 }}
@@ -306,7 +305,7 @@ export const Card = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
+              className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative overflow-y-auto max-h-[600px]" // Added overflow and max-height
             >
               <button
                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
@@ -326,14 +325,17 @@ export const Card = ({
               >
                 {card.title}
               </motion.p>
-              <div className="py-10">{card.content}</div>
+              {/* Scrollable content section */}
+              <div className="py-10 overflow-y-auto max-h-[400px]"> {/* This makes the content scrollable */}
+                {card.content}
+              </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
-        onClick={handleOpen}
+        onClick={()=>{window.location.href = '/events';}}
         className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
@@ -349,3 +351,4 @@ export const Card = ({
     </>
   );
 };
+

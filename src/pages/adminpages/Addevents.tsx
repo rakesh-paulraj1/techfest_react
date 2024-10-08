@@ -31,33 +31,34 @@ export default function FormWithImageUpload() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [files, setFiles] = useState<File[]>([]);
-
+  const [files1, setFiles1] = useState<File[]>([]);
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
     console.log(files);
   };
+  const handleFileUpload1 = (files1: File[]) => {
+    setFiles1(files1);
+    console.log(files1);
+    
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({
-      title,
-      description,
-      price,
-      files
-    });
+   
     try {
       const formData = new FormData();
       formData.append('event_name', title);
       formData.append('event_description', description);
       formData.append('event_price', price);
-      formData.append('file',files[0]);
+      formData.append('event_image',files[0]);
+      formData.append('qr_image',files1[0]);
 
       const response = await axios.post(`${BACKEND_URL}/admin/createevents`, formData, {
         withCredentials: true,
         headers: {
-          'Content-Type': 'multipart/form-data', // Set the correct content type for file uploads
+          'Content-Type': 'multipart/form-data',
         },
       });
-      console.log("created events successfully", response);
+      console.log( response);
       alert("Event created successfully");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -71,7 +72,7 @@ export default function FormWithImageUpload() {
 
 
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center items-center min-h-screen p-8 overflow-auto">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <Header title="Add New Events" />
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
@@ -115,7 +116,10 @@ export default function FormWithImageUpload() {
 
           {/* Image Upload Section */}
           <div>
+          <h2>Event image</h2>
             <FileUpload onChange={handleFileUpload}  />
+            <h2>QR image</h2>
+            <FileUpload onChange={handleFileUpload1}  />
           </div>
 
           {/* Submit Button */}

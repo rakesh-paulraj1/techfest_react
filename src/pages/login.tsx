@@ -4,11 +4,11 @@ import axios from 'axios'; // Import axios
 import { BACKEND_URL } from '../config';
 
 const StudentRegistration: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false); // State to toggle between login and registration
+  const [isLogin, setIsLogin] = useState(false); 
   const [formData, setFormData] = useState({
-    username: '', // Added username field
-    college: '',
-    regNo: '',
+    username: '', 
+    collegename: '',
+    registrationnumber: '',
     email: '',
     phone: '',
     year: '',
@@ -16,30 +16,75 @@ const StudentRegistration: React.FC = () => {
     password: '',
   });
 
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState(''); 
   const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setError(''); // Clear error on input change
+    setError(''); 
   };
 
+  // const handleFormSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+
+  //   try {
+  //     const endpoint = isLogin ? '/loginuser' : '/registeruser';
+  //     const response = await axios.post(`${BACKEND_URL}${endpoint}`, formData);
+
+  //     console.log('Operation successful:', response.data);
+  //     navigate('/dashboard'); 
+  //   } catch (error) {
+  //     console.error('Operation failed:', error.response?.data || error.message);
+  //     setError('Operation failed. Please try again.'); // Set error message
+  //   }
+  // };
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(formData);
 
     try {
-      const endpoint = isLogin ? '/student-login' : '/student-registration';
-      const response = await axios.post(`${BACKEND_URL}${endpoint}`, formData);
+      let response;
 
-      console.log('Operation successful:', response.data);
-      navigate('/dashboard'); // Redirect to dashboard after successful registration or login
-    } catch (error) {
-      console.error('Operation failed:', error.response?.data || error.message);
-      setError('Operation failed. Please try again.'); // Set error message
+      if (isLogin) {
+        try {
+          response = await axios.post(`${BACKEND_URL}/loginuser`, formData, {
+            withCredentials: true,
+          });
+          localStorage.setItem('role', response.data.message);
+          console.log('User login successful:', response.data.message);
+        } catch {
+          console.error('User login failed, attempting admin login:');
+
+          response = await axios.post(`${BACKEND_URL}/adminlogin`, formData, {
+            withCredentials: true,
+          });
+          localStorage.setItem('role', response.data.message);
+          console.log('Admin login successful:', response.data.message);
+        }
+
+        const role = response.data.message;
+        if (role === 'admin') {
+          console.log(role);
+          localStorage.setItem('role', response.data.message);
+          navigate('/admindashboard');
+        } else {
+          console.log(role);
+          navigate('/');
+        }
+      } else {
+        // For registration, only a single request
+        response = await axios.post(`${BACKEND_URL}/registeruser`, formData);
+        localStorage.setItem('role', response.data.message);
+        console.log('Registration successful:', response.data);
+        navigate('/');
+      }
+    } catch {
+      console.error('Operation failed:');
+      setError('Operation failed. Please try again.');
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black relative overflow-hidden">
@@ -47,51 +92,10 @@ const StudentRegistration: React.FC = () => {
         <h2 className="text-center text-3xl font-extrabold text-white">
           {isLogin ? 'Login' : 'Student Registration'}
         </h2>
-        {error && <div className="text-red-500 text-center">{error}</div>} {/* Display error message */}
+        {error && <div className="text-red-500 text-center">{error}</div>} 
         <form className="space-y-6" onSubmit={handleFormSubmit}>
-          {/* Username field visible in both login and registration modes */}
-          <div>
-            <label htmlFor="username" className="sr-only">Username</label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              value={formData.username}
-              onChange={handleInputChange}
-              placeholder="Username"
-              className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-          {!isLogin && ( // Show registration fields when in registration mode
-            <>
-              <div>
-                <label htmlFor="college" className="sr-only">College</label>
-                <input
-                  type="text"
-                  name="college"
-                  id="college"
-                  value={formData.college}
-                  onChange={handleInputChange}
-                  placeholder="College"
-                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="regNo" className="sr-only">Registration Number</label>
-                <input
-                  type="text"
-                  name="regNo"
-                  id="regNo"
-                  value={formData.regNo}
-                  onChange={handleInputChange}
-                  placeholder="Registration Number"
-                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-                  required
-                />
-              </div>
-              <div>
+         
+        <div>
                 <label htmlFor="email" className="sr-only">Email address</label>
                 <input
                   type="email"
@@ -104,6 +108,48 @@ const StudentRegistration: React.FC = () => {
                   required
                 />
               </div>
+          {!isLogin && ( 
+            <>
+            <div>
+            <label htmlFor="username" className="sr-only">Username</label>
+            <input
+              type="text"
+              name="username"
+              id="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              placeholder="Username"
+              className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+              required
+            />
+          </div>
+              <div>
+                <label htmlFor="college" className="sr-only">College</label>
+                <input
+                  type="text"
+                  name="collegename"
+                  id="collegename"
+                  value={formData.collegename}
+                  onChange={handleInputChange}
+                  placeholder="College"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="regNo" className="sr-only">Registration Number</label>
+                <input
+                  type="text"
+                  name="registrationnumber"
+                  id="registrationnumber"
+                  value={formData.registrationnumber}
+                  onChange={handleInputChange}
+                  placeholder="Registration Number"
+                  className="block w-full px-4 py-2 border border-gray-700 bg-transparent text-white rounded-md shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+            
               <div>
                 <label htmlFor="phone" className="sr-only">Phone Number</label>
                 <input
@@ -118,22 +164,23 @@ const StudentRegistration: React.FC = () => {
                 />
               </div>
               <div>
-                <label htmlFor="year" className="sr-only">Year</label>
-                <select
-                  name="year"
-                  id="year"
-                  value={formData.year}
-                  onChange={handleInputChange}
-                  className="block w-full px-4 py-2 border border-black bg-transparent text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
-                  required
-                >
-                  <option value="">Select Year</option>
-                  <option value="1st Year">1st Year</option>
-                  <option value="2nd Year">2nd Year</option>
-                  <option value="3rd Year">3rd Year</option>
-                  <option value="4th Year">4th Year</option>
-                </select>
-              </div>
+  <label htmlFor="year" className="sr-only">Year</label>
+  <select
+    name="year"
+    id="year"
+    value={formData.year}
+    onChange={handleInputChange}
+    className="block w-full px-4 py-2 border border-black bg-gray-800 text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+    required
+  >
+    <option value="">Select Year</option>
+    <option value="1st Year">1st Year</option>
+    <option value="2nd Year">2nd Year</option>
+    <option value="3rd Year">3rd Year</option>
+    <option value="4th Year">4th Year</option>
+  </select>
+</div>
+
               <div>
                 <label htmlFor="gender" className="sr-only">Gender</label>
                 <select
@@ -141,7 +188,7 @@ const StudentRegistration: React.FC = () => {
                   id="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="block w-full px-4 py-2 border border-black bg-transparent text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
+                  className="block w-full px-4 py-2 border border-black bg-gray-800 text-white rounded-md placeholder-gray-400 focus:ring-2 focus:ring-indigo-500"
                   required
                 >
                   <option value="">Select Gender</option>
@@ -178,7 +225,7 @@ const StudentRegistration: React.FC = () => {
             <button
               type="button"
               className="text-indigo-500 hover:underline"
-              onClick={() => setIsLogin(!isLogin)} // Toggle between login and registration
+              onClick={() => setIsLogin(!isLogin)} 
             >
               {isLogin ? 'Register' : 'Login'}
             </button>

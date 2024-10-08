@@ -1,5 +1,5 @@
 import React, { useState,useEffect,useRef  } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
 import { cn } from "../lib/utils";
 import { HeroParallax } from "../components/hero";
@@ -15,29 +15,32 @@ import { StyledWrapper } from "../components/styled-components";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
- /* const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:3000/getallevents');
         const events = response.data.eventswithimageurls;
-  
+     console.log(events[0].event_id);
       
         const formattedData = events.map(event => ({
           category: "SRMIST",
           title: event.event_name,
           price: `${event.event_price}`, 
           src: event.event_image,
+          eventid: event.event_id,
           content: (
-            <DummyContent
+            <Content
               title={event.event_name}
               price={`${event.event_price}`}
               description={event.event_description}
               imgSrc={event.event_image}
+              image_qr={event.event_qr}
+              event_id={event.event_id}
             />
           )
         }));
-  
+ console.log(formattedData);
         setData(formattedData);
       } catch (err) {
         console.error("Error fetching events:", err);
@@ -45,7 +48,7 @@ const Dashboard = () => {
     };
   
     fetchEvents();
-  }, []);*/
+  }, []);
   const homeRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const tcards = [
@@ -74,17 +77,18 @@ const Dashboard = () => {
   return (
     <div className="bg-black min-h-screen">
 
-      <Navbar />
+      <Navbar homeRef={homeRef} aboutRef={aboutRef} />
      <div ref={homeRef}>
         <HeroParallax />
       </div>
+
         <div ref={aboutRef} className="mt-[-90px]">
         <FocusCards cards={tcards} />
       </div>
     
     <div className="mt-0  mx-auto  bg-black w-[1410px] h-[400px] translate-y-45  rounded-md flex items-center justify-center">
       
-      
+    <div className="mt-0 mx-auto bg-black w-full sm:w-[90%] md:w-[1410px] h-auto sm:h-[400px] translate-y-45 rounded-md flex flex-col sm:flex-row items-center justify-center px-4 py-6">
     <StyledWrapper>
       <div className="card">
         <div className="boxshadow" />
@@ -173,6 +177,7 @@ const Dashboard = () => {
         {/* Input area (if needed in the future) */}
       </div>
     </div>
+    </div>
 
 
    
@@ -205,13 +210,19 @@ function Navbar({
   aboutRef,
 }: {
   homeRef: React.RefObject<HTMLDivElement>;
-  eventsRef: React.RefObject<HTMLDivElement>;
+   aboutRef: React.RefObject<HTMLDivElement>;
 }) {
   const navigate = useNavigate();
-
+ const [role, setRole] = useState<string | null>(null);
   const handleLoginClick = () => {
     navigate("/login");
   };
+  useEffect(() => {
+    const storedRole = localStorage.getItem('role');
+    if (storedRole=='user') {
+      setRole(storedRole);
+    }
+  }, []);
 
   // Function to scroll to a specific section
   const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
@@ -230,35 +241,47 @@ function Navbar({
         >
           Home
         </div>
-        <Link to="/events"
+        <Link
+          to="/events"
           className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
-         
         >
           Events
         </Link>
-        <div className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
-         onClick={() => scrollToSection(aboutRef)}>
+        <div
+          className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+          onClick={() => scrollToSection(aboutRef)}
+        >
           About
         </div>
-        <button
-          className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleLoginClick}
-        >
-          <span>Register</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
-        </button>
+
+        {/* Conditionally render Register or Profile based on user role */}
+        {role ? (
+          <Link
+            to="/userprofile"
+            className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
+          >
+            <span>Profile</span>
+            <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+          </Link>
+        ) : (
+          <button
+            className="border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
+            onClick={handleLoginClick}
+          >
+            <span>Register</span>
+            <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+          </button>
+        )}
       </Menu>
     </div>
   );
 }
 
-export const DummyContent = ({ title, price, description, imgSrc, eventPath }) => {
+export const DummyContent = ({ title, price, description, imgSrc, image_qr, event_id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate(); // useNavigate hook to redirect
 
   const handleRegisterClick = () => {
     setIsModalOpen(true);
-    navigate(eventPath); // Navigate to the event path
   };
 
   const handleCloseModal = () => {
@@ -269,217 +292,326 @@ export const DummyContent = ({ title, price, description, imgSrc, eventPath }) =
     <div className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-10 rounded-3xl mb-4 flex">
       <img
         src={imgSrc}
-        alt={`${title} image`} // Corrected this line
+        alt={`${title} image`}
         height="150"
         width="150"
         className="w-1/3 h-auto object-contain mr-10"
       />
-      <div className="flex flex-col justify-start flex-1">
+      <div
+        className="flex flex-col justify-start flex-1 max-h-[300px] overflow-y-auto" // Set max height and enable scrolling
+      >
         <h2 className="text-neutral-700 dark:text-neutral-200 font-bold text-lg">
           {title}
         </h2>
         <p className="text-green-600 font-semibold text-md">{price}</p>
-        <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl overflow-auto">
+        <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl">
           {description}
         </p>
         <button
           className="mt-4 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleRegisterClick} // Call navigate on click
+          onClick={handleRegisterClick}
         >
           <span>Register</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
         </button>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} image_qr={image_qr} event_id={event_id} />
     </div>
   );
 };
 
+const onSubmit = async (upiNumber: string, transactionId: string, event_id: string) => {
+  
+  try {
+      console.log(event_id);
+      const response = await axios.post(
+        'http://localhost:3000/user/eventregistration',
+        { event_id, upi_id: upiNumber, transaction_id: transactionId },
+        { withCredentials: true }
+      );
+      if (response.data.message) {
+        window.location.href = '/userprofile';
+      } 
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error registering event:', error.response ? error.response.data : error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
+};
+
+const Modal = ({ isOpen, onClose, image_qr ,event_id}) => {
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+  const [upiNumber, setUpiNumber] = useState("");
+  const [transactionId, setTransactionId] = useState("");
+
+  const handleSubmit = () => {
+    if (upiNumber && transactionId) {
+      onSubmit(upiNumber, transactionId,event_id); 
+    } else {
+      alert("Please fill in both fields");
+    }
+  };
+
+  return (
+    isOpen && (
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-60"
+        onClick={handleBackdropClick}
+      >
+        <div className="bg-white p-5 rounded-lg shadow-lg w-full md:w-1/3 lg:w-1/3 fixed top-1 left-1/2 transform -translate-x-1/2 z-10">
+          {image_qr ? (
+            <>
+              <h2 className="text-lg text-black font-bold">Complete Payment</h2>
+
+              <img
+                src={image_qr}
+                alt="QR Code"
+                className="w-64 h-64 mx-auto mt-4"
+              /> {/* Larger QR code */}
+
+              <p className="mt-4 text-black">
+                Pay using the above QR code, then provide your UPI ID and Transaction ID below:
+              </p>
+ <input
+                type="text"
+                placeholder="Enter UPI Number"
+                value={upiNumber}
+                onChange={(e) => setUpiNumber(e.target.value)}
+                className="mt-4 p-2 w-full border rounded"
+              />
+
+              <input
+                type="text"
+                placeholder="Enter Transaction ID"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+                className="mt-4 p-2 w-full border rounded"
+              />
+
+              <button
+                className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200 w-full"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            
+              
+            </>
+          ) : (
+            <>
+              <h2 className="text-lg font-bold">Coming Soon</h2>
+              <p className="mt-2">
+                This event will be available for registration soon!
+              </p>
+            </>
+          )}
+
+          <button
+            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200 w-full"
+            onClick={onClose}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    )
+  );
+};
+
+
 // Example of data with event paths
-export const data = [
-  {
-    category: "SRMIST",
-    title: "Crypt-o-Track",
-    price: "$20",
-    src: "",
-    content: (
-      <DummyContent
-        title="Crypt-o-Track"
-        price="$20"
-        description="A crime investigation event on the AI (Artificial intelligence) platform with clues based on images, QR codes, coding, and algorithms. A case file will be provided with formats. The winner will depend on the report submitted."
-        imgSrc=""
-        eventPath="/event1" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 2 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 2 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event2" // Specify the path for this event
-      />
-    ),
-  },
+// export const data = [
+//   {
+//     category: "SRMIST",
+//     title: "Crypt-o-Track",
+//     price: "$20",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Crypt-o-Track"
+//         price="$20"
+//         description="A crime investigation event on the AI (Artificial intelligence) platform with clues based on images, QR codes, coding, and algorithms. A case file will be provided with formats. The winner will depend on the report submitted."
+//         imgSrc=""
+//         eventPath="/event1" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 2 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 2 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event2" // Specify the path for this event
+//       />
+//     ),
+//   },
 
-  {
-    category: "SRMIST",
-    title: "Event 3 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 3 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event3" // Specify the path for this event
-      />
-    ),
-  },
+//   {
+//     category: "SRMIST",
+//     title: "Event 3 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 3 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event3" // Specify the path for this event
+//       />
+//     ),
+//   },
 
-  {
-    category: "SRMIST",
-    title: "Event 4 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 4 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event4" // Specify the path for this event
-      />
-    ),
-  },
+//   {
+//     category: "SRMIST",
+//     title: "Event 4 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 4 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event4"
+//         image_qr="adefadefadfv" // Specify the path for this event
+//       />
+//     ),
+//   },
 
-  {
-    category: "SRMIST",
-    title: "Event 5 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 5 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event5" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 6 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 6 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event6" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 7 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 7 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event7" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 8 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 8 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event8" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 9 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 9 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event9" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 10 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 10 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event10" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 11 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 11 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event11" // Specify the path for this event
-      />
-    ),
-  },
-  {
-    category: "SRMIST",
-    title: "Event 12 Title",
-    price: "$30",
-    src: "",
-    content: (
-      <DummyContent
-        title="Event 12 Title"
-        price="$30"
-        description="Description for Event 2."
-        imgSrc=""
-        eventPath="/event12" // Specify the path for this event
-      />
-    ),
-  },
-];
+//   {
+//     category: "SRMIST",
+//     title: "Event 5 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 5 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event5" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 6 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 6 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event6" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 7 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 7 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event7" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 8 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 8 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event8" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 9 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 9 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event9" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 10 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 10 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event10" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 11 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 11 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event11" // Specify the path for this event
+//       />
+//     ),
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Event 12 Title",
+//     price: "$30",
+//     src: "",
+//     content: (
+//       <DummyContent
+//         title="Event 12 Title"
+//         price="$30"
+//         description="Description for Event 2."
+//         imgSrc=""
+//         eventPath="/event12" // Specify the path for this event
+//       />
+//     ),
+//   },
+// ];
 
 // Ensure you have the routes set up in your App component or Router
 

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { redirect, useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import {
   IconArrowLeft,
@@ -15,32 +15,36 @@ import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 const StudentList = () => {
   const navigate = useNavigate();
+  const [students, setStudents] = useState([]); // Initialize with an empty array
 
-  const handleLogout = () => {
-    // Clear any user authentication details (if applicable)
-    localStorage.removeItem('token'); // Example: removing a token
-    console.log("Logged out!");
-
-    // Redirect to the login page
-    navigate('/login');
-  };
-
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    if (role !== 'admin') {
+      navigate('/');
+    }
+    const response =axios.get(`${BACKEND_URL}/admin/getallregistrations`, {
+      withCredentials: true
+    }).then((response) => {
+      
+      setStudents(response.data.admin);
+    });
+  }, [navigate]);
   // State to manage student data
-  const [students, setStudents] = useState([
-    { name: 'John Doe', email: 'john@example.com', event: 'Tech Talk', amountPaid: 100 },
-    { name: 'Jane Smith', email: 'jane@example.com', event: 'Workshop', amountPaid: 150 },
-  ]);
+  
+ 
+  
 
-  // State to manage the current view
-  const [currentView, setCurrentView] = useState('students'); // 'students', 'addEvents', or 'removeEvents'
+ 
+  const [currentView, setCurrentView] = useState('students');
 
-  // State for the add user popup
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [newUser, setNewUser] = useState({ name: '', email: '', password: '' });
 
-  // State for the confirmation dialog
+  
+
+
+ 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [userToRemove, setUserToRemove] = useState(null);
+  const [eventid, seteventid] = useState('verified');
+  const [userToRemove, setUserToRemove] = useState(0);
 
   // Function to switch views
   const handleViewChange = (view) => {
@@ -48,32 +52,28 @@ const StudentList = () => {
   };
 
   // Handle form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({ ...prev, [name]: value }));
+ 
+
+  
+  const handleStatusChange = (userId, newStatus,event_id) => {
+    // Implement your logic to update the user's status in the database
+    // For example, you can make an API call to update the user's status
+    // Replace the following code with your actual API call
+   const updateevent= axios.post(`${BACKEND_URL}/admin/updateuserstatus`, {
+      user_id: userId,
+      event_verification: newStatus,
+      event_id:event_id,
+    }, {
+      withCredentials: true
+    }).then((response) => {
+      console.log(response.data);
+      window.location.reload(); 
+    }).catch((error) => {
+      console.error('Error updating user status:', error);
+    });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add the new user to the students array
-    setStudents((prev) => [
-      ...prev,
-      { name: newUser.name, email: newUser.email, event: 'New Event', amountPaid: 0 },
-    ]);
-    // Close the popup and reset form
-    setIsPopupOpen(false);
-    setNewUser({ name: '', email: '', password: '' }); // Reset the form
-  };
-
-  // Function to handle user removal
-  const handleRemoveUser = () => {
-    setStudents((prev) => prev.filter((_, index) => index !== userToRemove));
-    setIsConfirmOpen(false); // Close confirmation dialog
-    setUserToRemove(null); // Reset user to remove
-  };
-
-  // Sidebar links
+ 
   const links = [
     {
       label: "Students",
@@ -105,6 +105,7 @@ const StudentList = () => {
         axios.post(`${BACKEND_URL}/adminlogout`, {}, {
           withCredentials: true
         }).then(() => {
+          localStorage.removeItem('role');
           window.location.href = '/login';
         }).catch((error) => {
           console.error('Logout failed:', error);
@@ -142,146 +143,111 @@ const StudentList = () => {
         </SidebarBody>
       </Sidebar>
 
-      {/* Main Content */}
+    
       <div className="flex-1 p-8">
         {currentView === 'students' && (
           <>
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-bold">Student List</h1>
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                onClick={() => setIsPopupOpen(true)} // Open the popup
-              >
-                Add User
-              </button>
+             
             </div>
 
             {/* Table */}
-            <table className="min-w-full bg-white border border-neutral-200 dark:bg-neutral-800 dark:border-neutral-700">
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Name</th>
-                  <th className="px-6 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Email</th>
-                  <th className="px-6 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Event</th>
-                  <th className="px-6 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Amount Paid</th>
-                  <th className="px-6 py-3 text-left font-medium text-gray-700 dark:text-gray-300">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.map((student, index) => (
-                  <tr key={index} className="border-t border-neutral-200 dark:border-neutral-700">
-                    <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{student.name}</td>
-                    <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{student.email}</td>
-                    <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{student.event}</td>
-                    <td className="px-6 py-3 text-gray-900 dark:text-gray-200">${student.amountPaid}</td>
-                    <td className="px-6 py-3">
-                      <button
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                        onClick={() => {
-                          setUserToRemove(index);
-                          setIsConfirmOpen(true); // Open confirmation dialog
-                        }}
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <table className="min-w-full bg-white dark:bg-neutral-800 border border-gray-300 dark:border-neutral-700">
+        <thead>
+          <tr className="bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-white">
+            <th className="py-3 px-6 text-left">Email</th>
+            <th className="py-3 px-6 text-left">Username</th>
+            <th className="py-3 px-6 text-left">Event Name</th>
+            <th className="py-3 px-6 text-left">Transaction ID</th>
+            <th className="py-3 px-6 text-left">UPI ID</th>
+            <th className="py-3 px-6 text-left">Verification</th>
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((entry, index) => (
+            <tr
+              key={index}
+              className="border-t border-neutral-200 dark:border-neutral-700"
+            >
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.User.email}</td>
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.User.username}</td>
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.Event.event_name}</td>
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.transaction_id}</td>
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.upi_id}</td>
+              <td className="px-6 py-3">
+              <button
+  className={`px-3 py-1 rounded ${
+    entry.verification_status === 'verified'
+      ? 'bg-green-500 text-white hover:bg-green-600 cursor-default'
+      : entry.verification_status === 'pending'
+      ? 'bg-gray-500 text-white hover:bg-gray-600 cursor-pointer'
+      : '' // No need for a style for 'rejected' since it's not being used
+  }`}
+  onClick={() => {
+    if (entry.verification_status === 'pending') {
+      setUserToRemove(entry.user_id);
+      console.log(userToRemove);
+      seteventid(entry.event_id);
+      setIsConfirmOpen(true); 
+    }
+
+  }}
+  disabled={entry.verification_status !== 'pending'} 
+>
+  {entry.verification_status === 'verified'
+    ? 'Verified':'Pending'
+    
+
+  }
+</button>
+
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
           </>
         )}
         
-        {currentView === 'addEvents' && <AddEvents />}
+        {currentView === 'addEvents' &&  <div className="h-[calc(100vh-2rem)] overflow-y-auto p-4"> 
+        <AddEvents />
+      </div>}
         
-        {currentView === 'removeEvents' && <RemoveEvents />} {/* Render RemoveEvents component */}
+        {currentView === 'removeEvents' && <RemoveEvents />} 
 
-        {/* Add User Popup */}
-        {isPopupOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 backdrop-blur-md transition-opacity duration-300 ease-in-out">
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-transform duration-300 ease-in-out scale-95 opacity-100">
-              <h2 className="text-2xl font-bold mb-4 text-gray-800">Add User</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium">Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={newUser.name}
-                    onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md p-2 w-full focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={newUser.email}
-                    onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md p-2 w-full focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={newUser.password}
-                    onChange={handleInputChange}
-                    className="border border-gray-300 rounded-md p-2 w-full focus:ring-2 focus:ring-blue-400 focus:border-transparent transition duration-200"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    className="text-gray-500 hover:text-gray-700 mr-2"
-                    onClick={() => setIsPopupOpen(false)} // Close the popup
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                  >
-                    Add User
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        
 
-        {isConfirmOpen && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 backdrop-blur-md transition-opacity duration-300 ease-in-out">
-            <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-transform duration-300 ease-in-out scale-95 opacity-100">
-              <h2 className="text-lg font-bold mb-4 text-gray-800">Confirm Removal</h2>
-              <p className="mb-4">Are you sure you want to remove this user?</p>
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  className="text-gray-500 hover:text-gray-700 mr-2"
-                  onClick={() => setIsConfirmOpen(false)} // Close confirmation dialog
-                >
-                  Cancel
-                </button>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  onClick={handleRemoveUser} // Handle user removal
-                >
-                  Remove User
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+{isConfirmOpen && (
+  <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 backdrop-blur-md transition-opacity duration-300 ease-in-out">
+    <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transform transition-transform duration-300 ease-in-out scale-95 opacity-100">
+      <h2 className="text-lg font-bold mb-4 text-gray-800">Change User Status</h2>
+      <p className="mb-4">Please select an action for this user:</p>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          className="text-gray-500 hover:text-gray-700 mr-2"
+          onClick={() => setIsConfirmOpen(false)} // Close confirmation dialog
+        >
+          Cancel
+        </button>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2"
+          onClick={() => {
+            handleStatusChange(userToRemove, 'verified',eventid); 
+            setIsConfirmOpen(false);
+          }}
+        >
+          Verify
+        </button>
+        
       </div>
     </div>
-    
-  );
-};
+  </div>
+)}
+    </div>
+    </div>
+    )};
+
 
 export default StudentList;

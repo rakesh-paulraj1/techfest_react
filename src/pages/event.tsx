@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const EventCard = ({ event, onClick }: { event: { title: string; description: string; src?: string }; onClick: () => void }) => {
   return (
     <div
@@ -27,13 +27,29 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
   );
 };
 
-// Popup component to show event details
-const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string }; onClose: () => void }) => {
+
+const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string ,id:string}; onClose: () => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const handleRegisterClick = () => {
-    setIsModalOpen(true);
-  };
+    const role = localStorage.getItem('role');
+    
+    if (role !== 'user') {
+        navigate('/login'); 
+    } else if (localStorage.getItem(`${event.id}`)) {
+        alert('You have already registered for this event.'); 
+    } else {
+        setIsModalOpen(true); 
+    }
+};
+
   const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleFormSubmit = (upiNumber, transactionId) => {
+    console.log("UPI Number:", upiNumber);
+    console.log("Transaction ID:", transactionId);
+    // You can handle form submission logic here, e.g., sending the data to a server
     setIsModalOpen(false);
   };
   return (
@@ -67,8 +83,8 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
           {/* Register Button */}
           
           <button
-          className="mt-4 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleRegisterClick}
+          className="mt-2 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
+          onClick={handleRegisterClick(event.id)}
         >
           <span>Register</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
@@ -76,30 +92,136 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
            
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <Modal isOpen={isModalOpen}
+      image_qr={"adfaefef"} onSubmit={ handleFormSubmit } onClose={handleCloseModal} />
     </div>
   );
 };
-const Modal = ({ isOpen, onClose }) => {
-  const handleBackdropClick = (event) => {
+// const Modal = ({ isOpen, onClose, }) => {
+//   const handleBackdropClick = (event) => {
     
+//     if (event.target === event.currentTarget) {
+//       onClose();
+//     }
+//   };
+
+//   return (
+//     isOpen && (
+//       <div
+//         className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50" // Changed items-center to items-start
+//       >
+//         <div
+//           className="bg-white p-5 rounded-lg shadow-lg w-11/12 md:w-1/3 mt-80" // Added mt-20 for vertical spacing
+//         >
+//           <h2 className="text-lg text-black font-bold">Coming Soon</h2>
+//           <p className="mt-2 text-black">This event will be available for registration soon!</p>
+//           <button
+//             className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200"
+//             onClick={onClose}
+//           >
+//             Close
+//           </button>
+//         </div>
+//       </div>
+//     )
+//   );
+// };
+const onSubmit = async (upiNumber: string, transactionId: string, event_id: string) => {
+  
+  try {
+      console.log(event_id);
+      const response = await axios.post(
+        'http://localhost:3000/user/eventregistration',
+        { event_id, upi_id: upiNumber, transaction_id: transactionId },
+        { withCredentials: true }
+      );
+      if (response.data.message) {
+        localStorage.setItem(`${event_id}`, "registerd");
+        window.location.href = '/userprofile';
+      } 
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error('Error registering event:', error.response ? error.response.data : error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    }
+};
+const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
+  const [upiNumber, setUpiNumber] = useState("");
+  const [transactionId, setTransactionId] = useState("");
+
+  const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
       onClose();
+    }
+  };
+
+  const handleSubmit = () => {
+    if (upiNumber && transactionId) {
+      onSubmit(upiNumber, transactionId,event_id); 
+     
+    } else {
+      alert("Please fill in both fields");
     }
   };
 
   return (
     isOpen && (
       <div
-        className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50" // Changed items-center to items-start
+        className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-60"
+        onClick={handleBackdropClick}
       >
-        <div
-          className="bg-white p-5 rounded-lg shadow-lg w-11/12 md:w-1/3 mt-80" // Added mt-20 for vertical spacing
-        >
-          <h2 className="text-lg text-black font-bold">Coming Soon</h2>
-          <p className="mt-2 text-black">This event will be available for registration soon!</p>
+        <div className="bg-white p-5 rounded-lg shadow-lg w-full md:w-1/3 lg:w-1/3 fixed top-1 left-1/2 transform -translate-x-1/2 z-10">
+          {image_qr ? (
+            <>
+              <h2 className="text-lg text-black font-bold">Complete Payment</h2>
+
+              <img
+                src={image_qr}
+                alt="QR Code"
+                className="w-64 h-64 mx-auto mt-4"
+              /> {/* Larger QR code */}
+
+              <p className="mt-4 text-black">
+                Pay using the above QR code, then provide your UPI ID and Transaction ID below:
+              </p>
+ <input
+                type="text"
+                placeholder="Enter UPI Number"
+                value={upiNumber}
+                onChange={(e) => setUpiNumber(e.target.value)}
+                className="mt-4 p-2 w-full border rounded"
+              />
+
+              <input
+                type="text"
+                placeholder="Enter Transaction ID"
+                value={transactionId}
+                onChange={(e) => setTransactionId(e.target.value)}
+                className="mt-4 p-2 w-full border rounded"
+              />
+
+              <button
+                className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200 w-full"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            
+              
+            </>
+          ) : (
+            <>
+              <h2 className="text-lg font-bold">Coming Soon</h2>
+              <p className="mt-2">
+                This event will be available for registration soon!
+              </p>
+            </>
+          )}
+
           <button
-            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200"
+            className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200 w-full"
             onClick={onClose}
           >
             Close
@@ -112,14 +234,14 @@ const Modal = ({ isOpen, onClose }) => {
 
 // Main EventsPage Component
 const EventsPage = () => {
-  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string } | null>(null);
-/*  const [data, setData] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string,event_id:string } | null>(null);
+  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:3000/getallevents');
         const events = response.data.eventswithimageurls;
-  
+        console.log(events);
       
         const formattedData = events.map(event => ({
           category: "SRMIST",
@@ -127,6 +249,7 @@ const EventsPage = () => {
           price: `${event.event_price}`, 
           src: event.event_image,
           description: event.event_description,
+          event_id:event.event_id
         }));
   
         setData(formattedData);
@@ -134,8 +257,8 @@ const EventsPage = () => {
         console.error("Error fetching events:", err);
       }
     };
-  fetchEvents();},[])*/
-  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string }) => {
+  fetchEvents();},[])
+  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string,id:string }) => {
     setSelectedEvent(event);
   };
 
@@ -233,36 +356,37 @@ const EventsPage = () => {
 };
 
 // Sample data for events
-export const data = [
-  {
-    category: "SRMIST",
-    title: "Crypt-o-Track",
-    price: "$20",
-    description: "A crime investigation event on the AI (Artificial intelligence) platform with clues based on images, QR codes, coding, and algorithms. A case file will be provided with formats. The winner will depend on the report submitted.",
-    src: "https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg",
-  },
-  {
-    category: "SRMIST",
-    title: "Reverse Engineering",
-    price: "$15",
-    description: "Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms.",
-    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg",
-  },
-  {
-    category: "SRMIST",
-    title: "Tech Spectrum",
-    price: "$25",
-    description: "Tech Spectrum is a technology festival that brings together tech enthusiasts from different backgrounds to showcase their innovative projects, learn from industry leaders, and network with like-minded individuals.",
-    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg",
-  },,
-  {
-    category: "SRMIST",
-    title: "Reverse Engineering",
-    price: "$15",
-    description: "Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms.",
-    src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg",
-  }
+// export const data = [
+//   {
+//     category: "SRMIST",
+//     title: "Crypt-o-Track",
+//     price: "$20",
+//     description: "A crime investigation event on the AI (Artificial intelligence) platform with clues based on images, QR codes, coding, and algorithms. A case file will be provided with formats. The winner will depend on the report submitted.",
+//     src: "https://www.knowafest.com/files/uploads/WhatsApp%20Image%202022-11-02%20at%2018.38.17-2022110203.jpg",
+//     image_qr:""
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Reverse Engineering",
+//     price: "$15",
+//     description: "Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms.",
+//     src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg",
+//   },
+//   {
+//     category: "SRMIST",
+//     title: "Tech Spectrum",
+//     price: "$25",
+//     description: "Tech Spectrum is a technology festival that brings together tech enthusiasts from different backgrounds to showcase their innovative projects, learn from industry leaders, and network with like-minded individuals.",
+//     src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/5e92ff86518357.5d9c37a10c838.jpg",
+//   },,
+//   {
+//     category: "SRMIST",
+//     title: "Reverse Engineering",
+//     price: "$15",
+//     description: "Reverse engineering is the process of analyzing software in order to understand how it works. This involves taking a program apart, examining the individual components, and identifying the logic of the underlying algorithms.",
+//     src: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/66aced86518357.5d9c37a10c838.jpg",
+//   }
   
-];
+// ];
 
 export default EventsPage;
