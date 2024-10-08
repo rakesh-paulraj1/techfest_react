@@ -25,7 +25,7 @@ const StudentList = () => {
     const response =axios.get(`${BACKEND_URL}/admin/getallregistrations`, {
       withCredentials: true
     }).then((response) => {
-      
+      console.log(response);
       setStudents(response.data.admin);
     });
   }, [navigate]);
@@ -161,6 +161,7 @@ const StudentList = () => {
             <th className="py-3 px-6 text-left">Event Name</th>
             <th className="py-3 px-6 text-left">Transaction ID</th>
             <th className="py-3 px-6 text-left">UPI ID</th>
+            <th className="py-3 px-6 text-left">Team size</th>
             <th className="py-3 px-6 text-left">Verification</th>
           </tr>
         </thead>
@@ -175,6 +176,7 @@ const StudentList = () => {
               <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.Event.event_name}</td>
               <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.transaction_id}</td>
               <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.upi_id}</td>
+              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.event_teamsize}</td>
               <td className="px-6 py-3">
               <button
   className={`px-3 py-1 rounded ${

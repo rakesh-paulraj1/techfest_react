@@ -25,7 +25,7 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
 };
 
 
-const Popup = ({ event, onClose }: { event: { registration_id: string; transaction_id: string; upi_id: string; status: string }; onClose: () => void }) => {
+const Popup = ({ event, onClose }: { event: { registration_id: string; transaction_id: string; upi_id: string; status: string,teamsize:string }; onClose: () => void }) => {
   const handleCloseModal = () => {
     onClose();  // Close the popup
   };
@@ -69,6 +69,14 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
               {event.upi_id}
             </p>
           </div>
+          <div className="mb-4">
+            <label className="block text-neutral-800 dark:text-neutral-200 mb-2">
+              Team size:
+            </label>
+            <p className="text-neutral-600 dark:text-neutral-400">
+              {event.teamsize}
+            </p>
+          </div>
 
           <div className="mb-4">
             <label className="block text-neutral-800 dark:text-neutral-200 mb-2">
@@ -87,14 +95,14 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
 
 
 const Userprofile = () => {
-  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string ,registration_id: string; transaction_id: string; upi_id: string; status: string } | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string ,registration_id: string; transaction_id: string; upi_id: string; status: string,teamsize:string } | null>(null);
  const [data, setData] = useState([]);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get('http://localhost:3000/user/getregisterdevents',{withCredentials:true});
         const events = response.data.eventswithimageurls;
-  console.log(events);
+ 
       
   const formattedData = events.map(registration => ({
     category: "SRMIST", 
@@ -106,11 +114,11 @@ const Userprofile = () => {
     transaction_id: registration.transaction_id, 
     upi_id: registration.upi_id, 
     status: registration.verification_status, 
+    teamsize: registration.event_teamsize,
   }));
   
   
         setData(formattedData);
-        console.log(formattedData);
       } catch (err) {
         console.error("Error fetching events:", err);
       }
@@ -165,7 +173,7 @@ const Userprofile = () => {
         )}
       </div>
 
-      {/* Adding CSS directly here for convenience */}
+      
       <style>{`
   /* Apple-like card styles */
   .apple-card {

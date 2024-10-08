@@ -20,7 +20,7 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
       />
     )}
   
-    {/* Card Content without the title */}
+   
    
   </div>
   
@@ -28,7 +28,7 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
 };
 
 
-const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string ,id:string}; onClose: () => void }) => {
+const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string ,event_id:string,event_teamsize:string}; onClose: () => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const handleRegisterClick = () => {
@@ -36,9 +36,7 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
     
     if (role !== 'user') {
         navigate('/login'); 
-    } else if (localStorage.getItem(`${event.id}`)) {
-        alert('You have already registered for this event.'); 
-    } else {
+    }  else {
         setIsModalOpen(true); 
     }
 };
@@ -80,11 +78,11 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
             {event.description}
           </p>
 
-          {/* Register Button */}
+          
           
           <button
           className="mt-2 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleRegisterClick(event.id)}
+          onClick={handleRegisterClick}
         >
           <span>Register</span>
           <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
@@ -93,7 +91,8 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
         </div>
       </div>
       <Modal isOpen={isModalOpen}
-      image_qr={"adfaefef"} onSubmit={ handleFormSubmit } onClose={handleCloseModal} />
+      image_qr={"adfaefef"} onSubmit={ handleFormSubmit } onClose={handleCloseModal} event_id={event.event_id}
+      event_teamsize={event.event_teamsize}/>
     </div>
   );
 };
@@ -126,13 +125,13 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
 //     )
 //   );
 // };
-const onSubmit = async (upiNumber: string, transactionId: string, event_id: string) => {
+const onSubmit = async (upiNumber: string, transactionId: string, event_id: string,iteamsize:string) => {
   
   try {
-      console.log(event_id);
+      
       const response = await axios.post(
         'http://localhost:3000/user/eventregistration',
-        { event_id, upi_id: upiNumber, transaction_id: transactionId },
+        { event_id, upi_id: upiNumber, transaction_id: transactionId,event_teamsize:iteamsize },
         { withCredentials: true }
       );
       if (response.data.message) {
@@ -147,10 +146,12 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
       }
     }
 };
-const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
+const Modal = ({ isOpen, onClose, image_qr,event_id,event_teamsize }) => {
   const [upiNumber, setUpiNumber] = useState("");
+  console.log(  event_teamsize);
   const [transactionId, setTransactionId] = useState("");
-
+  const [iteamsize, setiteamsize] = useState("");
+     console.log(event_id);
   const handleBackdropClick = (event) => {
     if (event.target === event.currentTarget) {
       onClose();
@@ -158,13 +159,18 @@ const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
   };
 
   const handleSubmit = () => {
-    if (upiNumber && transactionId) {
-      onSubmit(upiNumber, transactionId,event_id); 
-     
-    } else {
-      alert("Please fill in both fields");
+    if (localStorage.getItem(`${event_id}`)) {
+        alert("You have already registered for this event.");
+        return;
     }
-  };
+
+    if (upiNumber && transactionId && event_teamsize) {
+        onSubmit(upiNumber, transactionId, event_id,iteamsize);
+    } else {
+        alert("Please fill in both fields");
+    }
+};
+
 
   return (
     isOpen && (
@@ -186,12 +192,23 @@ const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
               <p className="mt-4 text-black">
                 Pay using the above QR code, then provide your UPI ID and Transaction ID below:
               </p>
+              <select
+  value={iteamsize}
+  onChange={(e) => setiteamsize(e.target.value)}
+  className="mt-4 p-2 w-full border rounded text-black"
+>
+  {[...Array(event_teamsize)].map((_, index) => (
+    <option key={index + 1} value={index + 1}>
+      {index + 1}
+    </option>
+  ))}
+</select>
  <input
                 type="text"
                 placeholder="Enter UPI Number"
                 value={upiNumber}
                 onChange={(e) => setUpiNumber(e.target.value)}
-                className="mt-4 p-2 w-full border rounded"
+                className="mt-4 p-2 w-full border rounded text-black"
               />
 
               <input
@@ -199,7 +216,7 @@ const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
-                className="mt-4 p-2 w-full border rounded"
+                className="mt-4 p-2 w-full border rounded text-black "
               />
 
               <button
@@ -232,9 +249,9 @@ const Modal = ({ isOpen, onClose, image_qr,event_id }) => {
   );
 };
 
-// Main EventsPage Component
+
 const EventsPage = () => {
-  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string,event_id:string } | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string,event_id:string,event_teamsize:string  } | null>(null);
   const [data, setData] = useState([]);
   useEffect(() => {
     const fetchEvents = async () => {
@@ -249,7 +266,8 @@ const EventsPage = () => {
           price: `${event.event_price}`, 
           src: event.event_image,
           description: event.event_description,
-          event_id:event.event_id
+          event_id:event.event_id,
+          event_teamsize:event.event_teamsize
         }));
   
         setData(formattedData);
@@ -258,8 +276,16 @@ const EventsPage = () => {
       }
     };
   fetchEvents();},[])
-  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string,id:string }) => {
-    setSelectedEvent(event);
+  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string; event_id: string,event_teamsize:string }) => {
+    setSelectedEvent({
+      title: event.title,
+      description: event.description,
+      price: event.price,
+      imgSrc: event.imgSrc,
+      event_id: event.event_id,
+      event_teamsize:event.event_teamsize
+    });
+   
   };
 
   const handleClosePopup = () => {

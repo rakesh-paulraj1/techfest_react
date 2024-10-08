@@ -25,11 +25,12 @@ const Heading = ({ title }: { title: string }) => (
   </div>
 );
 
-// Main FormWithImageUpload component
+
 export default function FormWithImageUpload() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [teamsize, setteamsize] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [files1, setFiles1] = useState<File[]>([]);
   const handleFileUpload = (files: File[]) => {
@@ -39,6 +40,8 @@ export default function FormWithImageUpload() {
   const handleFileUpload1 = (files1: File[]) => {
     setFiles1(files1);
     console.log(files1);
+    console.log(files);
+
     
   };
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,9 +52,10 @@ export default function FormWithImageUpload() {
       formData.append('event_name', title);
       formData.append('event_description', description);
       formData.append('event_price', price);
+      formData.append('event_teamsize',teamsize);
       formData.append('event_image',files[0]);
       formData.append('qr_image',files1[0]);
-
+      console.log(formData);
       const response = await axios.post(`${BACKEND_URL}/admin/createevents`, formData, {
         withCredentials: true,
         headers: {
@@ -100,6 +104,17 @@ export default function FormWithImageUpload() {
               required
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Teamsize</label>
+            <input
+              type="number"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              value={teamsize}
+              onChange={(e) => setteamsize(e.target.value)}
+              placeholder="Enter price"
+              required
+            />
+          </div>
 
           {/* Price Input */}
           <div>
@@ -113,6 +128,7 @@ export default function FormWithImageUpload() {
               required
             />
           </div>
+          
 
           {/* Image Upload Section */}
           <div>
