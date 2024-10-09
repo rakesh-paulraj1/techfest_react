@@ -1,8 +1,17 @@
+interface Event {
+  title: string;           // Title of the event
+  price: string;          // Price of the event (could be a number or a string depending on your requirements)
+  description: string;    // Description of the event
+  imgSrc: string;         // Source URL for the event image
+  image_qr: string;       // Source URL for the QR code image
+  event_id: string; // Unique identifier for the event (can be string or number)
+}
+
 import React, { useState,useEffect,useRef  } from "react";
 import {  useNavigate } from "react-router-dom";
 import { Menu } from "../components/Navbar-menu";
 import { HeroParallax } from "../components/hero";
-import {  Card } from "../components/apple-cards-carousel";
+
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
@@ -14,40 +23,8 @@ import { StyledWrapper } from "../components/styled-components";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/getallevents`);
-        const events = response.data.eventswithimageurls;
-     console.log(events[0].event_id);
-      
-        const formattedData = events.map(event => ({
-          category: "SRMIST",
-          title: event.event_name,
-          price: `${event.event_price}`, 
-          src: event.event_image,
-          eventid: event.event_id,
-          content: (
-            <Content
-              title={event.event_name}
-              price={`${event.event_price}`}
-              description={event.event_description}
-              imgSrc={event.event_image}
-              image_qr={event.event_qr}
-              event_id={event.event_id}
-            />
-          )
-        }));
- console.log(formattedData);
-        setData(formattedData);
-      } catch (err) {
-        console.error("Error fetching events:", err);
-      }
-    };
+
   
-    fetchEvents();
-  }, []);
   const homeRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const tcards = [
@@ -66,9 +43,8 @@ const Dashboard = () => {
     
   
 
-  const cards = data.map((card, index) => (
-    <Card key={card.src} card={card} index={index} layout={true} />
-  ));
+
+  
   const textToDisplay = "  srmist@Unknown-2 ~ % TechSpectRuM will feature various technical competitions, workshops, hackathons, and exhibitions, providing participants with a platform to showcase their skills, collaborate on innovative ideas, and explore the latest trends in technology. The event will be a hub for innovation, learning, and networking, where attendees can immerse themselves in cutting-edge technology and engage with industry leaders. Companies are invited to sponsor the event and are also encouraged to introduce new event ideas, allowing for a collaborative and dynamic experience for all involved."; // Text you want to display
 
 
@@ -261,7 +237,7 @@ function Navbar({
     }
   };
 
-  const [active, setActive] = useState<string | null>(null);
+  const [, setActive] = useState<string | null>(null);
   return (
     <div className="fixed top-10 inset-x-0 max-w-2xl mx-auto z-50">
       <Menu setActive={setActive}>
@@ -307,7 +283,7 @@ function Navbar({
   );
 }
 
-export const DummyContent = ({ title, price, description, imgSrc, image_qr, event_id }) => {
+export const DummyContent = ({ title, price, description, imgSrc, image_qr, event_id }:Event) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleRegisterClick = () => {
@@ -371,8 +347,8 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
     }
 };
 
-const Modal = ({ isOpen, onClose, image_qr ,event_id}) => {
-  const handleBackdropClick = (event) => {
+const Modal = ({ isOpen, onClose, image_qr ,event_id}: { isOpen: boolean; onClose: () => void; image_qr: string; event_id: string; }) => {
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
