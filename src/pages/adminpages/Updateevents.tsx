@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
@@ -44,10 +44,11 @@ export default function FormWithImageUpdate() {
           'Content-Type': 'multipart/form-data',
         },
       });
+      console.log(response);
       alert("Event updated successfully");
     } catch (error) {
       console.error("Error updating event:", error);
-      alert("Error updating event: " + error.message);
+      alert("Error updating event: " + error);
     }
   };
 

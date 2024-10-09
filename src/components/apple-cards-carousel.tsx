@@ -179,9 +179,9 @@ from across the country.`;
       </h2>
     </BackgroundBeamsWithCollision>
 
- <div className=" mx-auto w-full max-w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
- <div className="bg-black  sm:py-10 translate-y-0 ">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 ">
+    {/* <div className=" mx-auto w-full max-w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
+ <div className="bg-black mt-9 sm:py-10 translate-y-0 ">
+      <div className="mx-auto max-w-7xl mt-18 px-5 lg:px-8 ">
       <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl  text-center text-black dark:text-white font-sans tracking-tight">
       Our {}
         <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
@@ -193,49 +193,43 @@ from across the country.`;
           </div>
         </div>
       </h2>
-        <div className="mx-auto mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-10 items-center justify-center">
+        <div className="mx-auto  grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-14 gap-y-12 items-center justify-center">
         
 
           <img
           
             alt="Transistor"
-            src="https://seeklogo.com/images/T/Tropicana_Juice_Drinks-logo-9827FB6196-seeklogo.com.png"
+            src="src\assets\sponsorslogo\download__2_-removebg-preview.png"
             width={158}
             height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            className="col-span-2 max-h-28 w-full object-contain lg:col-span-1"
           />
           <img
             alt="Reform"
-            src="https://seeklogo.com/images/S/samsung-logo-8A87EDFB33-seeklogo.com.png"
+            src="src\assets\sponsorslogo\download-removebg-preview.png"
             width={158}
             height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            className="col-span-2 max-h-28 w-full object-contain lg:col-span-1"
           />
           <img
             alt="Tuple"
-            src="https://seeklogo.com/images/K/kfc-logo-8E101365CC-seeklogo.com.png"
+            src="src\assets\sponsorslogo\WhatsApp_Image_2024-10-09_at_10.12.34_93d956a4-removebg-preview.png"
             width={158}
             height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+            className="col-span-2 max-h-28 w-full object-contain lg:col-span-1"
           />
           <img
             alt="SavvyCal"
-            src="https://seeklogo.com/images/T/tech-mahindra-logo-070473E0D4-seeklogo.com.png"
+            src="src\assets\sponsorslogo\White_and_Brown_Elegant_Simple_Boba_Drink_Logo_20240627_113859_0001-removebg-preview.png"
             width={158}
             height={48}
-            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+            className="col-span-2 max-h-28 w-full object-contain sm:col-start-2 lg:col-span-1"
           />
-          <img
-            alt="Statamic"
-            src="https://seeklogo.com/images/K/ktm-logo-8A0B87E726-seeklogo.com.png"
-            width={158}
-            height={48}
-            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-          />
+          
         </div>
       </div>
     </div>
-          </div>
+</div> */}
         </div>
       </div>
     </CarouselContext.Provider>

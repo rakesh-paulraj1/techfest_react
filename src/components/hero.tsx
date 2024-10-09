@@ -1,4 +1,15 @@
-"use client";
+interface CardType {
+  src: string;      // Image source
+  title: string;    // Title of the card
+  price: number;    // Price of the card
+  description: string; // Description of the card
+  category: string;  // Category of the card
+  content: string;   // Content details of the card
+  // Add other properties as needed
+}
+
+
+
 import React from "react";
 import {
   motion,
@@ -26,7 +37,7 @@ export const HeroParallax = () => {
         const events = response.data.eventswithimageurls;
   
       
-        const formattedData = events.map(event => ({
+        const formattedData = events.map((event: { event_name: string; event_price: string; event_image: string; event_description: string; event_qr: string; event_id: string; }) => ({
           category: "SRMIST",
           title: event.event_name,
           price: `${event.event_price}`, 
@@ -60,10 +71,10 @@ export const HeroParallax = () => {
   const springConfig = { stiffness: 300, damping: 30, bounce: 100 };
 
   
-  const cards = data.map((card, index) => (
-    
+  const cards = data.map((card: CardType, index: number) => (
     <Card key={card.src} card={card} index={index} />
   ));
+  
  
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
@@ -84,7 +95,7 @@ export const HeroParallax = () => {
   return (
     <div
       ref={ref}
-      className=" sm:h-[460px] ] md:h-[440vh] lg:h-[340vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="  h-[300vh] sm:h-[250vh] md:h-[380vh] lg:h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
 
     >
       <Header />

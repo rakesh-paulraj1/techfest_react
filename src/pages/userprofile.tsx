@@ -1,4 +1,8 @@
 interface Event {
+  status: string;
+  upi_id: string;
+  registration_id: string;
+  transaction_id: string;
   title: string;
   description: string;
   price: string;
@@ -79,7 +83,7 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
           </div>
           <div className="mb-4">
             <label className="block text-neutral-800 dark:text-neutral-200 mb-2">
-              Team size:
+             Your Team size:
             </label>
             <p className="text-neutral-600 dark:text-neutral-400">
               {event.teamsize}
@@ -88,7 +92,7 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
 
           <div className="mb-4">
             <label className="block text-neutral-800 dark:text-neutral-200 mb-2">
-              Status:
+              Payment Status:
             </label>
             <p className="text-neutral-600 dark:text-neutral-400">
               {event.status}
@@ -105,6 +109,8 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
 const Userprofile = () => {
   const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string ,registration_id: string; transaction_id: string; upi_id: string; status: string,teamsize:string } | null>(null);
  const [data, setData] = useState([]);
+ 
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -126,7 +132,7 @@ const Userprofile = () => {
     teamsize: registration.event_teamsize,
   }));
   
-  
+
         setData(formattedData);
       } catch (err) {
         console.error("Error fetching events:", err);
@@ -180,10 +186,10 @@ const Userprofile = () => {
       price: event.price,
       imgSrc: event.imgSrc,
       teamsize: event.teamsize,
-      registration_id: "",
-      transaction_id: "",
-      upi_id: "",
-      status: ""
+      registration_id:event.registration_id,
+      transaction_id: event.transaction_id,
+      upi_id: event.upi_id,
+      status: event.status,
     })}
   />
 ))}

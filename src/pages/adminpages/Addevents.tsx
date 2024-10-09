@@ -11,7 +11,7 @@ import { FileUpload } from "../../components/file-upload";
 
 
 
-// Header component with title
+
 const Header = ({ title }: { title: string }) => (
   <div className="flex items-center justify-center bg-secondary px-4 py-2">
     <Heading title={title} />
