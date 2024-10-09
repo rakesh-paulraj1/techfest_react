@@ -1,16 +1,7 @@
 import { useState } from 'react';
-
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
 import { FileUpload } from "../../components/file-upload";
-
-
-
-
-
-
-
-
 
 const Header = ({ title }: { title: string }) => (
   <div className="flex items-center justify-center bg-secondary px-4 py-2">
@@ -25,7 +16,6 @@ const Heading = ({ title }: { title: string }) => (
   </div>
 );
 
-
 export default function FormWithImageUpload() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -33,17 +23,18 @@ export default function FormWithImageUpload() {
   const [teamsize, setteamsize] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [files1, setFiles1] = useState<File[]>([]);
+
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
     console.log(files);
   };
+
   const handleFileUpload1 = (files1: File[]) => {
     setFiles1(files1);
     console.log(files1);
     console.log(files);
-
-    
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
    
@@ -52,9 +43,9 @@ export default function FormWithImageUpload() {
       formData.append('event_name', title);
       formData.append('event_description', description);
       formData.append('event_price', price);
-      formData.append('event_teamsize',teamsize);
-      formData.append('event_image',files[0]);
-      formData.append('qr_image',files1[0]);
+      formData.append('event_teamsize', teamsize);
+      formData.append('event_image', files[0]);
+      formData.append('qr_image', files1[0]);
       console.log(formData);
       const response = await axios.post(`${BACKEND_URL}/admin/createevents`, formData, {
         withCredentials: true,
@@ -62,7 +53,7 @@ export default function FormWithImageUpload() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log( response);
+      console.log(response);
       alert("Event created successfully");
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -74,12 +65,11 @@ export default function FormWithImageUpload() {
     }
   };
 
-
   return (
     <div className="flex justify-center items-center min-h-screen p-8 overflow-auto">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         <Header title="Add New Events" />
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6 overflow-y-auto max-h-[70vh]">
           {/* Title Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Title</label>
@@ -104,6 +94,8 @@ export default function FormWithImageUpload() {
               required
             />
           </div>
+
+          {/* Team Size Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700">Teamsize</label>
             <input
@@ -111,7 +103,7 @@ export default function FormWithImageUpload() {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               value={teamsize}
               onChange={(e) => setteamsize(e.target.value)}
-              placeholder="Enter price"
+              placeholder="Enter team size"
               required
             />
           </div>
@@ -128,14 +120,13 @@ export default function FormWithImageUpload() {
               required
             />
           </div>
-          
 
           {/* Image Upload Section */}
           <div>
-          <h2>Event image</h2>
-            <FileUpload onChange={handleFileUpload}  />
-            <h2>QR image</h2>
-            <FileUpload onChange={handleFileUpload1}  />
+            <h2>Event Image</h2>
+            <FileUpload onChange={handleFileUpload} />
+            <h2>QR Image</h2>
+            <FileUpload onChange={handleFileUpload1} />
           </div>
 
           {/* Submit Button */}

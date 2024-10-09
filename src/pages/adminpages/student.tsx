@@ -53,7 +53,7 @@ const StudentList = () => {
     }
     
     // Generate 100+ sample student data
-    const sampleStudents = generateRandomData(100);
+    const sampleStudents = generateRandomData(2);
     setStudents(sampleStudents);
   }, [navigate]);
 
@@ -217,13 +217,13 @@ const StudentList = () => {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={exportToPDF}
                   >
-                    Export as PDF
+                    PDF
                   </button>
                   <button
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={exportToExcel}
                   >
-                    Export as Excel
+                    Excel
                   </button>
                 </div>
               </div>
@@ -244,7 +244,7 @@ const StudentList = () => {
                 </thead>
                 <tbody>
                   {students.map((entry, index) => (
-                    <tr key={index} className="hover:bg-gray-100 dark:hover:bg-neutral-600">
+                    <tr key={index} className="hover:bg-gray-100 dark:hover:bg-gray-300">
                       <td className="py-3 px-6 border-b border-gray-300 dark:border-neutral-700">{entry.User.email}</td>
                       <td className="py-3 px-6 border-b border-gray-300 dark:border-neutral-700">{entry.User.username}</td>
                       <td className="py-3 px-6 border-b border-gray-300 dark:border-neutral-700">{entry.Event.event_name}</td>
