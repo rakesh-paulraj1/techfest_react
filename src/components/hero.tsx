@@ -33,6 +33,7 @@ export const HeroParallax = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        console.log(BACKEND_URL);
         const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
   

@@ -6,14 +6,14 @@ interface Event {
   title: string;
   description: string;
   price: string;
-  imgSrc: string;
+  src: string;
   teamsize: string;
 }
 
-import React, { useState,useEffect } from "react";
+import  { useState,useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
-const EventCard = ({ event, onClick }: { event: { title: string; description: string; src?: string }; onClick: () => void }) => {
+const EventCard = ({ event, onClick }: { event: { title: string; description: string; src: string }; onClick: () => void }) => {
   return (
     <div
     className="relative group bg-white dark:bg-neutral-900 shadow-lg rounded-xl overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer flex flex-col justify-between"
@@ -22,8 +22,9 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
     
     <div className="text-2xl font-semibold mb-4 text-neutral-900 dark:text-neutral-200 text-center p-4">
       {event.title}
+     
     </div>
-  
+
     {event.src && (
       <img
         src={event.src}
@@ -107,7 +108,7 @@ const Popup = ({ event, onClose }: { event: { registration_id: string; transacti
 
 
 const Userprofile = () => {
-  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string ,registration_id: string; transaction_id: string; upi_id: string; status: string,teamsize:string } | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; src: string ,registration_id: string; transaction_id: string; upi_id: string; status: string,teamsize:string } | null>(null);
  const [data, setData] = useState([]);
  
 
@@ -132,14 +133,14 @@ const Userprofile = () => {
     teamsize: registration.event_teamsize,
   }));
   
-
+console.log(data);
         setData(formattedData);
       } catch (err) {
         console.error("Error fetching events:", err);
       }
     };
   fetchEvents();},[])
-  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string; registration_id: string; transaction_id: string; upi_id: string; status: string; teamsize: string }) => {
+  const handleEventClick = (event: { title: string; description: string; price: string; src: string; registration_id: string; transaction_id: string; upi_id: string; status: string; teamsize: string }) => {
     setSelectedEvent(event);
   };
 
@@ -184,12 +185,13 @@ const Userprofile = () => {
       title: event.title,
       description: event.description,
       price: event.price,
-      imgSrc: event.imgSrc,
+      src: event.src,
       teamsize: event.teamsize,
       registration_id:event.registration_id,
       transaction_id: event.transaction_id,
       upi_id: event.upi_id,
       status: event.status,
+      
     })}
   />
 ))}

@@ -29,14 +29,16 @@ const Dashboard = () => {
   const aboutRef = useRef<HTMLDivElement>(null);
   const tcards = [
   
-    { title: "Card 1", src: "src/assets/images/IMG_8006.jpg" },
-    { title: "Card 2", src: "src/assets/images/IMG_8007.jpg" },
-    { title: "Card 3", src: "src/assets/images/IMG_8008.JPG" },
-    { title: "Card 4", src: "src/assets/images/IMG_8009.JPG" },
-    { title: "Card 5", src: "src/assets/images/IMG_8010.JPG" },
-    { title: "Card 6", src: "src/assets/images/IMG_8011.JPG" },
-    { title: "Card 7", src: "src/assets/images/IMG_8012.JPG" },
-    { title: "Card 8", src: "src/assets/images/IMG_8013.JPG" },
+    { title: "Card 1", src: "assets/images/evengtimage7.jpeg" },
+    { title: "Card 2", src: "assets/images/eventimage2.JPG" },
+    { title: "Card 3", src: "assets/images/eventimage1.JPG" },
+    { title: "Card 4", src: "assets/images/eventimage3.jpeg" },
+    { title: "Card 5", src: "assets/images/eventimage10.jpeg" },
+    { title: "Card 6", src: "assets/images/eventimage8.jpeg" },
+    { title: "Card 7", src: "assets/images/eventimage9.jpeg" },
+    { title: "Card 8", src: "assets/images/eventimage6.jpeg" },
+    { title: "Card 9", src: "assets/images/eventimage7.jpeg" },
+    { title: "Card 10", src: "assets/images/eventimage4.jpeg" },
     
   ];
   
@@ -72,28 +74,28 @@ const Dashboard = () => {
       <div className="mx-auto grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-14 gap-y-12 items-center justify-center">
         <img
           alt="Transistor"
-          src="src/assets/sponsorslogo/download__2_-removebg-preview.png"
+          src="assets/sponsorslogo/download__2_-removebg-preview.png"
           width={158}
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
         <img
           alt="Reform"
-          src="src/assets/sponsorslogo/download-removebg-preview.png"
+          src="assets/sponsorslogo/download-removebg-preview.png"
           width={158}
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
         <img
           alt="Tuple"
-          src="src/assets/sponsorslogo/WhatsApp_Image_2024-10-09_at_10.12.34_93d956a4-removebg-preview.png"
+          src="assets/sponsorslogo/WhatsApp_Image_2024-10-09_at_10.12.34_93d956a4-removebg-preview.png"
           width={158}
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
         <img
           alt="SavvyCal"
-          src="src/assets/sponsorslogo/White_and_Brown_Elegant_Simple_Boba_Drink_Logo_20240627_113859_0001-removebg-preview.png"
+          src="assets/sponsorslogo/White_and_Brown_Elegant_Simple_Boba_Drink_Logo_20240627_113859_0001-removebg-preview.png"
           width={158}
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
@@ -330,6 +332,7 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
   
   try {
       console.log(event_id);
+
       const response = await axios.post(
         `${BACKEND_URL}/user/eventregistration`,
         { event_id, upi_id: upiNumber, transaction_id: transactionId },

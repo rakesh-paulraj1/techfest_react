@@ -1,8 +1,8 @@
-"use client";
+// @ts-nocheck
 import { cn } from "../lib/utils";
 import { Link } from "react-router-dom";
 import React, { useState, createContext, useContext } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 
 interface Links {

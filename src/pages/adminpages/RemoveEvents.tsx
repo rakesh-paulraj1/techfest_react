@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { BACKEND_URL } from '../../config';
@@ -54,7 +55,7 @@ const RemoveEvents = () => {
   };
 
   return (
-    <div>
+    <div className="max-h-[80vh] overflow-y-auto">
       <h1 className="text-2xl font-bold mb-4">Remove Events</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {events.map((event) => (

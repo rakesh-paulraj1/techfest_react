@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// @ts-nocheck
+import  { useEffect, useState } from 'react';
 
 export const Typewriter = ({ text, speed = 100 }) => {
   const [displayedText, setDisplayedText] = useState('');

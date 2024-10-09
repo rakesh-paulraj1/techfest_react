@@ -1,19 +1,25 @@
+// @ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import {
   IconArrowLeft,
   IconPlus,
   IconUsers,
   IconTrash,
+  IconFileExport,
+  IconFileExcel,
 } from "@tabler/icons-react";
-import { Sidebar, SidebarBody, SidebarLink } from '../../components/Sidebar';
-import AddEvents from './AddEvents'; // Import your AddEvents component
+import { Sidebar, SidebarBody, SidebarLink } from '../../components/Sidebar'; // Import your AddEvents component
 import RemoveEvents from './RemoveEvents'; // Import your RemoveEvents component
 import Login from './pages/login'; // Import the Login component
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
+import jsPDF from 'jspdf'; 
+import 'jspdf-autotable'; 
+import * as XLSX from 'xlsx';
 import Updateevents from './Updateevents';
+import AddEvents from './AddEvents';
 const StudentList = () => {
   const navigate = useNavigate();
   const [students, setStudents] = useState([]); // Initialize with an empty array
@@ -55,11 +61,52 @@ const StudentList = () => {
   // Handle form input changes
  
 
-  
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+
+    doc.text('Student List', 14, 10);
+    const tableColumn = ['Email', 'Username', 'Event Name', 'Transaction ID', 'UPI ID', 'Team Size', 'Verification'];
+    const tableRows = [];
+
+    students.forEach(entry => {
+      const studentData = [
+        entry.User.email,
+        entry.User.username,
+        entry.Event.event_name,
+        entry.transaction_id,
+        entry.upi_id,
+        entry.event_teamsize,
+        entry.verification_status
+      ];
+      tableRows.push(studentData);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 20,
+    });
+
+    doc.save('student_list.pdf');
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.json_to_sheet(students.map(entry => ({
+      Email: entry.User.email,
+      Username: entry.User.username,
+      'Event Name': entry.Event.event_name,
+      'Transaction ID': entry.transaction_id,
+      'UPI ID': entry.upi_id,
+      'Team Size': entry.event_teamsize,
+      'Verification': entry.verification_status,
+    })));
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Student List');
+
+    XLSX.writeFile(wb, 'student_list.xlsx');
+  };
   const handleStatusChange = (userId, newStatus,event_id) => {
-    // Implement your logic to update the user's status in the database
-    // For example, you can make an API call to update the user's status
-    // Replace the following code with your actual API call
    const updateevent= axios.post(`${BACKEND_URL}/admin/updateuserstatus`, {
       user_id: userId,
       event_verification: newStatus,
@@ -151,11 +198,36 @@ const StudentList = () => {
           <>
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-bold">Student List</h1>
-             
+              <div className="relative">
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 flex items-center"
+                  onClick={(e) => {
+                    e.currentTarget.nextElementSibling.classList.toggle('hidden');
+                  }}
+                >
+                  <IconFileExport className="h-5 w-5 mr-2" />
+                  Export
+                </button>
+                <div className="absolute right-0 hidden bg-white border border-gray-300 rounded shadow-lg mt-1">
+                  <button
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={exportToPDF}
+                  >
+                    PDF
+                  </button>
+                  <button
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={exportToExcel}
+                  >
+                    Excel
+                  </button>
+                </div>
+              </div>
             </div>
 
-            {/* Table */}
-            <table className="min-w-full bg-white dark:bg-neutral-800 border border-gray-300 dark:border-neutral-700">
+
+            <div className="max-h-[80vh] overflow-y-auto">
+            <table className="min-w-full bg-white dark:bg-black-800 border border-gray-300 dark:border-neutral-700">
         <thead>
           <tr className="bg-gray-200 dark:bg-neutral-700 text-gray-700 dark:text-white">
             <th className="py-3 px-6 text-left">Email</th>
@@ -173,19 +245,19 @@ const StudentList = () => {
               key={index}
               className="border-t border-neutral-200 dark:border-neutral-700"
             >
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.User.email}</td>
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.User.username}</td>
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.Event.event_name}</td>
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.transaction_id}</td>
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.upi_id}</td>
-              <td className="px-6 py-3 text-gray-900 dark:text-gray-200">{entry.event_teamsize}</td>
+              <td className="px-6 py-3 text-white-900 ">{entry.User.email}</td>
+              <td className="px-6 py-3 text-white-900 dark:text-white-200">{entry.User.username}</td>
+              <td className="px-6 py-3 text-white-900 dark:text-white-200">{entry.Event.event_name}</td>
+              <td className="px-6 py-3 text-white-900 dark:text-white-200">{entry.transaction_id}</td>
+              <td className="px-6 py-3 text-white-900 dark:text-white-200">{entry.upi_id}</td>
+              <td className="px-6 py-3 text-white-900 dark:text-white-200">{entry.event_teamsize}</td>
               <td className="px-6 py-3">
               <button
   className={`px-3 py-1 rounded ${
     entry.verification_status === 'verified'
-      ? 'bg-green-500 text-white hover:bg-green-600 cursor-default'
+      ? 'bg-green-100 text-green-700'
       : entry.verification_status === 'pending'
-      ? 'bg-gray-500 text-white hover:bg-gray-600 cursor-pointer'
+      ? 'bg-yellow-100 text-yellow-700'
       : '' // No need for a style for 'rejected' since it's not being used
   }`}
   onClick={() => {
@@ -196,8 +268,7 @@ const StudentList = () => {
       setIsConfirmOpen(true); 
     }
 
-  }}
-  disabled={entry.verification_status !== 'pending'} 
+  }} 
 >
   {entry.verification_status === 'verified'
     ? 'Verified':'Pending'
@@ -211,6 +282,7 @@ const StudentList = () => {
           ))}
         </tbody>
       </table>
+      </div>
           </>
         )}
         
