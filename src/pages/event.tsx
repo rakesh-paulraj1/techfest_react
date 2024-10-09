@@ -39,7 +39,7 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
 };
 
 
-const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string ,event_id:string,event_teamsize:string}; onClose: () => void }) => {
+const Popup = ({ event, onClose }: { event: { title: string; description: string; price: string; imgSrc: string ,event_id:string,event_teamsize:string,event_qr:string}; onClose: () => void }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const handleRegisterClick = () => {
@@ -58,54 +58,51 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
   const handleFormSubmit = (upiNumber: string, transactionId: string) => {
     console.log("UPI Number:", upiNumber);
     console.log("Transaction ID:", transactionId);
-    // You can handle form submission logic here, e.g., sending the data to a server
+   
     setIsModalOpen(false);
   };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-      <div className="bg-white dark:bg-neutral-800 p-10 rounded-3xl shadow-lg w-4/5 md:w-3/4 lg:w-2/3 flex relative">
-       
-        <button
-          className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 focus:outline-none"
-          onClick={onClose}
-        >
-          Close
-        </button>
-
+    <div className="bg-white dark:bg-neutral-800 p-6 rounded-3xl shadow-lg w-4/5 md:w-3/4 lg:w-2/3 flex flex-col relative overflow-hidden max-h-[80vh]">
       
-        <img
-          src={event.imgSrc}
-          alt={`${event.title} image`}
-          className="w-1/3 h-auto object-contain mr-10"
-        />
-
-       
-        <div className="flex flex-col justify-start flex-1">
-          <h2 className="text-4xl font-bold mb-4 text-neutral-800 dark:text-neutral-200">
-            {event.title}
-          </h2>
-          <p className=" font-semibold text-lg">{'Event Price ₹'+event.price}</p>
-          <p className=" font-semibold text-lg">{'Team size including you : '+event.event_teamsize}</p>
-          <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-4">
-            {"Event Details : "+event.description}
-          </p>
-
-          
-          
-          <button
-  className="mt-1 border text-xs font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-3 py-1 rounded-full"
-  onClick={handleRegisterClick}
->
-  <span>Register</span>
-  <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
-</button>
-
-           
-        </div>
+      <button
+        className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 focus:outline-none"
+        onClick={onClose}
+      >
+        Close
+      </button>
+  
+      {/* Image on top for mobile view */}
+      <img
+        src={event.imgSrc}
+        alt={`${event.title} image`}
+        className="w-full h-auto object-contain mb-4 md:w-1/3"
+      />
+  
+      <div className="flex flex-col justify-start flex-1 overflow-y-auto">
+        <h2 className="text-4xl font-bold mb-4 text-neutral-800 dark:text-neutral-200">
+          {event.title}
+        </h2>
+        <p className="font-semibold text-lg">{'Event Price ₹' + event.price}</p>
+        <p className="font-semibold text-lg">{'Team size including you: ' + event.event_teamsize}</p>
+        <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-4">
+          {"Event Details: " + event.description}
+        </p>
+  
+        <button
+          className="mt-1 border text-xs font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-3 py-1 rounded-full"
+          onClick={handleRegisterClick}
+        >
+          <span>Register</span>
+          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+        </button>
       </div>
+   
+  
       <Modal isOpen={isModalOpen}
-      image_qr={"adfaefef"} onSubmit={ handleFormSubmit } onClose={handleCloseModal} event_id={event.event_id}
+      image_qr={event.event_qr} onSubmit={ handleFormSubmit } onClose={handleCloseModal} event_id={event.event_id}
       event_teamsize={event.event_teamsize}/>
+    </div>
     </div>
   );
 };
@@ -193,56 +190,58 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, image_qr,event_id,event_
         className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-60"
         onClick={handleBackdropClick}
       >
-        <div className="bg-white p-5 rounded-lg shadow-lg w-full md:w-1/3 lg:w-1/3 fixed top-1 left-1/2 transform -translate-x-1/2 z-10">
+        <div className="bg-white p-5 rounded-lg shadow-lg w-full md:w-1/3 lg:w-1/3 fixed top-1 left-1/2 transform -translate-x-1/2 z-10 overflow-y-auto max-h-[90vh]">
           {image_qr ? (
             <>
               <h2 className="text-lg text-black font-bold">Complete Payment</h2>
-
+    
               <img
                 src={image_qr}
                 alt="QR Code"
                 className="w-64 h-64 mx-auto mt-4"
               /> {/* Larger QR code */}
-
+    
               <p className="mt-4 text-black">
                 Pay using the above QR code, then provide your UPI ID and Transaction ID below:
               </p>
+              <p className="mt-4 text-black font-bold">
+                *ADD TECHSEPCTRUM-2024 AS A KEY TO THE PAYMENT
+              </p>
               <select
-  value={iteamsize}
-  onChange={(e) => setiteamsize(e.target.value)}
-  className="mt-4 p-2 w-full border rounded text-black"
->
-  {[...Array(event_teamsize)].map((_, index) => (
-    <option key={index + 1} value={index + 1}>
-      {index + 1}
-    </option>
-  ))}
-</select>
- <input
+                value={iteamsize}
+                onChange={(e) => setiteamsize(e.target.value)}
+                className="mt-4 p-2 w-full border rounded text-black"
+              >
+                {[...Array(event_teamsize)].map((_, index) => (
+                  <option key={index + 1} value={index + 1}>
+                    {index + 1}
+                  </option>
+                ))}
+              </select>
+              <input
                 type="text"
                 placeholder="Enter UPI Number"
                 value={upiNumber}
                 onChange={(e) => setUpiNumber(e.target.value)}
                 className="mt-4 p-2 w-full border rounded text-black"
               />
-
+    
               <input
                 type="text"
                 placeholder="Enter Transaction ID"
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
-                className="mt-4 p-2 w-full border rounded text-black "
+                className="mt-4 p-2 w-full border rounded text-black"
               />
-
+    
               <button
                 className="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200 w-full"
                 onClick={handleSubmit}
               >
                 Submit
               </button>
-            
-              
             </>
+    
           ) : (
             <>
               <h2 className="text-lg font-bold">Coming Soon</h2>
@@ -266,39 +265,42 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, image_qr,event_id,event_
 
 
 const EventsPage = () => {
-  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string,event_id:string,event_teamsize:string  } | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<{ title: string; description: string; price: string; imgSrc: string,event_id:string,event_teamsize:string,event_qr:string } | null>(null);
+ 
   const [data, setData] = useState([]);
+  console.log(selectedEvent);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
-        console.log(events);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const formattedData = events.map((event: { event_name: any; event_price: any; event_image: any; event_description: any; event_id: any; event_teamsize: any; }) => ({
+       
+        const formattedData = events.map((event: { event_name: any; event_price: any; event_image: any; event_description: any; event_id: any; event_teamsize: any;event_qr:string }) => ({
           category: "SRMIST",
           title: event.event_name,
           price: `${event.event_price}`, 
           src: event.event_image,
           description: event.event_description,
           event_id:event.event_id,
-          event_teamsize:event.event_teamsize
+          event_teamsize:event.event_teamsize,
+          event_qr: event.event_qr,
         }));
-  
+
         setData(formattedData);
       } catch (err) {
         console.error("Error fetching events:", err);
       }
     };
   fetchEvents();},[])
-  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string; event_id: string,event_teamsize:string }) => {
+  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string; event_id: string,event_teamsize:string,event_qr:string }) => {
     setSelectedEvent({
       title: event.title,
       description: event.description,
       price: event.price,
       imgSrc: event.imgSrc,
       event_id: event.event_id,
-      event_teamsize:event.event_teamsize
+      event_teamsize:event.event_teamsize,
+      event_qr:event.event_qr
     });
    
   };
@@ -322,11 +324,12 @@ const EventsPage = () => {
             <EventCard
               key={index}
               event={event}
-              onClick={() => handleEventClick({ title: event.title, description: event.description, price: event.price, imgSrc: event.src, event_id: event.event_id, event_teamsize: event.event_teamsize } as { title: string; description: string; price: string; imgSrc: string; event_id: string; event_teamsize: string })}
+              onClick={() => handleEventClick({ title: event.title, description: event.description, price: event.price, imgSrc: event.src, event_id: event.event_id, event_teamsize: event.event_teamsize,event_qr:event.event_qr } as { title: string; description: string; price: string; imgSrc: string; event_id: string; event_teamsize: string,event_qr:string  })}
             />
           ))}
         </div>
         {selectedEvent && (
+         
           <Popup event={selectedEvent} onClose={handleClosePopup} />
         )}
       </div>

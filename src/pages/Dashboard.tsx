@@ -1,9 +1,8 @@
 import React, { useState,useEffect,useRef  } from "react";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
-import { HoveredLink, Menu, MenuItem } from "../components/Navbar-menu";
-import { cn } from "../lib/utils";
+import {  useNavigate } from "react-router-dom";
+import { Menu } from "../components/Navbar-menu";
 import { HeroParallax } from "../components/hero";
-import { Carousel, Card } from "../components/apple-cards-carousel";
+import {  Card } from "../components/apple-cards-carousel";
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
@@ -80,12 +79,59 @@ const Dashboard = () => {
       <Navbar homeRef={homeRef} aboutRef={aboutRef} />
      <div ref={homeRef}>
         <HeroParallax />
+        <div className="mx-auto w-full max-w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center relative overflow-hidden">
+  <div className="bg-black sm:py-10 translate-y-0">
+    <div className="mx-auto max-w-7xl mt-18 px-5 lg:px-8">
+      <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl text-center text-black dark:text-white font-sans tracking-tight">
+        Our {}
+        <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px rgba(27,37,80,0.14))]">
+          <div className="font-bold absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0 rgba(0,0,0,0.1)]">
+            <span className="">Sponsors</span>
+          </div>
+          <div className="font-bold relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+            <span className="">Sponsors</span>
+          </div>
+        </div>
+      </h2>
+      <div className="mx-auto grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-14 gap-y-12 items-center justify-center">
+        <img
+          alt="Transistor"
+          src="src/assets/sponsorslogo/download__2_-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+        <img
+          alt="Reform"
+          src="src/assets/sponsorslogo/download-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+        <img
+          alt="Tuple"
+          src="src/assets/sponsorslogo/WhatsApp_Image_2024-10-09_at_10.12.34_93d956a4-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+        <img
+          alt="SavvyCal"
+          src="src/assets/sponsorslogo/White_and_Brown_Elegant_Simple_Boba_Drink_Logo_20240627_113859_0001-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+      </div>
+    </div>
+  </div>
+  </div>
       </div>
         <div ref={aboutRef} className="mt-[90px]">
         <FocusCards cards={tcards} />
       </div>
     
-    {/* <div className="mt-0  mx-auto  bg-black w-[1410px] h-[400px] translate-y-45  rounded-md flex items-center justify-center"> */}
+    
       
     <div className="mt-0 mx-auto bg-black w-full sm:w-[90%] md:w-[1410px] h-auto sm:h-[400px] translate-y-45 rounded-md flex flex-col sm:flex-row items-center justify-center px-4 py-6">
     <StyledWrapper>
@@ -150,32 +196,23 @@ const Dashboard = () => {
     </StyledWrapper>
 
 
-    <div className="terminal p-0  rounded-lg font-mono w-[900px] h-90 translate-x-12   ">
-      <div className="pb-2 terminal-header bg-zinc-800 text-white p-3 rounded-t-lg flex items-center ">
-        <div className="flex space-x-2 text-red-500">
-          <div className="w-3 h-3 rounded-full bg-red-500" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500" />
-          <div className="w-3 h-3 rounded-full bg-green-500" />
-        </div>
-        <span className="ml-60 align-baseline">
-          SRMIST Tiruchirappalli Campus
-        </span>
-      </div>
-
-      <div
-        className="pl-2 pt-3 bg-gray-900 h-60 overflow-hidden" 
-        id="output"
-      >
-        <Typewriter text={textToDisplay} speed={100} />
-      </div>
-
-      <div
-        className="input flex pl-4 pb-14 bg-gray-900 rounded-b-lg items-center"
-        id="terminal-input-container"
-      >
-        {/* Input area (if needed in the future) */}
-      </div>
+    <div className="terminal p-0 rounded-lg font-mono w-full sm:w-[600px] md:w-[900px] h-auto sm:h-[200px] md:h-[360px] translate-x-0 sm:translate-x-4 md:translate-x-12">
+  <div className="pb-2 terminal-header bg-zinc-800 text-white p-3 rounded-t-lg flex items-center">
+    <div className="flex space-x-2 text-red-500">
+      <div className="w-3 h-3 rounded-full bg-red-500" />
+      <div className="w-3 h-3 rounded-full bg-yellow-500" />
+      <div className="w-3 h-3 rounded-full bg-green-500" />
     </div>
+    <span className="ml-4 align-baseline">
+      SRMIST Tiruchirappalli Campus
+    </span>
+  </div>
+
+  <div className="pl-2 pt-3 bg-gray-900 h-[190px] sm:h-[160px] md:h-[240px] overflow-hidden" id="output">
+    <Typewriter text={textToDisplay} speed={90} />
+  </div>
+</div>
+
     </div>
 
       <MaskContainer
