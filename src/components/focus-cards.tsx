@@ -60,7 +60,7 @@ export function FocusCards({ cards, className }: FocusCardsProps) {
   return (
     <div
       className={cn(
-        "container mx-auto px-1 py-20 bg-black rounded-lg h-130 translate-y-57 " // Increased the height of the container
+        "container  bg-black rounded-lg h-130 translate-y-57 " 
       )}
     >
       {/* Increased container height */}

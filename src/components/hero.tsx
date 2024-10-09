@@ -7,6 +7,7 @@ import {
   useSpring,
   MotionValue,stagger, useAnimate
 } from "framer-motion";
+import { BACKEND_URL } from "../config";
 import { useEffect,useState } from "react";
 import { Card,
  } from "./apple-cards-carousel";
@@ -21,7 +22,7 @@ export const HeroParallax = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getallevents');
+        const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
   
       
@@ -83,7 +84,8 @@ export const HeroParallax = () => {
   return (
     <div
       ref={ref}
-      className="h-[300vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className=" sm:h-[460px] ] md:h-[440vh] lg:h-[340vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+
     >
       <Header />
       <motion.div

@@ -13,6 +13,7 @@ import RemoveEvents from './RemoveEvents'; // Import your RemoveEvents component
 import Login from './pages/login'; // Import the Login component
 import axios from 'axios';
 import { BACKEND_URL } from '../../config';
+import Updateevents from './Updateevents';
 const StudentList = () => {
   const navigate = useNavigate();
   const [students, setStudents] = useState([]); // Initialize with an empty array
@@ -96,6 +97,7 @@ const StudentList = () => {
       ),
       onClick: () => handleViewChange('removeEvents'), // Switch to remove events view
     },
+    
     {
       label: "Logout",
       icon: (
@@ -217,7 +219,7 @@ const StudentList = () => {
       </div>}
         
         {currentView === 'removeEvents' && <RemoveEvents />} 
-
+      
         
 
 {isConfirmOpen && (

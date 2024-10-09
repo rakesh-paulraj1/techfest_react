@@ -1,5 +1,16 @@
+// @ts-nocheck
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  image_qr: string; // Adjust type based on your actual data type
+  event_id:  string; // Use the appropriate type for your event_id
+  event_teamsize: string; // Use the appropriate type for your teamsize
+}
+
 import React, { useState,useEffect } from "react";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 const EventCard = ({ event, onClick }: { event: { title: string; description: string; src?: string }; onClick: () => void }) => {
   return (
@@ -7,7 +18,7 @@ const EventCard = ({ event, onClick }: { event: { title: string; description: st
     className="relative group bg-white dark:bg-neutral-900 shadow-lg rounded-xl overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer flex flex-col justify-between"
     onClick={onClick}
   >
-    {/* Title moved outside the card */}
+   
     <div className="text-2xl font-semibold mb-4 text-neutral-900 dark:text-neutral-200 text-center p-4">
       {event.title}
     </div>
@@ -44,7 +55,7 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const handleFormSubmit = (upiNumber, transactionId) => {
+  const handleFormSubmit = (upiNumber: string, transactionId: string) => {
     console.log("UPI Number:", upiNumber);
     console.log("Transaction ID:", transactionId);
     // You can handle form submission logic here, e.g., sending the data to a server
@@ -73,20 +84,22 @@ const Popup = ({ event, onClose }: { event: { title: string; description: string
           <h2 className="text-4xl font-bold mb-4 text-neutral-800 dark:text-neutral-200">
             {event.title}
           </h2>
-          <p className="text-green-600 font-semibold text-md">{event.price}</p>
+          <p className=" font-semibold text-lg">{'Event Price ₹'+event.price}</p>
+          <p className=" font-semibold text-lg">{'Team size including you : '+event.event_teamsize}</p>
           <p className="text-lg text-neutral-600 dark:text-neutral-400 mb-4">
-            {event.description}
+            {"Event Details : "+event.description}
           </p>
 
           
           
           <button
-          className="mt-2 border text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 rounded-full"
-          onClick={handleRegisterClick}
-        >
-          <span>Register</span>
-          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
-        </button>
+  className="mt-1 border text-xs font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-3 py-1 rounded-full"
+  onClick={handleRegisterClick}
+>
+  <span>Register</span>
+  <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px" />
+</button>
+
            
         </div>
       </div>
@@ -130,7 +143,7 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
   try {
       
       const response = await axios.post(
-        'http://localhost:3000/user/eventregistration',
+        `${BACKEND_URL}/user/eventregistration`,
         { event_id, upi_id: upiNumber, transaction_id: transactionId,event_teamsize:iteamsize },
         { withCredentials: true }
       );
@@ -141,18 +154,20 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error('Error registering event:', error.response ? error.response.data : error.message);
+        alert(  error.response?.data.error );
       } else {
         console.error('Unexpected error:', error);
       }
     }
 };
-const Modal = ({ isOpen, onClose, image_qr,event_id,event_teamsize }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, image_qr,event_id,event_teamsize }) => {
   const [upiNumber, setUpiNumber] = useState("");
   console.log(  event_teamsize);
   const [transactionId, setTransactionId] = useState("");
   const [iteamsize, setiteamsize] = useState("");
      console.log(event_id);
-  const handleBackdropClick = (event) => {
+  const handleBackdropClick = (event: { target: unknown; currentTarget: unknown; }) => {
     if (event.target === event.currentTarget) {
       onClose();
     }
@@ -256,11 +271,11 @@ const EventsPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getallevents');
+        const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
         console.log(events);
-      
-        const formattedData = events.map(event => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const formattedData = events.map((event: { event_name: any; event_price: any; event_image: any; event_description: any; event_id: any; event_teamsize: any; }) => ({
           category: "SRMIST",
           title: event.event_name,
           price: `${event.event_price}`, 
@@ -307,7 +322,7 @@ const EventsPage = () => {
             <EventCard
               key={index}
               event={event}
-              onClick={() => handleEventClick({ ...event, imgSrc: event.src })}
+              onClick={() => handleEventClick({ title: event.title, description: event.description, price: event.price, imgSrc: event.src, event_id: event.event_id, event_teamsize: event.event_teamsize } as { title: string; description: string; price: string; imgSrc: string; event_id: string; event_teamsize: string })}
             />
           ))}
         </div>

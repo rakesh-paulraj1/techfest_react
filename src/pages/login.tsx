@@ -49,10 +49,12 @@ const StudentRegistration: React.FC = () => {
 
       if (isLogin) {
         try {
-          response = await axios.post(`${BACKEND_URL}/loginuser`, formData, {
+          response = await axios.post(`http://localhost:3000/loginuser`, formData, {
             withCredentials: true,
           });
           localStorage.setItem('role', response.data.message);
+         
+         
           console.log('User login successful:', response.data.message);
         } catch {
           console.error('User login failed, attempting admin login:');

@@ -1,3 +1,11 @@
+interface Event {
+  title: string;
+  description: string;
+  price: string;
+  imgSrc: string;
+  teamsize: string;
+}
+
 import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
@@ -100,11 +108,12 @@ const Userprofile = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/user/getregisterdevents',{withCredentials:true});
+        const response = await axios.get(`${BACKEND_URL}/user/getregisterdevents`,{withCredentials:true});
         const events = response.data.eventswithimageurls;
  
       
-  const formattedData = events.map(registration => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formattedData = events.map((registration: { Event: { event_name: unknown; event_price: any; event_image: any; event_description: any; }; registration_id: any; transaction_id: any; upi_id: any; verification_status: any; event_teamsize: any; }) => ({
     category: "SRMIST", 
     title: registration.Event.event_name, 
     price: `${registration.Event.event_price}`, 
@@ -124,7 +133,7 @@ const Userprofile = () => {
       }
     };
   fetchEvents();},[])
-  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string }) => {
+  const handleEventClick = (event: { title: string; description: string; price: string; imgSrc: string; registration_id: string; transaction_id: string; upi_id: string; status: string; teamsize: string }) => {
     setSelectedEvent(event);
   };
 
@@ -160,13 +169,25 @@ const Userprofile = () => {
         <h2 className="text-2xl font-bold text-left mb-8 text-white">Registred events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-          {data.map((event, index) => (
-            <EventCard
-              key={index}
-              event={event}
-              onClick={() => handleEventClick({ ...event, imgSrc: event.src })}
-            />
-          ))}
+        {data.map((event: Event, index: number) => (
+          
+  <EventCard
+    key={index}
+    event={event}
+    onClick={() => handleEventClick({
+      title: event.title,
+      description: event.description,
+      price: event.price,
+      imgSrc: event.imgSrc,
+      teamsize: event.teamsize,
+      registration_id: "",
+      transaction_id: "",
+      upi_id: "",
+      status: ""
+    })}
+  />
+))}
+
         </div>
         {selectedEvent && (
           <Popup event={selectedEvent} onClose={handleClosePopup} />

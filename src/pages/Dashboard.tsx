@@ -7,7 +7,7 @@ import { Carousel, Card } from "../components/apple-cards-carousel";
 import { MaskContainer } from "../components/svg-mask-effect";
 import { FocusCards } from "../components/focus-cards";
 import axios from "axios";
-
+import { BACKEND_URL } from "../config";
 import { Typewriter } from "../components/code-effect";
 import { StyledWrapper } from "../components/styled-components";
 
@@ -19,7 +19,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getallevents');
+        const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
      console.log(events[0].event_id);
       
@@ -81,12 +81,11 @@ const Dashboard = () => {
      <div ref={homeRef}>
         <HeroParallax />
       </div>
-
-        <div ref={aboutRef} className="mt-[-90px]">
+        <div ref={aboutRef} className="mt-[90px]">
         <FocusCards cards={tcards} />
       </div>
     
-    <div className="mt-0  mx-auto  bg-black w-[1410px] h-[400px] translate-y-45  rounded-md flex items-center justify-center">
+    {/* <div className="mt-0  mx-auto  bg-black w-[1410px] h-[400px] translate-y-45  rounded-md flex items-center justify-center"> */}
       
     <div className="mt-0 mx-auto bg-black w-full sm:w-[90%] md:w-[1410px] h-auto sm:h-[400px] translate-y-45 rounded-md flex flex-col sm:flex-row items-center justify-center px-4 py-6">
     <StyledWrapper>
@@ -179,12 +178,6 @@ const Dashboard = () => {
     </div>
     </div>
 
-
-   
-
-    </div>
-
-      
       <MaskContainer
         
         revealText={
@@ -325,7 +318,7 @@ const onSubmit = async (upiNumber: string, transactionId: string, event_id: stri
   try {
       console.log(event_id);
       const response = await axios.post(
-        'http://localhost:3000/user/eventregistration',
+        `${BACKEND_URL}/user/eventregistration`,
         { event_id, upi_id: upiNumber, transaction_id: transactionId },
         { withCredentials: true }
       );

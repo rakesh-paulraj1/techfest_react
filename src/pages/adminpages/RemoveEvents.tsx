@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
+import { BACKEND_URL } from '../../config';
 const RemoveEvents = () => {
   const [data, setData] = useState([]);
   const [events, setEvents] = useState([]);
@@ -10,7 +10,7 @@ const RemoveEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/getallevents');
+        const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
 
         // Transform the fetched events to match your structure
@@ -40,7 +40,7 @@ const RemoveEvents = () => {
 
   const handleRemove = async () => {
     setEvents(events.filter(event => event.id == selectedEvent?.id));
-    await axios.delete(`http://localhost:3000/admin/deleteevent/${selectedEvent.id}`,{
+    await axios.delete(`${BACKEND_URL}/admin/deleteevent/${selectedEvent.id}`,{
       withCredentials: true,
     });
     setConfirmationVisible(false);
@@ -84,6 +84,14 @@ const RemoveEvents = () => {
               >
                 Yes, Remove
               </button>
+              {/* <button
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                onClick={()=>{
+                  window.location.href = `/asmin/student`;
+                }}
+              >
+                Yes, Remove
+              </button> */}
               <button
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
                 onClick={handleCancel}

@@ -6,12 +6,13 @@ import Student from './pages/adminpages/student';
 import AddEvents from './pages/adminpages/AddEvents';
 import RemoveEvents from './pages/adminpages/RemoveEvents';
 import Userprofile from './pages/userprofile';
+import FormWithImageUpdate from './pages/adminpages/Updateevents';
 
 
 function App() {
   return (
     <div>
-      {/* Wrap the application with BrowserRouter to enable routing */}
+      
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
@@ -21,6 +22,7 @@ function App() {
           <Route path="/addevents" element={<AddEvents />} />
           <Route path="/removeevents" element={<RemoveEvents />} />
           <Route path="/userprofile" element={<Userprofile/>} />
+          <Route path="/updateevent/:eventId" element={<FormWithImageUpdate />} />
 
         </Routes>
       </BrowserRouter>

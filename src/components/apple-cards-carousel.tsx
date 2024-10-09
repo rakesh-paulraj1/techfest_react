@@ -163,7 +163,7 @@ from across the country.`;
         {/* Adding the new container below the cards */}
         <div
           style={{ height: "700px" }}
-          className="mt-10 px-4 py-6 bg-black dark:bg-black rounded-lg text-center"
+          className="mt-5 px-4 py-6 bg-black dark:bg-black rounded-lg text-center"
         >
           <BackgroundBeamsWithCollision>
       <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl  text-center text-black dark:text-white font-sans tracking-tight">
@@ -178,12 +178,12 @@ from across the country.`;
         </div>
       </h2>
     </BackgroundBeamsWithCollision>
- {/* Adding the new small grey rectangle container below */}
- <div className=" mx-auto  bg-black w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
- <div className="bg-black py-23 sm:py-10 translate-y-0 ">
-      <div className="mx-auto max-w-7xl px-5 lg:px-8 translate-y-0 ">
+
+ <div className=" mx-auto w-full max-w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center">
+ <div className="bg-black  sm:py-10 translate-y-0 ">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8 ">
       <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl  text-center text-black dark:text-white font-sans tracking-tight">
-      Our {" "}
+      Our {}
         <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px_rgba(27,_37,_80,_0.14))]">
           <div className="font-bold absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0_rgba(0,0,0,0.1)]">
             <span className="">Sponsors</span>
