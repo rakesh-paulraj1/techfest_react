@@ -1,10 +1,10 @@
 interface Event {
-  title: string;           // Title of the event
-  price: string;          // Price of the event (could be a number or a string depending on your requirements)
-  description: string;    // Description of the event
-  imgSrc: string;         // Source URL for the event image
-  image_qr: string;       // Source URL for the QR code image
-  event_id: string; // Unique identifier for the event (can be string or number)
+  title: string;           
+  price: string;         
+  description: string;   
+  imgSrc: string;         
+  image_qr: string;       
+  event_id: string; 
 }
 
 import React, { useState,useEffect,useRef  } from "react";
@@ -57,7 +57,7 @@ const Dashboard = () => {
       <Navbar homeRef={homeRef} aboutRef={aboutRef} />
      <div ref={homeRef}>
         <HeroParallax />
-        <div className="mx-auto w-full max-w-[1410px] h-[300px] translate-y-45 rounded-md flex items-center justify-center relative overflow-hidden">
+        <div className="mx-auto w-full max-w-[1410px] h-auto sm:h-[1290px] md:h-[600px] lg:h-[400px] translate-y-45 rounded-md flex items-center justify-center relative overflow-hidden">
   <div className="bg-black sm:py-10 translate-y-0">
     <div className="mx-auto max-w-7xl mt-18 px-5 lg:px-8">
       <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl text-center text-black dark:text-white font-sans tracking-tight">
@@ -100,7 +100,37 @@ const Dashboard = () => {
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
+         <img
+          alt=""
+          src="assets\sponsorslogo\Burger_beats_logo_curved-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+          <img
+          alt=""
+          src="assets\sponsorslogo\1000013675-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+         <img
+          alt=""
+          src="assets\sponsorslogo\Logo_01.png"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+           <img
+          alt=""
+          src="assets\sponsorslogo\TN 45 CAFE_SOCIAL MEDIA DP copy 2.jpg"
+          width={158}
+          height={48}
+          className="max-h-28 w-full object-contain lg:col-span-1"
+        />
+
       </div>
+      
     </div>
   </div>
   </div>
@@ -111,8 +141,8 @@ const Dashboard = () => {
     
     
       
-    <div className="mt-0 mx-auto bg-black w-full sm:w-[90%] md:w-[1410px] h-auto sm:h-[400px] translate-y-45 rounded-md flex flex-col sm:flex-row items-center justify-center px-4 py-6">
-    <StyledWrapper>
+      <div className="mt-20 mx-auto bg-black w-full sm:w-[90%] md:w-[910px] lg:w-[1024px] h-auto sm:h-[400px] lg:h-[350px] translate-y-45 rounded-md flex flex-col xl:flex-row items-center justify-center px-4 py-6">
+      <StyledWrapper>
       <div className="card">
         <div className="boxshadow" />
         <div className="main">
@@ -174,7 +204,7 @@ const Dashboard = () => {
     </StyledWrapper>
 
 
-    <div className="terminal p-0 rounded-lg font-mono w-full sm:w-[600px] md:w-[900px] h-auto sm:h-[200px] md:h-[360px] translate-x-0 sm:translate-x-4 md:translate-x-12">
+    <div className="terminal p-0 rounded-lg font-mono w-full sm:w-[280px] md:w-[500px] h-auto sm:h-[200px] md:h-[360px] translate-x-0 sm:translate-x-4 md:translate-x-12">
   <div className="pb-2 terminal-header bg-zinc-800 text-white p-3 rounded-t-lg flex items-center">
     <div className="flex space-x-2 text-red-500">
       <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -186,7 +216,7 @@ const Dashboard = () => {
     </span>
   </div>
 
-  <div className="pl-2 pt-3 bg-gray-900 h-[190px] sm:h-[160px] md:h-[240px] overflow-hidden" id="output">
+  <div className="mb-10 pl-2 pt-3 bg-gray-900 h-[190px] sm:h-[160px] md:h-[240px] overflow-hidden" id="output">
     <Typewriter text={textToDisplay} speed={90} />
   </div>
 </div>
@@ -208,7 +238,7 @@ const Dashboard = () => {
         
       </MaskContainer>
 
-      <Footer /> {/* Added Footer here */}
+      <Footer /> 
     </div>
   );
 };

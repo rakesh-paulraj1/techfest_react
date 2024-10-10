@@ -33,7 +33,7 @@ export const HeroParallax = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        console.log(BACKEND_URL);
+        
         const response = await axios.get(`${BACKEND_URL}/getallevents`);
         const events = response.data.eventswithimageurls;
   
@@ -96,7 +96,7 @@ export const HeroParallax = () => {
   return (
     <div
       ref={ref}
-      className="  h-[300vh] sm:h-[250vh] md:h-[380vh] lg:h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="  h-[320vh] sm:h-[390vh] md:h-[460vh] lg:h-[450vh] xl:h-[390vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
 
     >
       <Header />
@@ -127,7 +127,7 @@ export const Header = () => {
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
       <Highlight className="text-black dark:text-white">
-         TechSpectrum
+         TechSpectRuM
         </Highlight>
           
         
