@@ -85,14 +85,7 @@ const RemoveEvents = () => {
               >
                 Yes, Remove
               </button>
-              {/* <button
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                onClick={()=>{
-                  window.location.href = `/asmin/student`;
-                }}
-              >
-                Yes, Remove
-              </button> */}
+             
               <button
                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
                 onClick={handleCancel}

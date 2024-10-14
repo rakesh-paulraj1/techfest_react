@@ -24,6 +24,7 @@ const Navbar: React.FC = () => {
     <div className="container mx-auto">
       <nav className="flex justify-between items-center p-4 bg-black text-white">
         <ul className="flex space-x-8">
+          <li><img src="assets\tsrm_logo.png" alt="Logo" className="w-16 h-16" /></li>
           <li><a id="len1" className="hover:transform hover:-translate-y-1 transition-transform" href="#">Home</a></li>
           <li><a id="len2" className="hover:transform hover:-translate-y-1 transition-transform" href="#">About</a></li>
           <li><a id="len3" className="hover:transform hover:-translate-y-1 transition-transform" href="#">Portfolio</a></li>

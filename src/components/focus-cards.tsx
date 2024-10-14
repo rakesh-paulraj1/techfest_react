@@ -24,7 +24,7 @@ export const Card = React.memo(
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "rounded-lg relative bg-gray-200 dark:bg-gray-800 overflow-hidden h-60 md:h-96 transition-all duration-300 ease-out shadow-lg transform translate-y-6", 
-        // Cards slightly moved downward with translate-y
+     
         hovered !== null && hovered !== index && "blur-sm scale-95"
       )}
     >
@@ -63,11 +63,11 @@ export function FocusCards({ cards, className }: FocusCardsProps) {
         "container  bg-black rounded-lg h-130 translate-y-57 " 
       )}
     >
-      {/* Increased container height */}
-      <div className={cn("grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 max-w-full", className)}>
+   
+      <div className={cn("grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8 ", className)}>
         {cards.map((card, index) => (
           <Card
-            key={index} // Use a unique key based on the index
+            key={index} 
             card={card}
             index={index}
             hovered={hovered}

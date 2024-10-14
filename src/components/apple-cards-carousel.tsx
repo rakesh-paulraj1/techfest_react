@@ -16,7 +16,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useOutsideClick } from "./use-outside-click";
 import { TextGenerateEffect } from "./text-generate-effect"; // Import your TextGenerateEffect component
 import { BackgroundBeamsWithCollision } from "../components/background-beams-with-collision";
-
+import { Link } from "react-router-dom";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -325,9 +325,11 @@ export const Card = ({
           </div>
         )}
       </AnimatePresence>
+      <Link  to="/events">
+      
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
-        onClick={()=>{window.location.href = '/events';}}
+        
         className="rounded-3xl bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[40rem] md:w-96 overflow-hidden flex flex-col items-start justify-start relative z-10"
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
@@ -338,8 +340,9 @@ export const Card = ({
             className="object-cover w-full h-full rounded-3xl"
           />
         </div>
-        <p className="absolute bottom-5 left-5 text-white z-40">{card.title}</p>
+      
       </motion.button>
+      </Link>
     </>
   );
 };
