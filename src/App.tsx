@@ -7,7 +7,7 @@ import Event from './pages/event'; // Import the Event component (if needed)
 // import RemoveEvents from './pages/adminpages/RemoveEvents';
 // import Userprofile from './pages/userprofile';
 // import FormWithImageUpdate from './pages/adminpages/Updateevents';
-
+import Shedule from './pages/shedule';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
           <Route path="/removeevents" element={<RemoveEvents />} />
           <Route path="/userprofile" element={<Userprofile/>} />
           <Route path="/updateevent/:eventId" element={<FormWithImageUpdate />} /> */}
-
+          <Route path="/shedule" element={<Shedule/>}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -14,12 +14,12 @@ export const Typewriter = ({ text, speed = 100 }) => {
         index++;
         setTimeout(typeNextCharacter, speed);
       } else {
-        // Restart the typewriter effect after a small delay
+        
         setTimeout(() => {
           index = 0;
-          setDisplayedText(''); // Reset the displayed text to start over
-          typeNextCharacter(); // Start typing from the beginning again
-        }, 1000); // Delay before restarting (1 second in this case)
+          setDisplayedText(''); 
+          typeNextCharacter(); 
+        }, 1000); 
       }
     };
 

@@ -22,7 +22,7 @@ export const HeroParallax = () => {
       category: "Hackathon",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/workshopimages/hackathon.png",
+      src: "assets/eventimages/hackathon.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -38,7 +38,7 @@ export const HeroParallax = () => {
       category: "Cyberanzen Club",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/workshopimages/marathonnew.png",
+      src: "assets/eventimages/marathon.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -54,7 +54,7 @@ export const HeroParallax = () => {
       category: "Cyberanzen Club",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/eventimages/Capturetheflag.jpg",
+      src: "assets/eventimages/Capturetheflag.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -70,7 +70,7 @@ export const HeroParallax = () => {
       category: "Electronics Club",
       title: "CIRCUWAVE",
       price: "300",
-      src: "assets/eventimages/ciruwave (1).jpg",
+      src: "assets/eventimages/circuwave.png",
       content: (
         <DummyContent
           title="CIRCUWAVE"
@@ -102,7 +102,7 @@ export const HeroParallax = () => {
       category: "SRMIST",
       title: "Cosmic Connection",
       price: "500",
-      src: "assets/eventimages/cosmicconnectionsideathon (1).jpg",
+      src: "assets/eventimages/cosmicconnection.jpeg",
       content: (
         <DummyContent
           title="Cosmic Connection"
@@ -118,7 +118,7 @@ export const HeroParallax = () => {
       category: "AppDev Club",
       title: "DevStorm",
       price: "400",
-      src: "assets/eventimages/DEVSTORM  (1).jpg",
+      src: "assets/eventimages/DEVSTORM.png",
       content: (
         <DummyContent
           title="DevStorm"
@@ -134,7 +134,7 @@ export const HeroParallax = () => {
       category: "Innovation Club",
       title: "Ideanova",
       price: "400",
-      src: "assets/eventimages/Ideanova.png",
+      src: "assets/eventimages/ideanova.png",
       content: (
         <DummyContent
           title="Ideanova"
@@ -150,7 +150,7 @@ export const HeroParallax = () => {
       category: "SRMIST",
       title: "Pitch Perfect",
       price: "350",
-      src: "assets/eventimages/pitchcperfect.jpg",
+      src: "assets/eventimages/pitchperfect.png",
       content: (
         <DummyContent
           title="Pitch Perfect"
@@ -182,7 +182,7 @@ export const HeroParallax = () => {
       category: "Data Science Club",
       title: "Stump the data",
       price: "250",
-      src: "assets/eventimages/stumpthedata (2).jpg",
+      src: "assets/eventimages/stumpthedata.png",
       content: (
         <DummyContent
           title="Stump the data"
@@ -198,7 +198,7 @@ export const HeroParallax = () => {
       category: "SRMIST",
       title: "Shark Tank",
       price: "700",
-      src: "assets/eventimages/shark tank edc.jpg",
+      src: "assets/eventimages/sharktank.png",
       content: (
         <DummyContent
           title="Shark Tank"
@@ -214,7 +214,7 @@ export const HeroParallax = () => {
       category: "Cyberanzen Club",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/workshopimages/quantum.png",
+      src: "assets/eventimages/Quantum.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -230,7 +230,7 @@ export const HeroParallax = () => {
       category: "Cyberanzen Club",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/workshopimages/ml wrokshop.png",
+      src: "assets/eventimages/verizon.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -246,7 +246,7 @@ export const HeroParallax = () => {
       category: "Geek for geeks Workshop",
       title: "Capture the Flag",
       price: "300",
-      src: "assets/workshopimages/geekfogeeeeks.jpeg",
+      src: "assets/eventimages/gfg.png",
       content: (
         <DummyContent
           title="Capture the Flag"
@@ -411,7 +411,7 @@ export const HeroParallax = () => {
   return (
     <div
       ref={ref}
-      className="  h-[30vh]  xs:h-[210vh] sm:h-[220vh] md:h-[310vh] lg:h-[310vh] xl:h-[240vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      className="  h-[420vh]  xs:h-[270vh] sm:h-[240vh] md:h-[420vh] lg:h-[340vh] xl:h-[290vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
 
     >
       <Header />

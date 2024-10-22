@@ -18,7 +18,7 @@ import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { Typewriter } from "../components/code-effect";
 import { StyledWrapper } from "../components/styled-components";
-
+import confetti from "canvas-confetti";
 
 import { Link } from "react-router-dom";
 
@@ -31,8 +31,8 @@ const Dashboard = () => {
   const tcards = [
   
     { title: "", src: "assets/images/evengtimage7.jpeg" },
-    { title: "", src: "assets/images/eventimage2.JPG" },
-    { title: "", src: "assets/images/eventimage1.JPG" },
+    { title: "", src: "assets/images/eventimage2.jpeg" },
+    { title: "", src: "assets/images/eventimage1.jpeg" },
     { title: "", src: "assets/images/eventimage3.jpeg" },
     { title: "", src: "assets/images/eventimage10.jpeg" },
     { title: " ", src: "assets/images/eventimage8.jpeg" },
@@ -48,18 +48,48 @@ const Dashboard = () => {
 
 
   
-  const textToDisplay = "  srmist@Unknown-2 ~ % TechSpectRuM will feature various technical competitions, workshops, hackathons, and exhibitions, providing participants with a platform to showcase their skills, collaborate on innovative ideas, and explore the latest trends in technology. The event will be a hub for innovation, learning, and networking, where attendees can immerse themselves in cutting-edge technology and engage with industry leaders. Companies are invited to sponsor the event and are also encouraged to introduce new event ideas, allowing for a collaborative and dynamic experience for all involved."; // Text you want to display
+  const textToDisplay = "  srmist@Unknownuser ~ %  TechSpectRuM will feature technical competitions, workshops, hackathons, and exhibitions, offering participants a platform to showcase skills, collaborate on ideas, and explore tech trends. The event promotes innovation, learning, and networking, with opportunities to engage with industry leaders."; // Text you want to display
 
 
-  
+  const handleHover = () => {
+    const duration = 5 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+ 
+    const randomInRange = (min: number, max: number) =>
+      Math.random() * (max - min) + min;
+ 
+    const interval = window.setInterval(() => {
+      const timeLeft = animationEnd - Date.now();
+ 
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+ 
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      });
+    }, 250);
+  };
   return (
     <div className="bg-black min-h-screen">
      
       <Navbar homeRef={homeRef} aboutRef={aboutRef} contactusRef={contactusRef} />
      <div ref={homeRef}>
         <HeroParallax />
-        <div className="mx-auto w-full max-w-[1410px] h-auto sm:h-[1730px] md:h-[1200px] lg:h-[800px] translate-y-45 rounded-md flex items-center justify-center relative overflow-hidden">
+        <div className="mx-auto w-full max-w-[1410px] h-auto sm:h-[2330px] md:h-[2000px] lg:h-[1000px] translate-y-45 rounded-md flex items-center justify-center relative overflow-hidden">
           <div className="flex flex-col items-center justify-center">
+          <div className="bg-black  translate-y-0">
+   
+  </div>
   <div className="bg-black  translate-y-0">
     <div className="mx-auto max-w-7xl mt-18 px-5 lg:px-8">
       <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl text-center text-black dark:text-white font-sans tracking-tight">
@@ -100,6 +130,43 @@ const Dashboard = () => {
       
     </div>
   </div>
+  <div className="bg-black  translate-y-0">
+    <div className="mx-auto max-w-7xl mt-18 px-5 lg:px-8">
+      <h2 className="text-1xl relative z-20 md:text-4xl lg:text-5xl text-center text-black dark:text-white font-sans tracking-tight">
+        Our {}
+        <div className="relative mx-auto inline-block w-max [filter:drop-shadow(0px_1px_3px rgba(27,37,80,0.14))]">
+          <div className="font-bold absolute left-0 top-[1px] bg-clip-text bg-no-repeat text-transparent bg-gradient-to-r py-4 from-purple-500 via-violet-500 to-pink-500 [text-shadow:0_0 rgba(0,0,0,0.1)]">
+            <span className="">Co-Sponsors</span>
+          </div>
+          <div className="font-bold relative bg-clip-text text-transparent bg-no-repeat bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 py-4">
+            <span className="">Co-Sponsors</span>
+          </div>
+        </div>
+      </h2>
+      <div className="mx-auto grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2  gap-x-14 gap-y-12 items-center justify-center">
+   
+           <img
+          alt="Reform"
+          src="assets/sponsorslogo/download-removebg-preview.png"
+          width={158}
+          height={48}
+          className="max-h-29 w-full object-contain lg:col-span-1"
+        />
+         <img
+          alt="Tuple"
+          src="assets\sponsorslogo\sponsorlogo.PNG"
+          width={158}
+          height={48}
+          className="max-h-24 w-full object-contain lg:col-span-1"
+        />
+         
+         
+
+      </div>
+      
+    </div>
+  </div>
+  
   <div className="bg-blacktranslate-y-0 h-auto">
     <div className="mx-auto max-w-7xl mt-18 px-5  lg:px-8">
       <h2 className="text-1xl relative z-20 l md:text-4xl lg:text-5xl text-center text-black dark:text-white font-sans tracking-tight">
@@ -114,21 +181,22 @@ const Dashboard = () => {
         </div>
       </h2>
       <div className="mx-auto grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-x-14 gap-y-12 items-center justify-center">
-        <img
+      <img
           alt="Transistor"
           src="assets/sponsorslogo/download__2_-removebg-preview.png"
           width={158}
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
-        <img
-          alt="Reform"
-          src="assets/sponsorslogo/download-removebg-preview.png"
+     
+     <img
+          alt="Transistor"
+          src="assets\partnerslogo\marathonsponsor.png"
           width={158}
-          height={48}
-          className="max-h-28 w-full object-contain lg:col-span-1"
+          height={54}
+          className="max-h-29 w-full object-contain lg:col-span-1"
         />
-        <img
+         <img
           alt="Tuple"
           src="assets/sponsorslogo/WhatsApp_Image_2024-10-09_at_10.12.34_93d956a4-removebg-preview.png"
           width={158}
@@ -142,13 +210,7 @@ const Dashboard = () => {
           height={48}
           className="max-h-28 w-full object-contain lg:col-span-1"
         />
-         <img
-          alt=""
-          src="assets\sponsorslogo\Burger_beats_logo_curved-removebg-preview.png"
-          width={158}
-          height={48}
-          className="max-h-28 w-full object-contain lg:col-span-1"
-        />
+        
           <img
           alt=""
           src="assets\sponsorslogo\1000013675-removebg-preview.png"
@@ -178,13 +240,19 @@ const Dashboard = () => {
   </div>
   </div>
       </div>
-        <div ref={aboutRef} className="mt-[90px]">
+      <button onMouseEnter={handleHover} onTouchStart={handleHover}    className="relative flex h-[500px]  xs:h-[400px] sm:h-[400px] w-full flex-col items-center justify-center overflow-hidden rounded-lg md:shadow-xl">
+     <button   className="pointer-events-none whitespace-pre-wrap text-center text-8xl sm:text-4xl xs:text-4xl md:text-6xl lg:text-8xl font-semibold leading-none text-white">
+  Prize Pool of ₹200000
+</button>
+    </button>
+        <div ref={aboutRef} className="mt-[100px]">
         <FocusCards cards={tcards} />
       </div>
+      
     
     
       
-      <div className="mt-20 mx-auto bg-black w-full sm:w-[90%] md:w-[700px] lg:w-[1020] h-auto sm:h-[900px] lg:h-[350px] translate-y-45 rounded-md flex flex-col md:flex-row lg:flex-row xl:flex-row items-center justify-center px-4 py-6">
+      <div className="mt-20 mx-auto bg-black w-full sm:w-[80%] md:w-[700px] lg:w-[1020] h-auto sm:h-[900px] lg:h-[350px] translate-y-45 rounded-md flex flex-col md:flex-row lg:flex-row xl:flex-row items-center justify-center px-4 py-6">
       <StyledWrapper>
       <div className="card">
         <div className="boxshadow" />
@@ -255,7 +323,7 @@ const Dashboard = () => {
     </StyledWrapper>
 
 
-    <div className="terminal p-0 rounded-lg pt-7 font-mono w-full sm:w-[280px] md:w-full h-auto sm:h-[660px]   md:h-[300px] translate-x-0 sm:translate-x-4 md:translate-x-12">
+    <div className="terminal p-0 rounded-lg pt-7 font-mono w-full sm:w-[680px] md:w-full h-auto sm:h-[660px]   md:h-[300px] translate-x-0 sm:translate-x-4 md:translate-x-12  ">
   <div className="pb-2 terminal-header bg-zinc-800 text-white p-3 rounded-t-lg flex items-center">
     <div className="flex space-x-2 text-red-500">
       <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -267,7 +335,7 @@ const Dashboard = () => {
     </span>
   </div>
 
-  <div className="mb-10 pl-2 pt-3 bg-gray-900 h-[230px] sm:h-[540px] md:h-[240px] overflow-hidden" id="output">
+  <div className="mb-10 pl-2 pt-3 bg-gray-900 h-[230px] sm:h-[640px] md:h-[240px] overflow-hidden" id="output">
     <Typewriter text={textToDisplay} speed={90} />
   </div>
 </div>
@@ -354,8 +422,12 @@ function Navbar({
         >
           Contact Us
         </div>
-
-        
+        <Link
+          to="/shedule"
+          className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
+        >
+        Events Schedule
+        </Link>
       </Menu>
     </div>
   );
@@ -717,10 +789,10 @@ function Footer() {
     </div>
 
     {/* Created By Section, placed in bottom-right corner for large screens */}
-    <div className="text-sm text-gray-300 dark:text-neutral-400 mt-2 lg:mt-0 sm:text-right lg:absolute lg:right-0 lg:bottom-0">
+    <div className="text-sm text-gray-300 dark:text-white mt-2 lg:mt-0 sm:text-right lg:absolute lg:right-0 lg:bottom-0 font-bold">
       Created by:
       <a
-        className="ml-1 text-gray-300 dark:text-neutral-400"
+        className="ml-1 text-gray-300 dark:text-white font-bold"
         href="https://github.com/rakesh-paulraj1"
         target="_blank"
         rel="noopener noreferrer"
@@ -748,20 +820,33 @@ function ContactUs() {
         <div className="space-y-8">
           <div className="text-left">
             <h3 className="text-xl font-semibold">Gughan</h3>
+            <a href="mailto:gs1256@srmist.edu.in">
             <p className="text-sm">Email:ka3125@srmist.edu.in</p>
+            </a>
+            <a href="tel:9585255643">
             <p className="text-sm">Phone: 9585255643</p>
+            </a>
           </div>
 
           <div className="text-left">
+          
             <h3 className="text-xl font-semibold">Joshika.S</h3>
-            <p className="text-sm">Email: js9406@srmist.edu.in</p>
-            <p className="text-sm">Phone: 9944344536</p>
+            <a href="mailto:js9406@srmist.edu.in">
+  <p className="text-sm">Email: js9406@srmist.edu.in</p>
+</a>
+<a href="tel:9585255643">
+  <p className="text-sm">Phone: 9944344536</p>
+</a>
           </div>
 
           <div className="text-left">
             <h3 className="text-xl font-semibold">Srikavin S</h3>
+            <a href="mailto:ss8504@srmist.edu.in">
             <p className="text-sm">Email: ss8504@srmist.edu.in</p>
+            </a>
+            <a href="tel:94426665283">
             <p className="text-sm">Phone: 9442666528</p>
+            </a>
           </div>
         </div>
       </div>
